@@ -24,11 +24,23 @@
 <h1>
 <a id="docker-cheat-sheet" class="anchor" href="#docker-cheat-sheet" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Cheat Sheet</h1>
 
+<ul>
+<li>
+<a href="#docker-client">Docker Client</a>
+
+<ul>
+<li><a href="#building-images">Building Images</a></li>
+<li><a href="#running-containers">Running Containers</a></li>
+</ul>
+</li>
+<li><a href="#docker-machine">Docker Machine</a></li>
+</ul>
+
 <h2>
 <a id="docker-client" class="anchor" href="#docker-client" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Client</h2>
 
 <h3>
-<a id="creating-images" class="anchor" href="#creating-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating Images</h3>
+<a id="building-images" class="anchor" href="#building-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Building Images</h3>
 
 <h4>
 <a id="debug-image-build" class="anchor" href="#debug-image-build" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Debug image build</h4>
@@ -138,8 +150,8 @@ rm /tmp/FILE</pre></div>
 <h4>
 <a id="backup-data-folder" class="anchor" href="#backup-data-folder" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backup data folder</h4>
 
-<div class="highlight highlight-source-shell"><pre>    docker run --rm --volumes-from oc-data -v <span class="pl-smi">$PWD</span>:/tmp \
-     piegsaj/openclinica tar cvf /tmp/oc_data_backup_<span class="pl-s"><span class="pl-pds">$(</span>date +%Y-%m-%d_%H-%M-%S<span class="pl-pds">)</span></span>.tar /tomcat/openclinica.data</pre></div>
+<div class="highlight highlight-source-shell"><pre>docker run --rm --volumes-from oc-data -v <span class="pl-smi">$PWD</span>:/tmp \
+ piegsaj/openclinica tar cvf /tmp/oc_data_backup_<span class="pl-s"><span class="pl-pds">$(</span>date +%Y-%m-%d_%H-%M-%S<span class="pl-pds">)</span></span>.tar /tomcat/openclinica.data</pre></div>
 
 <h4>
 <a id="restore-volume-from-data-only-container" class="anchor" href="#restore-volume-from-data-only-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restore volume from data-only container</h4>
