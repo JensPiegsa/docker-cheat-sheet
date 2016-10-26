@@ -84,8 +84,8 @@ echo "postgres_password" | sudo docker run -i --rm --link db:db -v $PWD:/tmp pos
 #### Backup data folder
 
 ```sh
-    docker run --rm --volumes-from oc-data -v $PWD:/tmp \
-     piegsaj/openclinica tar cvf /tmp/oc_data_backup_$(date +%Y-%m-%d_%H-%M-%S).tar /tomcat/openclinica.data
+docker run --rm --volumes-from oc-data -v $PWD:/tmp \
+ piegsaj/openclinica tar cvf /tmp/oc_data_backup_$(date +%Y-%m-%d_%H-%M-%S).tar /tomcat/openclinica.data
 ```
 
 #### Restore volume from data-only container
