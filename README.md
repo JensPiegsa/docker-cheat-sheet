@@ -2,9 +2,14 @@
 
 # Docker Cheat Sheet ##
 
+* [Docker Client](#docker-client)
+    * [Building Images](#building-images)
+    * [Running Containers](#running-containers)
+* [Docker Machine](#docker-machine)
+
 ## Docker Client ##
 
-### Creating Images ###
+### Building Images ###
 
 #### Debug image build ####
 
