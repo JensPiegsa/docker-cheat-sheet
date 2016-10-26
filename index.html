@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Docker-cheat-sheet by JensPiegsa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Docker-cheat-sheet</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/JensPiegsa/docker-cheat-sheet" class="btn">View on GitHub</a>
+      <a href="https://github.com/JensPiegsa/docker-cheat-sheet/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/JensPiegsa/docker-cheat-sheet/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=WZJTZ3V8KKARC"><img src="https://img.shields.io/badge/Donate-PayPal-blue.svg" alt="Donate"></a></p>
+
+<h1>
+<a id="docker-cheat-sheet" class="anchor" href="#docker-cheat-sheet" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Cheat Sheet</h1>
+
+<h2>
+<a id="docker-client" class="anchor" href="#docker-client" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Client</h2>
+
+<h3>
+<a id="creating-images" class="anchor" href="#creating-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating Images</h3>
+
+<h4>
+<a id="debug-image-build" class="anchor" href="#debug-image-build" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Debug image build</h4>
+
+<ul>
+<li>
+<code>docker build</code> shows the IDs of all temporary containers and intermediate images</li>
+<li>use <code>docker run -it image_id</code> with the ID of the image resulting from the last successful build step and try the next command manually</li>
+</ul>
+
+<h3>
+<a id="running-containers" class="anchor" href="#running-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running Containers</h3>
+
+<h4>
+<a id="start-container-and-run-command-inside" class="anchor" href="#start-container-and-run-command-inside" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start container and run command inside</h4>
+
+<pre><code>docker run -it ubuntu:14.04 /bin/bash
+</code></pre>
+
+<h4>
+<a id="start-a-shell-in-a-running-container" class="anchor" href="#start-a-shell-in-a-running-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start a shell in a running container</h4>
+
+<pre><code>docker exec -it &lt;container_id&gt; /bin/bash
+</code></pre>
+
+<h4>
+<a id="stop-all-running-containers" class="anchor" href="#stop-all-running-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Stop all running containers</h4>
+
+<pre><code>docker stop $(docker ps -q)
+</code></pre>
+
+<h4>
+<a id="remove-all-stopped-containers-except-those-suffixed--data" class="anchor" href="#remove-all-stopped-containers-except-those-suffixed--data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all stopped containers, except those suffixed '-data':</h4>
+
+<div class="highlight highlight-source-shell"><pre>docker ps -a -f status=exited <span class="pl-k">|</span> grep -v <span class="pl-s"><span class="pl-pds">'</span>\-data *$<span class="pl-pds">'</span></span><span class="pl-k">|</span> awk <span class="pl-s"><span class="pl-pds">'</span>{if(NR&gt;1) print $1}<span class="pl-pds">'</span></span> <span class="pl-k">|</span> xargs -r docker rm</pre></div>
+
+<h4>
+<a id="remove-all-stopped-containers-warning-removes-data-only-containers-too" class="anchor" href="#remove-all-stopped-containers-warning-removes-data-only-containers-too" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all stopped containers (warning: removes data-only containers too)</h4>
+
+<pre><code>docker rm $(docker ps -qa -f status=exited)
+</code></pre>
+
+<h4>
+<a id="remove-all-unused-images" class="anchor" href="#remove-all-unused-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all unused images</h4>
+
+<pre><code>docker rmi $(docker images -qa -f dangling=true)
+</code></pre>
+
+<h4>
+<a id="show-image-history-of-container" class="anchor" href="#show-image-history-of-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show image history of container</h4>
+
+<div class="highlight highlight-source-shell"><pre>docker <span class="pl-c1">history</span> --no-trunc=<span class="pl-c1">true</span> <span class="pl-s"><span class="pl-pds">$(</span>docker inspect -f <span class="pl-s"><span class="pl-pds">'</span>{{.Image}}<span class="pl-pds">'</span></span> CONTAINER<span class="pl-pds">)</span></span></pre></div>
+
+<h4>
+<a id="show-file-system-changes" class="anchor" href="#show-file-system-changes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show file system changes</h4>
+
+<div class="highlight highlight-source-shell"><pre>docker diff CONTAINER</pre></div>
+
+<h4>
+<a id="backup-volume" class="anchor" href="#backup-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backup volume</h4>
+
+<div class="highlight highlight-source-shell"><pre>docker run -rm --volumes-from yourcontainer -v <span class="pl-s"><span class="pl-pds">$(</span><span class="pl-c1">pwd</span><span class="pl-pds">)</span></span>:/backup busybox tar cvf /backup/backup.tar /data</pre></div>
+
+<h4>
+<a id="restore-volume" class="anchor" href="#restore-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restore volume</h4>
+
+<pre><code>docker run -rm --volumes-from yournewcontainer -v $(pwd):/backup busybox tar xvf /backup/backup.tar
+</code></pre>
+
+<h4>
+<a id="show-volumes" class="anchor" href="#show-volumes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show volumes</h4>
+
+<pre><code>docker inspect -f '{{range $v, $h := .Config.Volumes}}{{$v}}{{end}}' oc-data
+</code></pre>
+
+<h4>
+<a id="start-all-paused--stopped-containers" class="anchor" href="#start-all-paused--stopped-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start all paused / stopped containers</h4>
+
+<pre><code>makes no sense together with container linkage or data-only containers
+</code></pre>
+
+<h4>
+<a id="remove-all-containers-and-images" class="anchor" href="#remove-all-containers-and-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all containers and images</h4>
+
+<pre><code>docker stop $(docker ps -q) &amp;&amp; docker rm $(docker ps -qa) &amp;&amp; docker rmi $(docker images -qa)
+</code></pre>
+
+<h4>
+<a id="edit-and-update-a-file-in-a-container" class="anchor" href="#edit-and-update-a-file-in-a-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Edit and update a file in a container</h4>
+
+<div class="highlight highlight-source-shell"><pre>docker cp CONTAINER:FILE /tmp/ <span class="pl-k">&amp;&amp;</span> docker run --name=nano -it --rm -v /tmp:/tmp piegsaj/nano nano /tmp/FILE
+cat /tmp/FILE <span class="pl-k">|</span> docker <span class="pl-c1">exec</span> -i CONTAINER sh -c <span class="pl-s"><span class="pl-pds">'</span>cat &gt; FILE<span class="pl-pds">'</span></span>
+rm /tmp/FILE</pre></div>
+
+<h4>
+<a id="deploy-war-file-to-apache-tomcat-server-instantly" class="anchor" href="#deploy-war-file-to-apache-tomcat-server-instantly" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deploy war file to Apache Tomcat server instantly</h4>
+
+<pre><code>docker run -i -t -p 80:8080 -e WAR_URL=“http://web-actions.googlecode.com/files/helloworld.war” bbytes/tomcat7
+</code></pre>
+
+<h4>
+<a id="dump-a-postgres-database-into-your-current-directory-on-the-host" class="anchor" href="#dump-a-postgres-database-into-your-current-directory-on-the-host" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dump a Postgres database into your current directory on the host</h4>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>postgres_password<span class="pl-pds">"</span></span> <span class="pl-k">|</span> sudo docker run -i --rm --link db:db -v <span class="pl-smi">$PWD</span>:/tmp postgres:8 sh -c \
+<span class="pl-s"><span class="pl-pds">'</span>pg_dump -h ocdb -p $OCDB_PORT_5432_TCP_PORT -U postgres -F tar -v openclinica &gt; /tmp/ocdb_pg_dump_$(date +%Y-%m-%d_%H-%M-%S).tar<span class="pl-pds">'</span></span></pre></div>
+
+<h4>
+<a id="backup-data-folder" class="anchor" href="#backup-data-folder" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backup data folder</h4>
+
+<pre><code>sudo docker run --rm --volumes-from oc-data -v $PWD:/tmp piegsaj/openclinica tar cvf /tmp/oc_data_backup_$(date +%Y-%m-%d_%H-%M-%S).tar /tomcat/openclinica.data
+</code></pre>
+
+<h4>
+<a id="restore-volume-from-data-only-container" class="anchor" href="#restore-volume-from-data-only-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restore volume from data-only container</h4>
+
+<pre><code>docker run --rm --volumes-from oc-data2 -v $pwd:/tmp piegsaj/openclinica tar xvf /tmp/oc_data_backup_*.tar
+</code></pre>
+
+<h4>
+<a id="copy-content-of-existing-named-volume-to-a-new-named-volume" class="anchor" href="#copy-content-of-existing-named-volume-to-a-new-named-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copy content of existing named volume to a new named volume</h4>
+
+<div class="highlight highlight-source-shell"><pre>docker volume create --name vol_b
+docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it rawmind/alpine-base:0.3.4 cp -r /source/folder /target</pre></div>
+
+<h4>
+<a id="get-the-ip-address-of-a-container" class="anchor" href="#get-the-ip-address-of-a-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the IP address of a container</h4>
+
+<pre><code>docker inspect container_id | grep IPAddress | cut -d '"' -f 4
+</code></pre>
+
+<h2>
+<a id="docker-machine" class="anchor" href="#docker-machine" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Machine</h2>
+
+<h4>
+<a id="get-the-ip-address-of-vm-for-access-from-host" class="anchor" href="#get-the-ip-address-of-vm-for-access-from-host" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the IP address of VM for access from host</h4>
+
+<pre><code>docker-machine ip default
+</code></pre>
+
+<h4>
+<a id="add-persistent-environment-variable-to-boot2docker" class="anchor" href="#add-persistent-environment-variable-to-boot2docker" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add persistent environment variable to boot2docker</h4>
+
+<div class="highlight highlight-source-shell"><pre>sudo <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>echo <span class="pl-pds">'</span></span><span class="pl-cce">\'</span><span class="pl-s"><span class="pl-pds">'</span>export ENVTEST="Hello Env!"<span class="pl-pds">'</span></span><span class="pl-cce">\'</span><span class="pl-s"><span class="pl-pds">'</span> &gt; /etc/profile.d/custom.sh<span class="pl-pds">'</span></span> <span class="pl-k">|</span> \
+sudo tee -a /var/lib/boot2docker/profile <span class="pl-k">&gt;</span> /dev/null</pre></div>
+
+<p>and restart with <code>docker-machine restart default</code></p>
+
+<h4>
+<a id="install-additional-linux-packages-in-boot2docker" class="anchor" href="#install-additional-linux-packages-in-boot2docker" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install additional linux packages in boot2docker</h4>
+
+<ul>
+<li>create the file <code>/var/lib/boot2docker/bootsync.sh</code> with a content like:</li>
+</ul>
+
+<pre><code>#!/bin/sh
+sudo /bin/su - docker -c 'tce-load -wi nano'
+</code></pre>
+
+<h4>
+<a id="recreate-any-folders-and-files-on-boot2docker-startup" class="anchor" href="#recreate-any-folders-and-files-on-boot2docker-startup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Recreate any folders and files on boot2docker startup</h4>
+
+<ul>
+<li>store folders / files in <code>/var/lib/boot2docker/restore-on-boot</code> and</li>
+<li>create the file <code>/var/lib/boot2docker/bootsync.sh</code> with a content like:</li>
+</ul>
+
+<pre><code>#!/bin/sh
+sudo mkdir -p /var/lib/boot2docker/restore-on-boot &amp;&amp;
+sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/JensPiegsa/docker-cheat-sheet">Docker-cheat-sheet</a> is maintained by <a href="https://github.com/JensPiegsa">JensPiegsa</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
