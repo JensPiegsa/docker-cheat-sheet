@@ -138,8 +138,8 @@ rm /tmp/FILE</pre></div>
 <h4>
 <a id="backup-data-folder" class="anchor" href="#backup-data-folder" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backup data folder</h4>
 
-<pre><code>sudo docker run --rm --volumes-from oc-data -v $PWD:/tmp piegsaj/openclinica tar cvf /tmp/oc_data_backup_$(date +%Y-%m-%d_%H-%M-%S).tar /tomcat/openclinica.data
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>    docker run --rm --volumes-from oc-data -v <span class="pl-smi">$PWD</span>:/tmp \
+     piegsaj/openclinica tar cvf /tmp/oc_data_backup_<span class="pl-s"><span class="pl-pds">$(</span>date +%Y-%m-%d_%H-%M-%S<span class="pl-pds">)</span></span>.tar /tomcat/openclinica.data</pre></div>
 
 <h4>
 <a id="restore-volume-from-data-only-container" class="anchor" href="#restore-volume-from-data-only-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restore volume from data-only container</h4>
@@ -151,7 +151,8 @@ rm /tmp/FILE</pre></div>
 <a id="copy-content-of-existing-named-volume-to-a-new-named-volume" class="anchor" href="#copy-content-of-existing-named-volume-to-a-new-named-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copy content of existing named volume to a new named volume</h4>
 
 <div class="highlight highlight-source-shell"><pre>docker volume create --name vol_b
-docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it rawmind/alpine-base:0.3.4 cp -r /source/folder /target</pre></div>
+docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
+ rawmind/alpine-base:0.3.4 cp -r /source/folder /target</pre></div>
 
 <h4>
 <a id="get-the-ip-address-of-a-container" class="anchor" href="#get-the-ip-address-of-a-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the IP address of a container</h4>
