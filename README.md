@@ -1,6 +1,6 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WZJTZ3V8KKARC)
 
-*Docker Cheat Sheet*
+*Content*
 * [Docker Client](#docker-client)
    * [Building Images](#building-images)
    * [Running Containers](#running-containers)
