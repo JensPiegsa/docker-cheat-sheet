@@ -21,7 +21,7 @@
     docker run -it ubuntu:14.04 /bin/bash
 
 ### Start a shell in a running container
-    docker exec -it <container_id> /bin/bash
+    docker exec -it CONTAINER /bin/bash
 
 ### Stop all running containers
     docker stop $(docker ps -q)
