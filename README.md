@@ -82,7 +82,11 @@ echo "postgres_password" | sudo docker run -i --rm --link db:db -v $PWD:/tmp pos
 ```
 
 #### Backup data folder
-    sudo docker run --rm --volumes-from oc-data -v $PWD:/tmp piegsaj/openclinica tar cvf /tmp/oc_data_backup_$(date +%Y-%m-%d_%H-%M-%S).tar /tomcat/openclinica.data
+
+```sh
+    docker run --rm --volumes-from oc-data -v $PWD:/tmp \
+     piegsaj/openclinica tar cvf /tmp/oc_data_backup_$(date +%Y-%m-%d_%H-%M-%S).tar /tomcat/openclinica.data
+```
 
 #### Restore volume from data-only container
     docker run --rm --volumes-from oc-data2 -v $pwd:/tmp piegsaj/openclinica tar xvf /tmp/oc_data_backup_*.tar
@@ -91,7 +95,8 @@ echo "postgres_password" | sudo docker run -i --rm --link db:db -v $PWD:/tmp pos
 
 ```sh
 docker volume create --name vol_b
-docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it rawmind/alpine-base:0.3.4 cp -r /source/folder /target
+docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
+ rawmind/alpine-base:0.3.4 cp -r /source/folder /target
 ```
 
 #### Get the IP address of a container
@@ -100,7 +105,7 @@ docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it rawmind/alpi
 
 ## Docker Machine ##
 
-#### Get the IP address of VM for access from host ####
+#### Get the IP address of VM for access from host
 
     docker-machine ip default
 
