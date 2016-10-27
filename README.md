@@ -1,4 +1,4 @@
-[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WZJTZ3V8KKARC)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WZJTZ3V8KKARC) [![Fork on GitHub](https://img.shields.io/github/forks/badges/shields.svg?style=flat&label=Fork%20on%20GitHub&color=blue)](https://github.com/JensPiegsa/docker-cheat-sheet/edit/master/README.md#fork-destination-box)
 
 *Content*
 * [Docker Client](#docker-client)
@@ -13,7 +13,7 @@
 ### Debug image build
 
 * `docker build` shows the IDs of all temporary containers and intermediate images
-* use `docker run -it image_id` with the ID of the image resulting from the last successful build step and try the next command manually
+* use `docker run -it IMAGE_ID` with the ID of the image resulting from the last successful build step and try the next command manually
 
 ## Running Containers
 
@@ -53,17 +53,18 @@ docker diff CONTAINER
 ### Backup volume
 
 ```sh
-docker run -rm --volumes-from CONTAINER -v $(pwd):/backup busybox tar cvf /backup/backup.tar /data
+docker run -rm --volumes-from ´SOURCE_CONTAINER -v $(pwd):/backup busybox tar cvf /backup/backup.tar /data
 ```
 
 ### Restore volume
-    docker run -rm --volumes-from yournewcontainer -v $(pwd):/backup busybox tar xvf /backup/backup.tar
+    docker run -rm --volumes-from TARGET_CONTAINER -v $(pwd):/backup busybox tar xvf /backup/backup.tar
 
 ### Show volumes
-    docker inspect -f '{{range $v, $h := .Config.Volumes}}{{$v}}{{end}}' oc-data
+    docker inspect -f '{{range $v, $h := .Config.Volumes}}{{$v}}{{end}}' CONTAINER
 
 ### Start all paused / stopped containers
-    makes no sense together with container linkage or data-only containers
+
+* makes no sense together with container dependencies
 
 ### Remove all containers and images
     docker stop $(docker ps -q) && docker rm $(docker ps -qa) && docker rmi $(docker images -qa)
@@ -102,7 +103,8 @@ docker run --rm --volumes-from oc-data -v $PWD:/tmp piegsaj/openclinica \
 ### Restore volume from data-only container
 
 ```sh
-docker run --rm --volumes-from oc-data2 -v $pwd:/tmp piegsaj/openclinica tar xvf /tmp/oc_data_backup_*.tar
+docker run --rm --volumes-from oc-data2 -v $pwd:/tmp piegsaj/openclinica \
+ tar xvf /tmp/oc_data_backup_*.tar
 ```
 
 ### Copy content of existing named volume to a new named volume
@@ -119,7 +121,9 @@ docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
 
 # Docker Machine
 
-### Get the IP address of VM for access from host
+## On a local VM
+
+### Get the IP address of the virtual machine for access from host
 
     docker-machine ip default
 
