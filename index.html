@@ -19,7 +19,7 @@
     </section>
 
     <section class="main-content">
-      <p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=WZJTZ3V8KKARC"><img src="https://img.shields.io/badge/Donate-PayPal-blue.svg" alt="Donate"></a></p>
+      <p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=WZJTZ3V8KKARC"><img src="https://img.shields.io/badge/Donate-PayPal-blue.svg" alt="Donate"></a> <a href="https://github.com/JensPiegsa/docker-cheat-sheet/edit/master/README.md#fork-destination-box"><img src="https://img.shields.io/github/forks/badges/shields.svg?style=flat&amp;label=Fork%20on%20GitHub&amp;color=blue" alt="Fork on GitHub"></a></p>
 
 <p><em>Content</em></p>
 
@@ -47,7 +47,7 @@
 <ul>
 <li>
 <code>docker build</code> shows the IDs of all temporary containers and intermediate images</li>
-<li>use <code>docker run -it image_id</code> with the ID of the image resulting from the last successful build step and try the next command manually</li>
+<li>use <code>docker run -it IMAGE_ID</code> with the ID of the image resulting from the last successful build step and try the next command manually</li>
 </ul>
 
 <h2>
@@ -101,25 +101,26 @@
 <h3>
 <a id="backup-volume" class="anchor" href="#backup-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backup volume</h3>
 
-<div class="highlight highlight-source-shell"><pre>docker run -rm --volumes-from CONTAINER -v <span class="pl-s"><span class="pl-pds">$(</span><span class="pl-c1">pwd</span><span class="pl-pds">)</span></span>:/backup busybox tar cvf /backup/backup.tar /data</pre></div>
+<div class="highlight highlight-source-shell"><pre>docker run -rm --volumes-from ´SOURCE_CONTAINER -v <span class="pl-s"><span class="pl-pds">$(</span><span class="pl-c1">pwd</span><span class="pl-pds">)</span></span>:/backup busybox tar cvf /backup/backup.tar /data</pre></div>
 
 <h3>
 <a id="restore-volume" class="anchor" href="#restore-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restore volume</h3>
 
-<pre><code>docker run -rm --volumes-from yournewcontainer -v $(pwd):/backup busybox tar xvf /backup/backup.tar
+<pre><code>docker run -rm --volumes-from TARGET_CONTAINER -v $(pwd):/backup busybox tar xvf /backup/backup.tar
 </code></pre>
 
 <h3>
 <a id="show-volumes" class="anchor" href="#show-volumes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show volumes</h3>
 
-<pre><code>docker inspect -f '{{range $v, $h := .Config.Volumes}}{{$v}}{{end}}' oc-data
+<pre><code>docker inspect -f '{{range $v, $h := .Config.Volumes}}{{$v}}{{end}}' CONTAINER
 </code></pre>
 
 <h3>
 <a id="start-all-paused--stopped-containers" class="anchor" href="#start-all-paused--stopped-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start all paused / stopped containers</h3>
 
-<pre><code>makes no sense together with container linkage or data-only containers
-</code></pre>
+<ul>
+<li>makes no sense together with container dependencies</li>
+</ul>
 
 <h3>
 <a id="remove-all-containers-and-images" class="anchor" href="#remove-all-containers-and-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all containers and images</h3>
@@ -157,7 +158,8 @@ rm /tmp/FILE</pre></div>
 <h3>
 <a id="restore-volume-from-data-only-container" class="anchor" href="#restore-volume-from-data-only-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restore volume from data-only container</h3>
 
-<div class="highlight highlight-source-shell"><pre>docker run --rm --volumes-from oc-data2 -v <span class="pl-smi">$pwd</span>:/tmp piegsaj/openclinica tar xvf /tmp/oc_data_backup_<span class="pl-k">*</span>.tar</pre></div>
+<div class="highlight highlight-source-shell"><pre>docker run --rm --volumes-from oc-data2 -v <span class="pl-smi">$pwd</span>:/tmp piegsaj/openclinica \
+ tar xvf /tmp/oc_data_backup_<span class="pl-k">*</span>.tar</pre></div>
 
 <h3>
 <a id="copy-content-of-existing-named-volume-to-a-new-named-volume" class="anchor" href="#copy-content-of-existing-named-volume-to-a-new-named-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copy content of existing named volume to a new named volume</h3>
@@ -175,8 +177,11 @@ docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
 <h1>
 <a id="docker-machine" class="anchor" href="#docker-machine" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Machine</h1>
 
+<h2>
+<a id="on-a-local-vm" class="anchor" href="#on-a-local-vm" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>On a local VM</h2>
+
 <h3>
-<a id="get-the-ip-address-of-vm-for-access-from-host" class="anchor" href="#get-the-ip-address-of-vm-for-access-from-host" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the IP address of VM for access from host</h3>
+<a id="get-the-ip-address-of-the-virtual-machine-for-access-from-host" class="anchor" href="#get-the-ip-address-of-the-virtual-machine-for-access-from-host" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the IP address of the virtual machine for access from host</h3>
 
 <pre><code>docker-machine ip default
 </code></pre>
