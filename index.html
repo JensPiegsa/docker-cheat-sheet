@@ -101,7 +101,8 @@
 <h3>
 <a id="backup-volume" class="anchor" href="#backup-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backup volume</h3>
 
-<div class="highlight highlight-source-shell"><pre>docker run -rm --volumes-from ´SOURCE_CONTAINER -v <span class="pl-s"><span class="pl-pds">$(</span><span class="pl-c1">pwd</span><span class="pl-pds">)</span></span>:/backup busybox tar cvf /backup/backup.tar /data</pre></div>
+<div class="highlight highlight-source-shell"><pre>docker run -rm --volumes-from SOURCE_CONTAINER -v <span class="pl-s"><span class="pl-pds">$(</span><span class="pl-c1">pwd</span><span class="pl-pds">)</span></span>:/backup busybox \
+ tar cvf /backup/backup.tar /data</pre></div>
 
 <h3>
 <a id="restore-volume" class="anchor" href="#restore-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restore volume</h3>
