@@ -1,6 +1,7 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WZJTZ3V8KKARC) [![Fork on GitHub](https://img.shields.io/github/forks/badges/shields.svg?style=flat&label=Fork%20on%20GitHub&color=blue)](https://github.com/JensPiegsa/docker-cheat-sheet/edit/master/README.md#fork-destination-box)
 
 *Content*
+
 * [Docker Client](#docker-client)
    * [Building Images](#building-images)
    * [Running Containers](#running-containers)
@@ -53,7 +54,8 @@ docker diff CONTAINER
 ### Backup volume
 
 ```sh
-docker run -rm --volumes-from ´SOURCE_CONTAINER -v $(pwd):/backup busybox tar cvf /backup/backup.tar /data
+docker run -rm --volumes-from SOURCE_CONTAINER -v $(pwd):/backup busybox \
+ tar cvf /backup/backup.tar /data
 ```
 
 ### Restore volume
