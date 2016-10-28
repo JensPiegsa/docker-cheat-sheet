@@ -21,12 +21,17 @@
     <section class="main-content">
       <p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=WZJTZ3V8KKARC"><img src="https://img.shields.io/badge/Donate-PayPal-blue.svg" alt="Donate"></a> <a href="https://github.com/JensPiegsa/docker-cheat-sheet/edit/master/README.md#fork-destination-box"><img src="https://img.shields.io/github/forks/badges/shields.svg?style=flat&amp;label=Fork%20on%20GitHub&amp;color=blue" alt="Fork on GitHub"></a></p>
 
-<p><em>Content</em></p>
+<h1>
+<a id="content" class="anchor" href="#content" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Content</h1>
 
 <ul>
 <li><a href="#terminology">Terminology</a></li>
 <li>
-<a href="#docker-client">Docker Client</a>
+<a href="#how-tos">How-tos</a>
+
+<ul>
+<li>
+<a href="#docker-engine">Docker Engine</a>
 
 <ul>
 <li><a href="#building-images">Building Images</a></li>
@@ -36,6 +41,8 @@
 </li>
 <li><a href="#docker-machine">Docker Machine</a></li>
 <li><a href="#dockerfile">Dockerfile</a></li>
+</ul>
+</li>
 <li><a href="#best-practices">Best Practices</a></li>
 <li><a href="#additional-material">Additional Material</a></li>
 </ul>
@@ -52,13 +59,16 @@
 </ul>
 
 <h1>
-<a id="docker-client" class="anchor" href="#docker-client" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Client</h1>
+<a id="how-tos" class="anchor" href="#how-tos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How-tos</h1>
 
 <h2>
-<a id="building-images" class="anchor" href="#building-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Building Images</h2>
+<a id="docker-engine" class="anchor" href="#docker-engine" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Engine</h2>
 
 <h3>
-<a id="debug-image-build" class="anchor" href="#debug-image-build" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Debug image build</h3>
+<a id="building-images" class="anchor" href="#building-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Building Images</h3>
+
+<h4>
+<a id="debug-image-build" class="anchor" href="#debug-image-build" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Debug image build</h4>
 
 <ul>
 <li>
@@ -66,138 +76,150 @@
 <li>use <code>docker run -it IMAGE_ID</code> with the ID of the image resulting from the last successful build step and try the next command manually</li>
 </ul>
 
-<h2>
-<a id="running-containers" class="anchor" href="#running-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running Containers</h2>
-
 <h3>
-<a id="start-container-and-run-command-inside" class="anchor" href="#start-container-and-run-command-inside" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start container and run command inside</h3>
+<a id="running-containers" class="anchor" href="#running-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running Containers</h3>
+
+<h4>
+<a id="start-container-and-run-command-inside" class="anchor" href="#start-container-and-run-command-inside" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start container and run command inside</h4>
 
 <pre><code>docker run -it ubuntu:14.04 /bin/bash
 </code></pre>
 
-<h3>
-<a id="start-a-shell-in-a-running-container" class="anchor" href="#start-a-shell-in-a-running-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start a shell in a running container</h3>
+<h4>
+<a id="start-a-shell-in-a-running-container" class="anchor" href="#start-a-shell-in-a-running-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start a shell in a running container</h4>
 
 <pre><code>docker exec -it CONTAINER /bin/bash
 </code></pre>
 
-<h3>
-<a id="stop-all-running-containers" class="anchor" href="#stop-all-running-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Stop all running containers</h3>
+<h4>
+<a id="stop-all-running-containers" class="anchor" href="#stop-all-running-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Stop all running containers</h4>
 
 <pre><code>docker stop $(docker ps -q)
 </code></pre>
 
-<h3>
-<a id="remove-all-stopped-containers-except-those-suffixed--data" class="anchor" href="#remove-all-stopped-containers-except-those-suffixed--data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all stopped containers, except those suffixed '-data':</h3>
+<h4>
+<a id="remove-all-stopped-containers-except-those-suffixed--data" class="anchor" href="#remove-all-stopped-containers-except-those-suffixed--data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all stopped containers, except those suffixed '-data':</h4>
 
-<div class="highlight highlight-source-shell"><pre>docker ps -a -f status=exited <span class="pl-k">|</span> grep -v <span class="pl-s"><span class="pl-pds">'</span>\-data *$<span class="pl-pds">'</span></span><span class="pl-k">|</span> awk <span class="pl-s"><span class="pl-pds">'</span>{if(NR&gt;1) print $1}<span class="pl-pds">'</span></span> <span class="pl-k">|</span> xargs -r docker rm</pre></div>
+<pre><code>docker ps -a -f status=exited | grep -v '\-data *$'| awk '{if(NR&gt;1) print $1}' | xargs -r docker rm
+</code></pre>
 
-<h3>
-<a id="remove-all-stopped-containers-warning-removes-data-only-containers-too" class="anchor" href="#remove-all-stopped-containers-warning-removes-data-only-containers-too" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all stopped containers (warning: removes data-only containers too)</h3>
+<h4>
+<a id="remove-all-stopped-containers-warning-removes-data-only-containers-too" class="anchor" href="#remove-all-stopped-containers-warning-removes-data-only-containers-too" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all stopped containers (warning: removes data-only containers too)</h4>
 
-<div class="highlight highlight-source-shell"><pre>docker rm <span class="pl-s"><span class="pl-pds">$(</span>docker ps -qa -f status=exited<span class="pl-pds">)</span></span></pre></div>
+<pre><code>docker rm $(docker ps -qa -f status=exited)
+</code></pre>
 
 <ul>
 <li><em>note: the filter flag <code>-f status=exited</code> may be omitted here since running containers can not be removed</em></li>
 </ul>
 
-<h3>
-<a id="remove-all-unused-images" class="anchor" href="#remove-all-unused-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all unused images</h3>
+<h4>
+<a id="remove-all-unused-images" class="anchor" href="#remove-all-unused-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all unused images</h4>
 
-<div class="highlight highlight-source-shell"><pre>docker rmi <span class="pl-s"><span class="pl-pds">$(</span>docker images -qa -f dangling=<span class="pl-c1">true</span><span class="pl-pds">)</span></span></pre></div>
+<pre><code>docker rmi $(docker images -qa -f dangling=true)
+</code></pre>
 
-<h3>
-<a id="show-image-history-of-container" class="anchor" href="#show-image-history-of-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show image history of container</h3>
+<h4>
+<a id="show-image-history-of-container" class="anchor" href="#show-image-history-of-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show image history of container</h4>
 
-<div class="highlight highlight-source-shell"><pre>docker <span class="pl-c1">history</span> --no-trunc=<span class="pl-c1">true</span> <span class="pl-s"><span class="pl-pds">$(</span>docker inspect -f <span class="pl-s"><span class="pl-pds">'</span>{{.Image}}<span class="pl-pds">'</span></span> CONTAINER<span class="pl-pds">)</span></span></pre></div>
+<pre><code>docker history --no-trunc=true $(docker inspect -f '{{.Image}}' CONTAINER)
+</code></pre>
 
-<h3>
-<a id="show-file-system-changes-compared-to-the-original-image" class="anchor" href="#show-file-system-changes-compared-to-the-original-image" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show file system changes compared to the original image</h3>
+<h4>
+<a id="show-file-system-changes-compared-to-the-original-image" class="anchor" href="#show-file-system-changes-compared-to-the-original-image" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show file system changes compared to the original image</h4>
 
-<div class="highlight highlight-source-shell"><pre>docker diff CONTAINER</pre></div>
+<pre><code>docker diff CONTAINER
+</code></pre>
 
-<h3>
-<a id="backup-volume" class="anchor" href="#backup-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backup volume</h3>
+<h4>
+<a id="backup-volume" class="anchor" href="#backup-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backup volume</h4>
 
-<div class="highlight highlight-source-shell"><pre>docker run -rm --volumes-from SOURCE_CONTAINER -v <span class="pl-s"><span class="pl-pds">$(</span><span class="pl-c1">pwd</span><span class="pl-pds">)</span></span>:/backup busybox \
- tar cvf /backup/backup.tar /data</pre></div>
+<pre><code>docker run -rm --volumes-from SOURCE_CONTAINER -v $(pwd):/backup busybox \
+ tar cvf /backup/backup.tar /data
+</code></pre>
 
-<h3>
-<a id="restore-volume" class="anchor" href="#restore-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restore volume</h3>
+<h4>
+<a id="restore-volume" class="anchor" href="#restore-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restore volume</h4>
 
 <pre><code>docker run -rm --volumes-from TARGET_CONTAINER -v $(pwd):/backup busybox tar xvf /backup/backup.tar
 </code></pre>
 
-<h3>
-<a id="show-volumes" class="anchor" href="#show-volumes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show volumes</h3>
+<h4>
+<a id="show-volumes" class="anchor" href="#show-volumes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show volumes</h4>
 
 <pre><code>docker inspect -f '{{range $v, $h := .Config.Volumes}}{{$v}}{{end}}' CONTAINER
 </code></pre>
 
-<h3>
-<a id="start-all-paused--stopped-containers" class="anchor" href="#start-all-paused--stopped-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start all paused / stopped containers</h3>
+<h4>
+<a id="start-all-paused--stopped-containers" class="anchor" href="#start-all-paused--stopped-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start all paused / stopped containers</h4>
 
 <ul>
 <li>makes no sense together with container dependencies</li>
 </ul>
 
-<h3>
-<a id="remove-all-containers-and-images" class="anchor" href="#remove-all-containers-and-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all containers and images</h3>
+<h4>
+<a id="remove-all-containers-and-images" class="anchor" href="#remove-all-containers-and-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all containers and images</h4>
 
 <pre><code>docker stop $(docker ps -q) &amp;&amp; docker rm $(docker ps -qa) &amp;&amp; docker rmi $(docker images -qa)
 </code></pre>
 
-<h3>
-<a id="edit-and-update-a-file-in-a-container" class="anchor" href="#edit-and-update-a-file-in-a-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Edit and update a file in a container</h3>
+<h4>
+<a id="edit-and-update-a-file-in-a-container" class="anchor" href="#edit-and-update-a-file-in-a-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Edit and update a file in a container</h4>
 
-<div class="highlight highlight-source-shell"><pre>docker cp CONTAINER:FILE /tmp/ <span class="pl-k">&amp;&amp;</span> docker run --name=nano -it --rm -v /tmp:/tmp \
- piegsaj/nano nano /tmp/FILE <span class="pl-k">;</span> \
-cat /tmp/FILE <span class="pl-k">|</span> docker <span class="pl-c1">exec</span> -i CONTAINER sh -c <span class="pl-s"><span class="pl-pds">'</span>cat &gt; FILE<span class="pl-pds">'</span></span> <span class="pl-k">;</span> \
-rm /tmp/FILE</pre></div>
+<pre><code>docker cp CONTAINER:FILE /tmp/ &amp;&amp; docker run --name=nano -it --rm -v /tmp:/tmp \
+ piegsaj/nano nano /tmp/FILE ; \
+cat /tmp/FILE | docker exec -i CONTAINER sh -c 'cat &gt; FILE' ; \
+rm /tmp/FILE
+</code></pre>
 
-<h3>
-<a id="deploy-war-file-to-apache-tomcat-server-instantly" class="anchor" href="#deploy-war-file-to-apache-tomcat-server-instantly" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deploy war file to Apache Tomcat server instantly</h3>
+<h4>
+<a id="deploy-war-file-to-apache-tomcat-server-instantly" class="anchor" href="#deploy-war-file-to-apache-tomcat-server-instantly" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deploy war file to Apache Tomcat server instantly</h4>
 
-<div class="highlight highlight-source-shell"><pre>docker run -i -t -p 80:8080 -e WAR_URL=“http://web-actions.googlecode.com/files/helloworld.war” \
- bbytes/tomcat7</pre></div>
+<pre><code>docker run -i -t -p 80:8080 -e WAR_URL=“&lt;http://web-actions.googlecode.com/files/helloworld.war&gt;” \
+ bbytes/tomcat7
+</code></pre>
 
-<h3>
-<a id="dump-a-postgres-database-into-your-current-directory-on-the-host" class="anchor" href="#dump-a-postgres-database-into-your-current-directory-on-the-host" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dump a Postgres database into your current directory on the host</h3>
+<h4>
+<a id="dump-a-postgres-database-into-your-current-directory-on-the-host" class="anchor" href="#dump-a-postgres-database-into-your-current-directory-on-the-host" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dump a Postgres database into your current directory on the host</h4>
 
-<div class="highlight highlight-source-shell"><pre><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>postgres_password<span class="pl-pds">"</span></span> <span class="pl-k">|</span> sudo docker run -i --rm --link db:db -v <span class="pl-smi">$PWD</span>:/tmp postgres:8 sh -c <span class="pl-s"><span class="pl-pds">'</span> \</span>
-<span class="pl-s"> pg_dump -h ocdb -p $OCDB_PORT_5432_TCP_PORT -U postgres -F tar -v openclinica \</span>
-<span class="pl-s"> &gt; /tmp/ocdb_pg_dump_$(date +%Y-%m-%d_%H-%M-%S).tar<span class="pl-pds">'</span></span></pre></div>
+<pre><code>echo "postgres_password" | sudo docker run -i --rm --link db:db -v $PWD:/tmp postgres:8 sh -c ' \
+ pg_dump -h ocdb -p $OCDB_PORT_5432_TCP_PORT -U postgres -F tar -v openclinica \
+ &gt; /tmp/ocdb_pg_dump_$(date +%Y-%m-%d_%H-%M-%S).tar'
+</code></pre>
 
-<h3>
-<a id="backup-data-folder" class="anchor" href="#backup-data-folder" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backup data folder</h3>
+<h4>
+<a id="backup-data-folder" class="anchor" href="#backup-data-folder" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backup data folder</h4>
 
-<div class="highlight highlight-source-shell"><pre>docker run --rm --volumes-from oc-data -v <span class="pl-smi">$PWD</span>:/tmp piegsaj/openclinica \
- tar cvf /tmp/oc_data_backup_<span class="pl-s"><span class="pl-pds">$(</span>date +%Y-%m-%d_%H-%M-%S<span class="pl-pds">)</span></span>.tar /tomcat/openclinica.data</pre></div>
+<pre><code>docker run --rm --volumes-from oc-data -v $PWD:/tmp piegsaj/openclinica \
+ tar cvf /tmp/oc_data_backup_$(date +%Y-%m-%d_%H-%M-%S).tar /tomcat/openclinica.data
+</code></pre>
 
-<h3>
-<a id="restore-volume-from-data-only-container" class="anchor" href="#restore-volume-from-data-only-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restore volume from data-only container</h3>
+<h4>
+<a id="restore-volume-from-data-only-container" class="anchor" href="#restore-volume-from-data-only-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restore volume from data-only container</h4>
 
-<div class="highlight highlight-source-shell"><pre>docker run --rm --volumes-from oc-data2 -v <span class="pl-smi">$pwd</span>:/tmp piegsaj/openclinica \
- tar xvf /tmp/oc_data_backup_<span class="pl-k">*</span>.tar</pre></div>
+<pre><code>docker run --rm --volumes-from oc-data2 -v $pwd:/tmp piegsaj/openclinica \
+ tar xvf /tmp/oc_data_backup_*.tar
+</code></pre>
 
-<h3>
-<a id="copy-content-of-existing-named-volume-to-a-new-named-volume" class="anchor" href="#copy-content-of-existing-named-volume-to-a-new-named-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copy content of existing named volume to a new named volume</h3>
+<h4>
+<a id="copy-content-of-existing-named-volume-to-a-new-named-volume" class="anchor" href="#copy-content-of-existing-named-volume-to-a-new-named-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copy content of existing named volume to a new named volume</h4>
 
-<div class="highlight highlight-source-shell"><pre>docker volume create --name vol_b
+<pre><code>docker volume create --name vol_b
 docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
- rawmind/alpine-base:0.3.4 cp -r /source/folder /target</pre></div>
+ rawmind/alpine-base:0.3.4 cp -r /source/folder /target
+</code></pre>
 
-<h3>
-<a id="get-the-ip-address-of-a-container" class="anchor" href="#get-the-ip-address-of-a-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the IP address of a container</h3>
+<h4>
+<a id="get-the-ip-address-of-a-container" class="anchor" href="#get-the-ip-address-of-a-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the IP address of a container</h4>
 
 <pre><code>docker inspect container_id | grep IPAddress | cut -d '"' -f 4
 </code></pre>
 
-<h1>
-<a id="using-volumes" class="anchor" href="#using-volumes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using Volumes</h1>
+<h2>
+<a id="using-volumes" class="anchor" href="#using-volumes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using Volumes</h2>
 
-<h3>
-<a id="declare-a-volume-via-dockerfile" class="anchor" href="#declare-a-volume-via-dockerfile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Declare a volume via Dockerfile</h3>
+<h4>
+<a id="declare-a-volume-via-dockerfile" class="anchor" href="#declare-a-volume-via-dockerfile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Declare a volume via Dockerfile</h4>
 
 <pre><code>RUN mkdir /data &amp;&amp; echo "some content" &gt; /data/file &amp;&amp; chown -R daemon:daemon /data
 VOLUME /data
@@ -207,62 +229,65 @@ VOLUME /data
 <li><em>note: after the <code>VOLUME</code> directive, its content can not be changed within the Dockerfile</em></li>
 </ul>
 
-<h3>
-<a id="create-a-volume-at-runtime" class="anchor" href="#create-a-volume-at-runtime" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a volume at runtime</h3>
+<h4>
+<a id="create-a-volume-at-runtime" class="anchor" href="#create-a-volume-at-runtime" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a volume at runtime</h4>
 
 <pre><code>docker run -it -v /data debian /bin/bash
 </code></pre>
 
-<h3>
-<a id="create-a-volume-at-runtime-bound-to-a-host-directory" class="anchor" href="#create-a-volume-at-runtime-bound-to-a-host-directory" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a volume at runtime bound to a host directory</h3>
+<h4>
+<a id="create-a-volume-at-runtime-bound-to-a-host-directory" class="anchor" href="#create-a-volume-at-runtime-bound-to-a-host-directory" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a volume at runtime bound to a host directory</h4>
 
 <pre><code>docker run --rm -v /tmp:/data debian ls -RAlph /data
 </code></pre>
 
-<h3>
-<a id="create-a-named-volume-and-use-it" class="anchor" href="#create-a-named-volume-and-use-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a named volume and use it</h3>
+<h4>
+<a id="create-a-named-volume-and-use-it" class="anchor" href="#create-a-named-volume-and-use-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a named volume and use it</h4>
 
-<div class="highlight highlight-source-shell"><pre>docker volume create --name=<span class="pl-c1">test</span>
-docker run --rm -it -v <span class="pl-c1">test</span>:/data alpine sh -c <span class="pl-s"><span class="pl-pds">'</span>echo "Hello named volumes" &gt; /data/hello.txt<span class="pl-pds">'</span></span>
-docker run --rm -it -v <span class="pl-c1">test</span>:/data alpine sh -c <span class="pl-s"><span class="pl-pds">'</span>cat /data/hello.txt<span class="pl-pds">'</span></span></pre></div>
+<pre><code>docker volume create --name=test
+docker run --rm -it -v test:/data alpine sh -c 'echo "Hello named volumes" &gt; /data/hello.txt'
+docker run --rm -it -v test:/data alpine sh -c 'cat /data/hello.txt'
+</code></pre>
 
-<h3>
-<a id="copy-a-file-from-host-to-named-volume" class="anchor" href="#copy-a-file-from-host-to-named-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copy a file from host to named volume</h3>
+<h4>
+<a id="copy-a-file-from-host-to-named-volume" class="anchor" href="#copy-a-file-from-host-to-named-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copy a file from host to named volume</h4>
 
-<div class="highlight highlight-source-shell"><pre><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>debug=true<span class="pl-pds">"</span></span> <span class="pl-k">&gt;</span> <span class="pl-c1">test</span>.cnf <span class="pl-k">&amp;&amp;</span> \
-docker volume create --name=conf <span class="pl-k">&amp;&amp;</span> \
-docker run --rm -it -v <span class="pl-s"><span class="pl-pds">$(</span><span class="pl-c1">pwd</span><span class="pl-pds">)</span></span>:/src -v conf:/dest alpine cp /src/test.cnf /dest/ <span class="pl-k">&amp;&amp;</span> \
-rm -f <span class="pl-c1">test</span>.cnf <span class="pl-k">&amp;&amp;</span> \
-docker run --rm -it -v conf:/data alpine cat /data/test.cnf</pre></div>
+<pre><code>echo "debug=true" &gt; test.cnf &amp;&amp; \
+docker volume create --name=conf &amp;&amp; \
+docker run --rm -it -v $(pwd):/src -v conf:/dest alpine cp /src/test.cnf /dest/ &amp;&amp; \
+rm -f test.cnf &amp;&amp; \
+docker run --rm -it -v conf:/data alpine cat /data/test.cnf
+</code></pre>
 
-<h3>
-<a id="list-the-content-of-a-volume" class="anchor" href="#list-the-content-of-a-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List the content of a volume</h3>
+<h4>
+<a id="list-the-content-of-a-volume" class="anchor" href="#list-the-content-of-a-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List the content of a volume</h4>
 
 <pre><code>docker run --rm -v data:/data alpine ls -RAlph /data
 </code></pre>
 
-<h1>
-<a id="docker-machine" class="anchor" href="#docker-machine" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Machine</h1>
-
 <h2>
-<a id="on-a-local-vm" class="anchor" href="#on-a-local-vm" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>On a local VM</h2>
+<a id="docker-machine" class="anchor" href="#docker-machine" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Machine</h2>
 
 <h3>
-<a id="get-the-ip-address-of-the-virtual-machine-for-access-from-host" class="anchor" href="#get-the-ip-address-of-the-virtual-machine-for-access-from-host" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the IP address of the virtual machine for access from host</h3>
+<a id="on-a-local-vm" class="anchor" href="#on-a-local-vm" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>On a local VM</h3>
+
+<h4>
+<a id="get-the-ip-address-of-the-virtual-machine-for-access-from-host" class="anchor" href="#get-the-ip-address-of-the-virtual-machine-for-access-from-host" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the IP address of the virtual machine for access from host</h4>
 
 <pre><code>docker-machine ip default
 </code></pre>
 
-<h3>
-<a id="add-persistent-environment-variable-to-boot2docker" class="anchor" href="#add-persistent-environment-variable-to-boot2docker" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add persistent environment variable to boot2docker</h3>
+<h4>
+<a id="add-persistent-environment-variable-to-boot2docker" class="anchor" href="#add-persistent-environment-variable-to-boot2docker" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add persistent environment variable to boot2docker</h4>
 
-<div class="highlight highlight-source-shell"><pre>sudo <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>echo <span class="pl-pds">'</span></span><span class="pl-cce">\'</span><span class="pl-s"><span class="pl-pds">'</span>export ENVTEST="Hello Env!"<span class="pl-pds">'</span></span><span class="pl-cce">\'</span><span class="pl-s"><span class="pl-pds">'</span> &gt; /etc/profile.d/custom.sh<span class="pl-pds">'</span></span> <span class="pl-k">|</span> \
-sudo tee -a /var/lib/boot2docker/profile <span class="pl-k">&gt;</span> /dev/null</pre></div>
+<pre><code>sudo echo 'echo '\''export ENVTEST="Hello Env!"'\'' &gt; /etc/profile.d/custom.sh' | \
+sudo tee -a /var/lib/boot2docker/profile &gt; /dev/null
+</code></pre>
 
 <p>and restart with <code>docker-machine restart default</code></p>
 
-<h3>
-<a id="install-additional-linux-packages-in-boot2docker" class="anchor" href="#install-additional-linux-packages-in-boot2docker" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install additional linux packages in boot2docker</h3>
+<h4>
+<a id="install-additional-linux-packages-in-boot2docker" class="anchor" href="#install-additional-linux-packages-in-boot2docker" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install additional linux packages in boot2docker</h4>
 
 <ul>
 <li>create the file <code>/var/lib/boot2docker/bootsync.sh</code> with a content like:</li>
@@ -272,8 +297,8 @@ sudo tee -a /var/lib/boot2docker/profile <span class="pl-k">&gt;</span> /dev/nul
 sudo /bin/su - docker -c 'tce-load -wi nano'
 </code></pre>
 
-<h3>
-<a id="recreate-any-folders-and-files-on-boot2docker-startup" class="anchor" href="#recreate-any-folders-and-files-on-boot2docker-startup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Recreate any folders and files on boot2docker startup</h3>
+<h4>
+<a id="recreate-any-folders-and-files-on-boot2docker-startup" class="anchor" href="#recreate-any-folders-and-files-on-boot2docker-startup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Recreate any folders and files on boot2docker startup</h4>
 
 <ul>
 <li>store folders / files in <code>/var/lib/boot2docker/restore-on-boot</code> and</li>
@@ -285,14 +310,14 @@ sudo mkdir -p /var/lib/boot2docker/restore-on-boot &amp;&amp;
 sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /
 </code></pre>
 
-<h1>
-<a id="dockerfile" class="anchor" href="#dockerfile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dockerfile</h1>
+<h2>
+<a id="dockerfile" class="anchor" href="#dockerfile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dockerfile</h2>
 
-<h3>
-<a id="add-a-periodic-health-check" class="anchor" href="#add-a-periodic-health-check" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add a periodic health check</h3>
+<h4>
+<a id="add-a-periodic-health-check" class="anchor" href="#add-a-periodic-health-check" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add a periodic health check</h4>
 
 <pre><code>HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
- CMD curl -f http://localhost/ || exit 1
+ CMD curl -f &lt;http://localhost/&gt; || exit 1
 </code></pre>
 
 <ul>
@@ -304,7 +329,7 @@ sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /
 <a id="best-practices" class="anchor" href="#best-practices" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Best Practices</h1>
 
 <h2>
-<a id="docker-command" class="anchor" href="#docker-command" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Command</h2>
+<a id="docker-engine-1" class="anchor" href="#docker-engine-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Engine</h2>
 
 <ul>
 <li>
@@ -332,7 +357,8 @@ sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /
 <a id="additional-material" class="anchor" href="#additional-material" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Additional Material</h1>
 
 <ul>
-<li>Mouat, A. (2015). <em>Using Docker: Developing and Deploying Software with Containers.</em> O'Reilly Media. (<a href="http://shop.oreilly.com/product/0636920035671.do">English</a>, <a href="https://www.dpunkt.de/buecher/12553/9783864903847-docker.html">German</a>)</li>
+<li>
+<a href="http://shop.oreilly.com/product/0636920035671.do">Mouat, A. (2015). <em>Using Docker: Developing and Deploying Software with Containers.</em> O'Reilly Media.</a> (<a href="https://www.dpunkt.de/buecher/12553/9783864903847-docker.html">German Edition: <em>Docker. Software entwickeln und deployen mit Containern.</em> dpunkt.verlag</a>)</li>
 <li><a href="https://docs.docker.com/">Official Docker Documentation</a></li>
 <li><a href="http://stackoverflow.com/documentation/docker/topics">StackOverflow Documentation</a></li>
 </ul>
