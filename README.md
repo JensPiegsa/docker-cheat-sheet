@@ -43,6 +43,12 @@
 #### Start a container with another user
     docker run -u root IMAGE
 
+#### List all existing containers
+	docker ps -a
+
+#### List running processes inside a container
+    docker top CONTAINER
+     
 #### Follow the logs
     docker -f --tail=1000 CONTAINER
 
@@ -191,8 +197,10 @@ docker run --rm -it -v conf:/data alpine cat /data/test.cnf
 
 #### Add persistent environment variable to boot2docker
 
-    sudo echo 'echo '\''export ENVTEST="Hello Env!"'\'' > /etc/profile.d/custom.sh' | \
-    sudo tee -a /var/lib/boot2docker/profile > /dev/null
+```sh
+sudo echo 'echo '\''export ENVTEST="Hello Env!"'\'' > /etc/profile.d/custom.sh' | \
+sudo tee -a /var/lib/boot2docker/profile > /dev/null
+``
 
 and restart with `docker-machine restart default`
 
