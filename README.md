@@ -2,6 +2,7 @@
 
 *Content*
 
+* [Terminology](#terminology)
 * [Docker Client](#docker-client)
    * [Building Images](#building-images)
    * [Running Containers](#running-containers)
@@ -172,4 +173,13 @@ sudo /bin/su - docker -c 'tce-load -wi nano'
 #!/bin/sh
 sudo mkdir -p /var/lib/boot2docker/restore-on-boot &&
 sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /
+```
+
+# Dockerfile
+
+### Add a periodic health check
+
+```
+HEALTHCHECK --interval=1m --timeout=3s \
+ CMD curl -f http://localhost/ || exit 1
 ```
