@@ -200,7 +200,7 @@ docker run --rm -it -v conf:/data alpine cat /data/test.cnf
 ```sh
 sudo echo 'echo '\''export ENVTEST="Hello Env!"'\'' > /etc/profile.d/custom.sh' | \
 sudo tee -a /var/lib/boot2docker/profile > /dev/null
-``
+```
 
 and restart with `docker-machine restart default`
 
@@ -208,17 +208,21 @@ and restart with `docker-machine restart default`
 
 * create the file `/var/lib/boot2docker/bootsync.sh` with a content like:
 
-	#!/bin/sh
-	sudo /bin/su - docker -c 'tce-load -wi nano'
+```sh
+#!/bin/sh
+sudo /bin/su - docker -c 'tce-load -wi nano'
+```
 
 #### Recreate any folders and files on boot2docker startup
 
 * store folders / files in `/var/lib/boot2docker/restore-on-boot` and
 * create the file `/var/lib/boot2docker/bootsync.sh` with a content like:
 
-	#!/bin/sh
-	sudo mkdir -p /var/lib/boot2docker/restore-on-boot &&
-	sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /
+```sh
+#!/bin/sh
+sudo mkdir -p /var/lib/boot2docker/restore-on-boot &&
+sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /
+```
 
 ## 2.3. Dockerfile
 
