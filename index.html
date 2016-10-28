@@ -36,6 +36,8 @@
 </li>
 <li><a href="#docker-machine">Docker Machine</a></li>
 <li><a href="#dockerfile">Dockerfile</a></li>
+<li><a href="#best-practices">Best Practices</a></li>
+<li><a href="#additional-material">Additional Material</a></li>
 </ul>
 
 <h1>
@@ -96,7 +98,7 @@
 <div class="highlight highlight-source-shell"><pre>docker rm <span class="pl-s"><span class="pl-pds">$(</span>docker ps -qa -f status=exited<span class="pl-pds">)</span></span></pre></div>
 
 <ul>
-<li><em>Note: the filter flag <code>-f status=exited</code> may be omitted here since running containers can not be removed</em></li>
+<li><em>note: the filter flag <code>-f status=exited</code> may be omitted here since running containers can not be removed</em></li>
 </ul>
 
 <h3>
@@ -197,8 +199,13 @@ docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
 <h3>
 <a id="declare-a-volume-via-dockerfile" class="anchor" href="#declare-a-volume-via-dockerfile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Declare a volume via Dockerfile</h3>
 
-<pre><code>VOLUME /data
+<pre><code>RUN mkdir /data &amp;&amp; echo "some content" &gt; /data/file &amp;&amp; chown -R daemon:daemon /data
+VOLUME /data
 </code></pre>
+
+<ul>
+<li><em>note: after the <code>VOLUME</code> directive, its content can not be changed within the Dockerfile</em></li>
+</ul>
 
 <h3>
 <a id="create-a-volume-at-runtime" class="anchor" href="#create-a-volume-at-runtime" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a volume at runtime</h3>
@@ -296,10 +303,8 @@ sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /
 <h1>
 <a id="best-practices" class="anchor" href="#best-practices" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Best Practices</h1>
 
-<p><em>Some thoughts:</em></p>
-
 <h2>
-<a id="docker-command" class="anchor" href="#docker-command" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker command</h2>
+<a id="docker-command" class="anchor" href="#docker-command" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Command</h2>
 
 <ul>
 <li>
@@ -310,23 +315,24 @@ sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /
 <a id="volumes" class="anchor" href="#volumes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Volumes</h2>
 
 <ul>
-<li>Use <em>named volumes</em> to simplify maintenance by separating persistent data from the container and communicating the structure of a project in a more transparent manner</li>
+<li>use <em>named volumes</em> to simplify maintenance by separating persistent data from the container and communicating the structure of a project in a more transparent manner</li>
 </ul>
 
 <h2>
 <a id="dockerfile-1" class="anchor" href="#dockerfile-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dockerfile</h2>
 
 <ul>
-<li>Use <code>ENTRYPOINT</code> and <code>CMD</code> directives together to make container usage more convenient</li>
-<li>Combine consecutive <code>RUN</code> directives with <code>&amp;&amp;</code> to reduce the costs of a build and to avoid caching of e.g. <code>apt-get update</code>
+<li>use <code>ENTRYPOINT</code> and <code>CMD</code> directives together to make container usage more convenient</li>
+<li>combine consecutive <code>RUN</code> directives with <code>&amp;&amp;</code> to reduce the costs of a build and to avoid caching of instructions like <code>apt-get update</code>
 </li>
-<li>Use <code>EXPOSE</code> to document all needed ports</li>
+<li>use <code>EXPOSE</code> to document all needed ports</li>
 </ul>
 
 <h1>
-<a id="additional-sources" class="anchor" href="#additional-sources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Additional sources</h1>
+<a id="additional-material" class="anchor" href="#additional-material" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Additional Material</h1>
 
 <ul>
+<li>Mouat, A. (2015). <em>Using Docker: Developing and Deploying Software with Containers.</em> O'Reilly Media. (<a href="http://shop.oreilly.com/product/0636920035671.do">English</a>, <a href="https://www.dpunkt.de/buecher/12553/9783864903847-docker.html">German</a>)</li>
 <li><a href="https://docs.docker.com/">Official Docker Documentation</a></li>
 <li><a href="http://stackoverflow.com/documentation/docker/topics">StackOverflow Documentation</a></li>
 </ul>
