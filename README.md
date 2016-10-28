@@ -180,6 +180,8 @@ sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /
 ### Add a periodic health check
 
 ```
-HEALTHCHECK --interval=1m --timeout=3s \
+HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
  CMD curl -f http://localhost/ || exit 1
 ```
+
+* see also: [HEALTHCHECK](https://docs.docker.com/engine/reference/builder/#/healthcheck)
