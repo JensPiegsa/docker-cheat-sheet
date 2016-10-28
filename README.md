@@ -40,6 +40,12 @@
 #### Start a shell in a running container
     docker exec -it CONTAINER /bin/bash
 
+#### Start a container with another user
+    docker run -u root IMAGE
+
+#### Follow the logs
+    docker -f --tail=1000 CONTAINER
+
 #### Stop all running containers
     docker stop $(docker ps -q)
 
@@ -111,30 +117,40 @@ echo "postgres_password" | sudo docker run -i --rm --link db:db -v $PWD:/tmp pos
 
 #### Backup data folder
 
-    docker run --rm --volumes-from oc-data -v $PWD:/tmp piegsaj/openclinica \
-     tar cvf /tmp/oc_data_backup_$(date +%Y-%m-%d_%H-%M-%S).tar /tomcat/openclinica.data
+```sh
+docker run --rm --volumes-from oc-data -v $PWD:/tmp piegsaj/openclinica \
+ tar cvf /tmp/oc_data_backup_$(date +%Y-%m-%d_%H-%M-%S).tar /tomcat/openclinica.data
+```
 
 #### Restore volume from data-only container
 
-    docker run --rm --volumes-from oc-data2 -v $pwd:/tmp piegsaj/openclinica \
-     tar xvf /tmp/oc_data_backup_*.tar
+```sh
+docker run --rm --volumes-from oc-data2 -v $pwd:/tmp piegsaj/openclinica \
+ tar xvf /tmp/oc_data_backup_*.tar
+```
 
 #### Copy content of existing named volume to a new named volume
 
-    docker volume create --name vol_b
-    docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
-     rawmind/alpine-base:0.3.4 cp -r /source/folder /target
+```sh
+docker volume create --name vol_b
+docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
+ rawmind/alpine-base:0.3.4 cp -r /source/folder /target
+```
 
 #### Get the IP address of a container
 
-    docker inspect container_id | grep IPAddress | cut -d '"' -f 4
+```sh
+docker inspect container_id | grep IPAddress | cut -d '"' -f 4
+```
 
 ## 2.1.3. Using Volumes
 
 #### Declare a volume via Dockerfile
 
-    RUN mkdir /data && echo "some content" > /data/file && chown -R daemon:daemon /data
-    VOLUME /data
+```
+RUN mkdir /data && echo "some content" > /data/file && chown -R daemon:daemon /data
+VOLUME /data
+```
 
 * *note: after the `VOLUME` directive, its content can not be changed within the Dockerfile*
 
@@ -146,17 +162,21 @@ echo "postgres_password" | sudo docker run -i --rm --link db:db -v $PWD:/tmp pos
 
 #### Create a named volume and use it
 
-    docker volume create --name=test
-    docker run --rm -it -v test:/data alpine sh -c 'echo "Hello named volumes" > /data/hello.txt'
-    docker run --rm -it -v test:/data alpine sh -c 'cat /data/hello.txt'
+```sh
+docker volume create --name=test
+docker run --rm -it -v test:/data alpine sh -c 'echo "Hello named volumes" > /data/hello.txt'
+docker run --rm -it -v test:/data alpine sh -c 'cat /data/hello.txt'
+```
 
 #### Copy a file from host to named volume
 
-    echo "debug=true" > test.cnf && \
-    docker volume create --name=conf && \
-    docker run --rm -it -v $(pwd):/src -v conf:/dest alpine cp /src/test.cnf /dest/ && \
-    rm -f test.cnf && \
-    docker run --rm -it -v conf:/data alpine cat /data/test.cnf
+```sh
+echo "debug=true" > test.cnf && \
+docker volume create --name=conf && \
+docker run --rm -it -v $(pwd):/src -v conf:/dest alpine cp /src/test.cnf /dest/ && \
+rm -f test.cnf && \
+docker run --rm -it -v conf:/data alpine cat /data/test.cnf
+```
 
 #### List the content of a volume
     docker run --rm -v data:/data alpine ls -RAlph /data
