@@ -145,7 +145,14 @@ docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
 # Using Volumes
 
 ### Declare a volume via Dockerfile
-    VOLUME /data
+
+```
+RUN mkdir /data && echo "some content" > /data/file && chown -R daemon:daemon /data
+VOLUME /data
+```
+
+* *note: after the `VOLUME` directive, its content can not be changed within the Dockerfile*
+
 
 ### Create a volume at runtime
     docker run -it -v /data debian /bin/bash
