@@ -4,12 +4,12 @@
 
 * [1. Terminology](#1-terminology)
 * [2. How-tos](#2-how-tos)
-	* [2.1. Docker Engine](#2-1-docker-engine)
-		* [2-1-1-Building Images](#2-1-1-building-images)
-		* [2-1-2-Running Containers](#2-1-2-running-containers)
-		* [2-1-3-Using Volumes](#2-1-3-using-volumes)
-	* [2.2. Docker Machine](#2-2-docker-machine)
-	* [2.3. Dockerfile](#2-3-dockerfile)
+	* [2.1. Docker Engine](#21-docker-engine)
+		* [2.1.1. Building Images](#211-building-images)
+		* [2.1.2. Running Containers](#212-running-containers)
+		* [2.1.3. Using Volumes](#213-using-volumes)
+	* [2.2. Docker Machine](#22-docker-machine)
+	* [2.3. Dockerfile](#23-dockerfile)
 * [3. Best Practices](#3-best-practices)
 * [4. Additional Material](#4-additional-material)
 
