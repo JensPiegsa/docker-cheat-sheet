@@ -169,6 +169,9 @@ rm -f test.cnf && \
 docker run --rm -it -v conf:/data alpine cat /data/test.cnf
 ```
 
+### List the content of a volume
+    docker run --rm -v data:/data alpine ls -RAlph /data
+
 # Docker Machine
 
 ## On a local VM
@@ -216,3 +219,27 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 ```
 
 * see also: [HEALTHCHECK](https://docs.docker.com/engine/reference/builder/#/healthcheck)
+
+# Best Practices
+
+*Some thoughts:*
+
+## Docker command
+
+* `docker exec` is your friend in development, but should be avoided in a production setup
+
+## Volumes
+
+* Use *named volumes* to simplify maintenance by separating persistent data from the container and communicating the structure of a project in a more transparent manner
+
+## Dockerfile
+
+* Use `ENTRYPOINT` and `CMD` directives together to make container usage more convenient
+* Combine consecutive `RUN` directives with `&&` to reduce the costs of a build and to avoid caching of e.g. `apt-get update`
+* Use `EXPOSE` to document all needed ports
+
+# Additional sources
+
+* [Official Docker Documentation](https://docs.docker.com/)
+* [StackOverflow Documentation](http://stackoverflow.com/documentation/docker/topics)
+
