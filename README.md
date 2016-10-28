@@ -9,6 +9,8 @@
    * [Using Volumes](#using-volumes)
 * [Docker Machine](#docker-machine)
 * [Dockerfile](#dockerfile)
+* [Best Practices](#best-practices)
+* [Additional Material](#additional-material)
 
 # Terminology
 
