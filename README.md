@@ -50,7 +50,7 @@ docker ps -a -f status=exited | grep -v '\-data *$'| awk '{if(NR>1) print $1}' |
 docker rm $(docker ps -qa -f status=exited)
 ```
 
-* *Note: the filter flag `-f status=exited` may be omitted here since running containers can not be removed*
+* *note: the filter flag `-f status=exited` may be omitted here since running containers can not be removed*
 
 ### Remove all unused images
 
@@ -222,23 +222,21 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 
 # Best Practices
 
-*Some thoughts:*
-
-## Docker command
+## Docker Command
 
 * `docker exec` is your friend in development, but should be avoided in a production setup
 
 ## Volumes
 
-* Use *named volumes* to simplify maintenance by separating persistent data from the container and communicating the structure of a project in a more transparent manner
+* use *named volumes* to simplify maintenance by separating persistent data from the container and communicating the structure of a project in a more transparent manner
 
 ## Dockerfile
 
-* Use `ENTRYPOINT` and `CMD` directives together to make container usage more convenient
-* Combine consecutive `RUN` directives with `&&` to reduce the costs of a build and to avoid caching of e.g. `apt-get update`
-* Use `EXPOSE` to document all needed ports
+* use `ENTRYPOINT` and `CMD` directives together to make container usage more convenient
+* combine consecutive `RUN` directives with `&&` to reduce the costs of a build and to avoid caching of e.g. `apt-get update`
+* use `EXPOSE` to document all needed ports
 
-# Additional sources
+# Additional Material
 
 * [Official Docker Documentation](https://docs.docker.com/)
 * [StackOverflow Documentation](http://stackoverflow.com/documentation/docker/topics)
