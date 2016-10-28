@@ -21,7 +21,7 @@
 * **Network**
 * **Service**
 
-# 2. How-tos
+# 2. Recipes
 
 ## 2.1. Docker Engine
 
