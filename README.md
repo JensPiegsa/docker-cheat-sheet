@@ -3,15 +3,15 @@
 # Content
 
 * [1. Terminology](#1-terminology)
-* [How-tos](#how-tos)
-	* [Docker Engine](#docker-engine)
-	   * [Building Images](#building-images)
-	   * [Running Containers](#running-containers)
-	   * [Using Volumes](#using-volumes)
-	* [Docker Machine](#docker-machine)
-	* [Dockerfile](#dockerfile)
-* [Best Practices](#best-practices)
-* [Additional Material](#additional-material)
+* [2. How-tos](#2-how-tos)
+	* [2.1. Docker Engine](#2-1-docker-engine)
+		* [2-1-1-Building Images](#2-1-1-building-images)
+		* [2-1-2-Running Containers](#2-1-2-running-containers)
+		* [2-1-3-Using Volumes](#2-1-3-using-volumes)
+	* [2.2. Docker Machine](#2-2-docker-machine)
+	* [2.3. Dockerfile](#2-3-dockerfile)
+* [3. Best Practices](#3-best-practices)
+* [4. Additional Material](#4-additional-material)
 
 # 1. Terminology
 
@@ -21,18 +21,18 @@
 * **Network**
 * **Service**
 
-# How-tos
+# 2. How-tos
 
-## Docker Engine
+## 2.1. Docker Engine
 
-### Building Images
+### 2.1.1. Building Images
 
 #### Debug image build
 
 * `docker build` shows the IDs of all temporary containers and intermediate images
 * use `docker run -it IMAGE_ID` with the ID of the image resulting from the last successful build step and try the next command manually
 
-### Running Containers
+### 2.1.2. Running Containers
 
 #### Start container and run command inside
     docker run -it ubuntu:14.04 /bin/bash
@@ -45,42 +45,32 @@
 
 #### Remove all stopped containers, except those suffixed '-data':
 
-
     docker ps -a -f status=exited | grep -v '\-data *$'| awk '{if(NR>1) print $1}' | xargs -r docker rm
-
 
 #### Remove all stopped containers (warning: removes data-only containers too)
 
-
     docker rm $(docker ps -qa -f status=exited)
-
 
 * *note: the filter flag `-f status=exited` may be omitted here since running containers can not be removed*
 
 #### Remove all unused images
 
-
     docker rmi $(docker images -qa -f dangling=true)
-
 
 #### Show image history of container
 
-
     docker history --no-trunc=true $(docker inspect -f '{{.Image}}' CONTAINER)
-
 
 #### Show file system changes compared to the original image
 
-
     docker diff CONTAINER
-
 
 #### Backup volume
 
-
-    docker run -rm --volumes-from SOURCE_CONTAINER -v $(pwd):/backup busybox \
-     tar cvf /backup/backup.tar /data
-
+```sh
+docker run -rm --volumes-from SOURCE_CONTAINER -v $(pwd):/backup busybox \
+ tar cvf /backup/backup.tar /data
+```
 
 #### Restore volume
     docker run -rm --volumes-from TARGET_CONTAINER -v $(pwd):/backup busybox tar xvf /backup/backup.tar
@@ -97,65 +87,56 @@
 
 #### Edit and update a file in a container
 
-
-    docker cp CONTAINER:FILE /tmp/ && docker run --name=nano -it --rm -v /tmp:/tmp \
-     piegsaj/nano nano /tmp/FILE ; \
-    cat /tmp/FILE | docker exec -i CONTAINER sh -c 'cat > FILE' ; \
-    rm /tmp/FILE
-
+```sh
+docker cp CONTAINER:FILE /tmp/ && docker run --name=nano -it --rm -v /tmp:/tmp \
+ piegsaj/nano nano /tmp/FILE ; \
+cat /tmp/FILE | docker exec -i CONTAINER sh -c 'cat > FILE' ; \
+rm /tmp/FILE
+```
 
 #### Deploy war file to Apache Tomcat server instantly
 
-
-    docker run -i -t -p 80:8080 -e WAR_URL=“<http://web-actions.googlecode.com/files/helloworld.war>” \
-     bbytes/tomcat7
-
+```sh
+docker run -i -t -p 80:8080 -e WAR_URL=“<http://web-actions.googlecode.com/files/helloworld.war>” \
+ bbytes/tomcat7
+```
 
 #### Dump a Postgres database into your current directory on the host
 
-
-    echo "postgres_password" | sudo docker run -i --rm --link db:db -v $PWD:/tmp postgres:8 sh -c ' \
-     pg_dump -h ocdb -p $OCDB_PORT_5432_TCP_PORT -U postgres -F tar -v openclinica \
-     > /tmp/ocdb_pg_dump_$(date +%Y-%m-%d_%H-%M-%S).tar'
-
+```sh
+echo "postgres_password" | sudo docker run -i --rm --link db:db -v $PWD:/tmp postgres:8 sh -c ' \
+ pg_dump -h ocdb -p $OCDB_PORT_5432_TCP_PORT -U postgres -F tar -v openclinica \
+ > /tmp/ocdb_pg_dump_$(date +%Y-%m-%d_%H-%M-%S).tar'
+```
 
 #### Backup data folder
-
 
     docker run --rm --volumes-from oc-data -v $PWD:/tmp piegsaj/openclinica \
      tar cvf /tmp/oc_data_backup_$(date +%Y-%m-%d_%H-%M-%S).tar /tomcat/openclinica.data
 
-
 #### Restore volume from data-only container
-
 
     docker run --rm --volumes-from oc-data2 -v $pwd:/tmp piegsaj/openclinica \
      tar xvf /tmp/oc_data_backup_*.tar
 
-
 #### Copy content of existing named volume to a new named volume
-
 
     docker volume create --name vol_b
     docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
      rawmind/alpine-base:0.3.4 cp -r /source/folder /target
 
-
 #### Get the IP address of a container
 
     docker inspect container_id | grep IPAddress | cut -d '"' -f 4
 
-## Using Volumes
+## 2.1.3. Using Volumes
 
 #### Declare a volume via Dockerfile
-
 
     RUN mkdir /data && echo "some content" > /data/file && chown -R daemon:daemon /data
     VOLUME /data
 
-
 * *note: after the `VOLUME` directive, its content can not be changed within the Dockerfile*
-
 
 #### Create a volume at runtime
     docker run -it -v /data debian /bin/bash
@@ -165,14 +146,11 @@
 
 #### Create a named volume and use it
 
-
     docker volume create --name=test
     docker run --rm -it -v test:/data alpine sh -c 'echo "Hello named volumes" > /data/hello.txt'
     docker run --rm -it -v test:/data alpine sh -c 'cat /data/hello.txt'
 
-
 #### Copy a file from host to named volume
-
 
     echo "debug=true" > test.cnf && \
     docker volume create --name=conf && \
@@ -180,11 +158,10 @@
     rm -f test.cnf && \
     docker run --rm -it -v conf:/data alpine cat /data/test.cnf
 
-
 #### List the content of a volume
     docker run --rm -v data:/data alpine ls -RAlph /data
 
-## Docker Machine
+## 2.2. Docker Machine
 
 ### On a local VM
 
@@ -194,10 +171,8 @@
 
 #### Add persistent environment variable to boot2docker
 
-
     sudo echo 'echo '\''export ENVTEST="Hello Env!"'\'' > /etc/profile.d/custom.sh' | \
     sudo tee -a /var/lib/boot2docker/profile > /dev/null
-
 
 and restart with `docker-machine restart default`
 
@@ -221,7 +196,7 @@ sudo mkdir -p /var/lib/boot2docker/restore-on-boot &&
 sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /
 ```
 
-## Dockerfile
+## 2.3. Dockerfile
 
 #### Add a periodic health check
 
@@ -232,7 +207,7 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 
 * see also: [HEALTHCHECK](https://docs.docker.com/engine/reference/builder/#/healthcheck)
 
-# Best Practices
+# 3. Best Practices
 
 ## Docker Engine
 
@@ -248,7 +223,7 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 * combine consecutive `RUN` directives with `&&` to reduce the costs of a build and to avoid caching of instructions like `apt-get update`
 * use `EXPOSE` to document all needed ports
 
-# Additional Material
+# 4. Additional Material
 
 * [Mouat, A. (2015). *Using Docker: Developing and Deploying Software with Containers.* O'Reilly Media.](http://shop.oreilly.com/product/0636920035671.do) ([German Edition: *Docker. Software entwickeln und deployen mit Containern.* dpunkt.verlag](https://www.dpunkt.de/buecher/12553/9783864903847-docker.html))
 * [Official Docker Documentation](https://docs.docker.com/)
