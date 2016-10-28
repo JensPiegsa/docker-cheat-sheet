@@ -3,7 +3,7 @@
 # Content
 
 * [1. Terminology](#1-terminology)
-* [2. How-tos](#2-how-tos)
+* [2. Recipes](#2-recipes)
 	* [2.1. Docker Engine](#21-docker-engine)
 		* [2.1.1. Building Images](#211-building-images)
 		* [2.1.2. Running Containers](#212-running-containers)
