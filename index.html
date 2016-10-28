@@ -24,15 +24,29 @@
 <p><em>Content</em></p>
 
 <ul>
+<li><a href="#terminology">Terminology</a></li>
 <li>
 <a href="#docker-client">Docker Client</a>
 
 <ul>
 <li><a href="#building-images">Building Images</a></li>
 <li><a href="#running-containers">Running Containers</a></li>
+<li><a href="#using-volumes">Using Volumes</a></li>
 </ul>
 </li>
 <li><a href="#docker-machine">Docker Machine</a></li>
+<li><a href="#dockerfile">Dockerfile</a></li>
+</ul>
+
+<h1>
+<a id="terminology" class="anchor" href="#terminology" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Terminology</h1>
+
+<ul>
+<li><strong>Image</strong></li>
+<li><strong>Container</strong></li>
+<li><strong>Volume</strong></li>
+<li><strong>Network</strong></li>
+<li><strong>Service</strong></li>
 </ul>
 
 <h1>
@@ -79,14 +93,16 @@
 <h3>
 <a id="remove-all-stopped-containers-warning-removes-data-only-containers-too" class="anchor" href="#remove-all-stopped-containers-warning-removes-data-only-containers-too" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all stopped containers (warning: removes data-only containers too)</h3>
 
-<pre><code>docker rm $(docker ps -qa -f status=exited)
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker rm <span class="pl-s"><span class="pl-pds">$(</span>docker ps -qa -f status=exited<span class="pl-pds">)</span></span></pre></div>
+
+<ul>
+<li><em>Note: the filter flag <code>-f status=exited</code> may be omitted here since running containers can not be removed</em></li>
+</ul>
 
 <h3>
 <a id="remove-all-unused-images" class="anchor" href="#remove-all-unused-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all unused images</h3>
 
-<pre><code>docker rmi $(docker images -qa -f dangling=true)
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker rmi <span class="pl-s"><span class="pl-pds">$(</span>docker images -qa -f dangling=<span class="pl-c1">true</span><span class="pl-pds">)</span></span></pre></div>
 
 <h3>
 <a id="show-image-history-of-container" class="anchor" href="#show-image-history-of-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show image history of container</h3>
@@ -94,7 +110,7 @@
 <div class="highlight highlight-source-shell"><pre>docker <span class="pl-c1">history</span> --no-trunc=<span class="pl-c1">true</span> <span class="pl-s"><span class="pl-pds">$(</span>docker inspect -f <span class="pl-s"><span class="pl-pds">'</span>{{.Image}}<span class="pl-pds">'</span></span> CONTAINER<span class="pl-pds">)</span></span></pre></div>
 
 <h3>
-<a id="show-file-system-changes" class="anchor" href="#show-file-system-changes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show file system changes</h3>
+<a id="show-file-system-changes-compared-to-the-original-image" class="anchor" href="#show-file-system-changes-compared-to-the-original-image" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show file system changes compared to the original image</h3>
 
 <div class="highlight highlight-source-shell"><pre>docker diff CONTAINER</pre></div>
 
@@ -176,6 +192,49 @@ docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
 </code></pre>
 
 <h1>
+<a id="using-volumes" class="anchor" href="#using-volumes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using Volumes</h1>
+
+<h3>
+<a id="declare-a-volume-via-dockerfile" class="anchor" href="#declare-a-volume-via-dockerfile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Declare a volume via Dockerfile</h3>
+
+<pre><code>VOLUME /data
+</code></pre>
+
+<h3>
+<a id="create-a-volume-at-runtime" class="anchor" href="#create-a-volume-at-runtime" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a volume at runtime</h3>
+
+<pre><code>docker run -it -v /data debian /bin/bash
+</code></pre>
+
+<h3>
+<a id="create-a-volume-at-runtime-bound-to-a-host-directory" class="anchor" href="#create-a-volume-at-runtime-bound-to-a-host-directory" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a volume at runtime bound to a host directory</h3>
+
+<pre><code>docker run --rm -v /tmp:/data debian ls -RAlph /data
+</code></pre>
+
+<h3>
+<a id="create-a-named-volume-and-use-it" class="anchor" href="#create-a-named-volume-and-use-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a named volume and use it</h3>
+
+<div class="highlight highlight-source-shell"><pre>docker volume create --name=<span class="pl-c1">test</span>
+docker run --rm -it -v <span class="pl-c1">test</span>:/data alpine sh -c <span class="pl-s"><span class="pl-pds">'</span>echo "Hello named volumes" &gt; /data/hello.txt<span class="pl-pds">'</span></span>
+docker run --rm -it -v <span class="pl-c1">test</span>:/data alpine sh -c <span class="pl-s"><span class="pl-pds">'</span>cat /data/hello.txt<span class="pl-pds">'</span></span></pre></div>
+
+<h3>
+<a id="copy-a-file-from-host-to-named-volume" class="anchor" href="#copy-a-file-from-host-to-named-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copy a file from host to named volume</h3>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>debug=true<span class="pl-pds">"</span></span> <span class="pl-k">&gt;</span> <span class="pl-c1">test</span>.cnf <span class="pl-k">&amp;&amp;</span> \
+docker volume create --name=conf <span class="pl-k">&amp;&amp;</span> \
+docker run --rm -it -v <span class="pl-s"><span class="pl-pds">$(</span><span class="pl-c1">pwd</span><span class="pl-pds">)</span></span>:/src -v conf:/dest alpine cp /src/test.cnf /dest/ <span class="pl-k">&amp;&amp;</span> \
+rm -f <span class="pl-c1">test</span>.cnf <span class="pl-k">&amp;&amp;</span> \
+docker run --rm -it -v conf:/data alpine cat /data/test.cnf</pre></div>
+
+<h3>
+<a id="list-the-content-of-a-volume" class="anchor" href="#list-the-content-of-a-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List the content of a volume</h3>
+
+<pre><code>docker run --rm -v data:/data alpine ls -RAlph /data
+</code></pre>
+
+<h1>
 <a id="docker-machine" class="anchor" href="#docker-machine" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Machine</h1>
 
 <h2>
@@ -218,6 +277,59 @@ sudo /bin/su - docker -c 'tce-load -wi nano'
 sudo mkdir -p /var/lib/boot2docker/restore-on-boot &amp;&amp;
 sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /
 </code></pre>
+
+<h1>
+<a id="dockerfile" class="anchor" href="#dockerfile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dockerfile</h1>
+
+<h3>
+<a id="add-a-periodic-health-check" class="anchor" href="#add-a-periodic-health-check" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add a periodic health check</h3>
+
+<pre><code>HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
+ CMD curl -f http://localhost/ || exit 1
+</code></pre>
+
+<ul>
+<li>see also: <a href="https://docs.docker.com/engine/reference/builder/#/healthcheck">HEALTHCHECK</a>
+</li>
+</ul>
+
+<h1>
+<a id="best-practices" class="anchor" href="#best-practices" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Best Practices</h1>
+
+<p><em>Some thoughts:</em></p>
+
+<h2>
+<a id="docker-command" class="anchor" href="#docker-command" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker command</h2>
+
+<ul>
+<li>
+<code>docker exec</code> is your friend in development, but should be avoided in a production setup</li>
+</ul>
+
+<h2>
+<a id="volumes" class="anchor" href="#volumes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Volumes</h2>
+
+<ul>
+<li>Use <em>named volumes</em> to simplify maintenance by separating persistent data from the container and communicating the structure of a project in a more transparent manner</li>
+</ul>
+
+<h2>
+<a id="dockerfile-1" class="anchor" href="#dockerfile-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dockerfile</h2>
+
+<ul>
+<li>Use <code>ENTRYPOINT</code> and <code>CMD</code> directives together to make container usage more convenient</li>
+<li>Combine consecutive <code>RUN</code> directives with <code>&amp;&amp;</code> to reduce the costs of a build and to avoid caching of e.g. <code>apt-get update</code>
+</li>
+<li>Use <code>EXPOSE</code> to document all needed ports</li>
+</ul>
+
+<h1>
+<a id="additional-sources" class="anchor" href="#additional-sources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Additional sources</h1>
+
+<ul>
+<li><a href="https://docs.docker.com/">Official Docker Documentation</a></li>
+<li><a href="http://stackoverflow.com/documentation/docker/topics">StackOverflow Documentation</a></li>
+</ul>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/JensPiegsa/docker-cheat-sheet">Docker Cheat Sheet</a> is maintained by <a href="https://github.com/JensPiegsa">JensPiegsa</a>.</span>
