@@ -295,71 +295,84 @@ docker run --rm -it -v conf:/data alpine cat /data/test.cnf</pre></div>
 <a id="add-persistent-environment-variable-to-boot2docker" class="anchor" href="#add-persistent-environment-variable-to-boot2docker" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add persistent environment variable to boot2docker</h4>
 
 <div class="highlight highlight-source-shell"><pre>sudo <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>echo <span class="pl-pds">'</span></span><span class="pl-cce">\'</span><span class="pl-s"><span class="pl-pds">'</span>export ENVTEST="Hello Env!"<span class="pl-pds">'</span></span><span class="pl-cce">\'</span><span class="pl-s"><span class="pl-pds">'</span> &gt; /etc/profile.d/custom.sh<span class="pl-pds">'</span></span> <span class="pl-k">|</span> \
-sudo tee -a /var/lib/boot2docker/profile <span class="pl-k">&gt;</span> /dev/null
-<span class="pl-s"><span class="pl-pds">`</span><span class="pl-pds">`</span></span>
+sudo tee -a /var/lib/boot2docker/profile <span class="pl-k">&gt;</span> /dev/null</pre></div>
 
-and restart with <span class="pl-s"><span class="pl-pds">`</span>docker-machine restart default<span class="pl-pds">`</span></span>
+<p>and restart with <code>docker-machine restart default</code></p>
 
-<span class="pl-c">#### Install additional linux packages in boot2docker</span>
+<h4>
+<a id="install-additional-linux-packages-in-boot2docker" class="anchor" href="#install-additional-linux-packages-in-boot2docker" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install additional linux packages in boot2docker</h4>
 
-<span class="pl-k">*</span> create the file <span class="pl-s"><span class="pl-pds">`</span>/var/lib/boot2docker/bootsync.sh<span class="pl-pds">`</span></span> with a content like:
-</pre></div>
+<ul>
+<li>create the file <code>/var/lib/boot2docker/bootsync.sh</code> with a content like:</li>
+</ul>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c">#!/bin/sh</span>
+sudo /bin/su - docker -c <span class="pl-s"><span class="pl-pds">'</span>tce-load -wi nano<span class="pl-pds">'</span></span></pre></div>
+
+<h4>
+<a id="recreate-any-folders-and-files-on-boot2docker-startup" class="anchor" href="#recreate-any-folders-and-files-on-boot2docker-startup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Recreate any folders and files on boot2docker startup</h4>
+
+<ul>
+<li>store folders / files in <code>/var/lib/boot2docker/restore-on-boot</code> and</li>
+<li>create the file <code>/var/lib/boot2docker/bootsync.sh</code> with a content like:</li>
+</ul>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c">#!/bin/sh</span>
+sudo mkdir -p /var/lib/boot2docker/restore-on-boot <span class="pl-k">&amp;&amp;</span>
+sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /</pre></div>
+
+<h2>
+<a id="23-dockerfile" class="anchor" href="#23-dockerfile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.3. Dockerfile</h2>
+
+<h4>
+<a id="add-a-periodic-health-check" class="anchor" href="#add-a-periodic-health-check" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add a periodic health check</h4>
+
+<pre><code>HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
+ CMD curl -f &lt;http://localhost/&gt; || exit 1
+</code></pre>
+
+<ul>
+<li>see also: <a href="https://docs.docker.com/engine/reference/builder/#/healthcheck">HEALTHCHECK</a>
+</li>
+</ul>
 
 <h1>
-<a id="binsh" class="anchor" href="#binsh" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>!/bin/sh</h1>
+<a id="3-best-practices" class="anchor" href="#3-best-practices" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. Best Practices</h1>
 
-<p>sudo /bin/su - docker -c 'tce-load -wi nano'</p>
+<h2>
+<a id="docker-engine" class="anchor" href="#docker-engine" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Engine</h2>
 
-<pre><code>
-#### Recreate any folders and files on boot2docker startup
+<ul>
+<li>
+<code>docker exec</code> is your friend in development, but should be avoided in a production setup</li>
+</ul>
 
-* store folders / files in `/var/lib/boot2docker/restore-on-boot` and
-* create the file `/var/lib/boot2docker/bootsync.sh` with a content like:
+<h2>
+<a id="volumes" class="anchor" href="#volumes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Volumes</h2>
 
-</code></pre>
+<ul>
+<li>use <em>named volumes</em> to simplify maintenance by separating persistent data from the container and communicating the structure of a project in a more transparent manner</li>
+</ul>
+
+<h2>
+<a id="dockerfile" class="anchor" href="#dockerfile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dockerfile</h2>
+
+<ul>
+<li>use <code>ENTRYPOINT</code> and <code>CMD</code> directives together to make container usage more convenient</li>
+<li>combine consecutive <code>RUN</code> directives with <code>&amp;&amp;</code> to reduce the costs of a build and to avoid caching of instructions like <code>apt-get update</code>
+</li>
+<li>use <code>EXPOSE</code> to document all needed ports</li>
+</ul>
 
 <h1>
-<a id="binsh-1" class="anchor" href="#binsh-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>!/bin/sh</h1>
+<a id="4-additional-material" class="anchor" href="#4-additional-material" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. Additional Material</h1>
 
-<p>sudo mkdir -p /var/lib/boot2docker/restore-on-boot &amp;&amp;
-sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /</p>
-
-<pre><code>
-## 2.3. Dockerfile
-
-#### Add a periodic health check
-
-</code></pre>
-
-<p>HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
- CMD curl -f <a href="http://localhost/">http://localhost/</a> || exit 1</p>
-
-<pre><code>
-* see also: [HEALTHCHECK](https://docs.docker.com/engine/reference/builder/#/healthcheck)
-
-# 3. Best Practices
-
-## Docker Engine
-
-* `docker exec` is your friend in development, but should be avoided in a production setup
-
-## Volumes
-
-* use *named volumes* to simplify maintenance by separating persistent data from the container and communicating the structure of a project in a more transparent manner
-
-## Dockerfile
-
-* use `ENTRYPOINT` and `CMD` directives together to make container usage more convenient
-* combine consecutive `RUN` directives with `&amp;&amp;` to reduce the costs of a build and to avoid caching of instructions like `apt-get update`
-* use `EXPOSE` to document all needed ports
-
-# 4. Additional Material
-
-* [Mouat, A. (2015). *Using Docker: Developing and Deploying Software with Containers.* O'Reilly Media.](http://shop.oreilly.com/product/0636920035671.do) ([German Edition: *Docker. Software entwickeln und deployen mit Containern.* dpunkt.verlag](https://www.dpunkt.de/buecher/12553/9783864903847-docker.html))
-* [Official Docker Documentation](https://docs.docker.com/)
-* [StackOverflow Documentation](http://stackoverflow.com/documentation/docker/topics)
-
-</code></pre>
+<ul>
+<li>
+<a href="http://shop.oreilly.com/product/0636920035671.do">Mouat, A. (2015). <em>Using Docker: Developing and Deploying Software with Containers.</em> O'Reilly Media.</a> (<a href="https://www.dpunkt.de/buecher/12553/9783864903847-docker.html">German Edition: <em>Docker. Software entwickeln und deployen mit Containern.</em> dpunkt.verlag</a>)</li>
+<li><a href="https://docs.docker.com/">Official Docker Documentation</a></li>
+<li><a href="http://stackoverflow.com/documentation/docker/topics">StackOverflow Documentation</a></li>
+</ul>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/JensPiegsa/docker-cheat-sheet">Docker Cheat Sheet</a> is maintained by <a href="https://github.com/JensPiegsa">JensPiegsa</a>.</span>
