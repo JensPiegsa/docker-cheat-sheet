@@ -7,6 +7,14 @@
    * [Running Containers](#running-containers)
 * [Docker Machine](#docker-machine)
 
+# Terminology
+
+* **Image**
+* **Container**
+* **Volume**
+* **Network**
+* **Service**
+
 # Docker Client
 
 ## Building Images
@@ -34,10 +42,18 @@ docker ps -a -f status=exited | grep -v '\-data *$'| awk '{if(NR>1) print $1}' |
 ```
 
 ### Remove all stopped containers (warning: removes data-only containers too)
-    docker rm $(docker ps -qa -f status=exited)
+
+```sh
+docker rm $(docker ps -qa -f status=exited)
+```
+
+* *Note: the filter flag `-f status=exited` may be omitted here since running containers can not be removed*
 
 ### Remove all unused images
-    docker rmi $(docker images -qa -f dangling=true)
+
+```sh
+docker rmi $(docker images -qa -f dangling=true)
+```
 
 ### Show image history of container
 
@@ -45,7 +61,7 @@ docker ps -a -f status=exited | grep -v '\-data *$'| awk '{if(NR>1) print $1}' |
 docker history --no-trunc=true $(docker inspect -f '{{.Image}}' CONTAINER)
 ```
 
-### Show file system changes
+### Show file system changes compared to the original image
 
 ```sh
 docker diff CONTAINER
