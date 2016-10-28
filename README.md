@@ -6,7 +6,9 @@
 * [Docker Client](#docker-client)
    * [Building Images](#building-images)
    * [Running Containers](#running-containers)
+   * [Using Volumes](#using-volumes)
 * [Docker Machine](#docker-machine)
+* [Dockerfile](#dockerfile)
 
 # Terminology
 
@@ -137,6 +139,35 @@ docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
 ### Get the IP address of a container
 
     docker inspect container_id | grep IPAddress | cut -d '"' -f 4
+
+# Using Volumes
+
+### Declare a volume via Dockerfile
+    VOLUME /data
+
+### Create a volume at runtime
+    docker run -it -v /data debian /bin/bash
+
+### Create a volume at runtime bound to a host directory
+    docker run --rm -v /tmp:/data debian ls -RAlph /data
+
+### Create a named volume and use it
+
+```sh
+docker volume create --name=test
+docker run --rm -it -v test:/data alpine sh -c 'echo "Hello named volumes" > /data/hello.txt'
+docker run --rm -it -v test:/data alpine sh -c 'cat /data/hello.txt'
+```
+
+### Copy a file from host to named volume
+
+```sh
+echo "debug=true" > test.cnf && \
+docker volume create --name=conf && \
+docker run --rm -it -v $(pwd):/src -v conf:/dest alpine cp /src/test.cnf /dest/ && \
+rm -f test.cnf && \
+docker run --rm -it -v conf:/data alpine cat /data/test.cnf
+```
 
 # Docker Machine
 
