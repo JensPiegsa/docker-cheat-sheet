@@ -238,7 +238,7 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 
 # Additional Material
 
-* Mouat, A. (2015). Using Docker: Developing and Deploying Software with Containers. O'Reilly Media. ([EN](http://shop.oreilly.com/product/0636920035671.do), [DE](https://www.dpunkt.de/buecher/12553/9783864903847-docker.html))
+* Mouat, A. (2015). *Using Docker: Developing and Deploying Software with Containers.* O'Reilly Media. ([English](http://shop.oreilly.com/product/0636920035671.do), [German](https://www.dpunkt.de/buecher/12553/9783864903847-docker.html))
 * [Official Docker Documentation](https://docs.docker.com/)
 * [StackOverflow Documentation](http://stackoverflow.com/documentation/docker/topics)
 
