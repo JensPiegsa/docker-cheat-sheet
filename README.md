@@ -233,7 +233,7 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 ## Dockerfile
 
 * use `ENTRYPOINT` and `CMD` directives together to make container usage more convenient
-* combine consecutive `RUN` directives with `&&` to reduce the costs of a build and to avoid caching of e.g. `apt-get update`
+* combine consecutive `RUN` directives with `&&` to reduce the costs of a build and to avoid caching of instructions like `apt-get update`
 * use `EXPOSE` to document all needed ports
 
 # Additional Material
