@@ -2,7 +2,7 @@
 
 # Content
 
-* [Terminology](#terminology)
+* [1. Terminology](#1-terminology)
 * [How-tos](#how-tos)
 	* [Docker Engine](#docker-engine)
 	   * [Building Images](#building-images)
@@ -13,7 +13,7 @@
 * [Best Practices](#best-practices)
 * [Additional Material](#additional-material)
 
-# Terminology
+# 1. Terminology
 
 * **Image**
 * **Container**
