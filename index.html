@@ -21,6 +21,8 @@
     <section class="main-content">
       <p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=WZJTZ3V8KKARC"><img src="https://img.shields.io/badge/Donate-PayPal-blue.svg" alt="Donate"></a> <a href="https://github.com/JensPiegsa/docker-cheat-sheet/edit/master/README.md#fork-destination-box"><img src="https://img.shields.io/github/forks/badges/shields.svg?style=flat&amp;label=Fork%20on%20GitHub&amp;color=blue" alt="Fork on GitHub"></a></p>
 
+<p>This document is hosted at <a href="https://jenspiegsa.github.io/docker-cheat-sheet/">https://jenspiegsa.github.io/docker-cheat-sheet/</a>.</p>
+
 <h1>
 <a id="content" class="anchor" href="#content" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Content</h1>
 
@@ -82,96 +84,87 @@
 <h4>
 <a id="start-container-and-run-command-inside" class="anchor" href="#start-container-and-run-command-inside" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start container and run command inside</h4>
 
-<pre><code>docker run -it ubuntu:14.04 /bin/bash
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker run -it ubuntu:14.04 /bin/bash</pre></div>
 
 <h4>
 <a id="start-a-shell-in-a-running-container" class="anchor" href="#start-a-shell-in-a-running-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start a shell in a running container</h4>
 
-<pre><code>docker exec -it CONTAINER /bin/bash
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker <span class="pl-c1">exec</span> -it CONTAINER /bin/bash</pre></div>
 
 <h4>
 <a id="start-a-container-with-another-user" class="anchor" href="#start-a-container-with-another-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start a container with another user</h4>
 
-<pre><code>docker run -u root IMAGE
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker run -u root IMAGE</pre></div>
 
 <h4>
 <a id="list-all-existing-containers" class="anchor" href="#list-all-existing-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List all existing containers</h4>
 
-<pre><code>docker ps -a
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker ps -a</pre></div>
 
 <h4>
 <a id="list-running-processes-inside-a-container" class="anchor" href="#list-running-processes-inside-a-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List running processes inside a container</h4>
 
-<pre><code>docker top CONTAINER
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker top CONTAINER</pre></div>
 
 <h4>
 <a id="follow-the-logs" class="anchor" href="#follow-the-logs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Follow the logs</h4>
 
-<pre><code>docker -f --tail=1000 CONTAINER
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker -f --tail=1000 CONTAINER</pre></div>
 
 <h4>
 <a id="stop-all-running-containers" class="anchor" href="#stop-all-running-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Stop all running containers</h4>
 
-<pre><code>docker stop $(docker ps -q)
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker stop <span class="pl-s"><span class="pl-pds">$(</span>docker ps -q<span class="pl-pds">)</span></span></pre></div>
 
 <h4>
 <a id="remove-all-stopped-containers-except-those-suffixed--data" class="anchor" href="#remove-all-stopped-containers-except-those-suffixed--data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all stopped containers, except those suffixed '-data':</h4>
 
-<pre><code>docker ps -a -f status=exited | grep -v '\-data *$'| awk '{if(NR&gt;1) print $1}' | xargs -r docker rm
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker ps -a -f status=exited <span class="pl-k">|</span> grep -v <span class="pl-s"><span class="pl-pds">'</span>\-data *$<span class="pl-pds">'</span></span><span class="pl-k">|</span> awk <span class="pl-s"><span class="pl-pds">'</span>{if(NR&gt;1) print $1}<span class="pl-pds">'</span></span> <span class="pl-k">|</span> xargs -r docker rm</pre></div>
 
 <h4>
 <a id="remove-all-stopped-containers-warning-removes-data-only-containers-too" class="anchor" href="#remove-all-stopped-containers-warning-removes-data-only-containers-too" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all stopped containers (warning: removes data-only containers too)</h4>
 
-<pre><code>docker rm $(docker ps -qa -f status=exited)
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker rm <span class="pl-s"><span class="pl-pds">$(</span>docker ps -qa -f status=exited<span class="pl-pds">)</span></span></pre></div>
 
 <ul>
 <li><em>note: the filter flag <code>-f status=exited</code> may be omitted here since running containers can not be removed</em></li>
 </ul>
 
 <h4>
+<a id="list-all-images" class="anchor" href="#list-all-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List all images</h4>
+
+<div class="highlight highlight-source-shell"><pre>docker images -a</pre></div>
+
+<h4>
 <a id="remove-all-unused-images" class="anchor" href="#remove-all-unused-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all unused images</h4>
 
-<pre><code>docker rmi $(docker images -qa -f dangling=true)
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker rmi <span class="pl-s"><span class="pl-pds">$(</span>docker images -qa -f dangling=<span class="pl-c1">true</span><span class="pl-pds">)</span></span></pre></div>
 
 <h4>
 <a id="show-image-history-of-container" class="anchor" href="#show-image-history-of-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show image history of container</h4>
 
-<pre><code>docker history --no-trunc=true $(docker inspect -f '{{.Image}}' CONTAINER)
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker <span class="pl-c1">history</span> --no-trunc=<span class="pl-c1">true</span> <span class="pl-s"><span class="pl-pds">$(</span>docker inspect -f <span class="pl-s"><span class="pl-pds">'</span>{{.Image}}<span class="pl-pds">'</span></span> CONTAINER<span class="pl-pds">)</span></span></pre></div>
 
 <h4>
 <a id="show-file-system-changes-compared-to-the-original-image" class="anchor" href="#show-file-system-changes-compared-to-the-original-image" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show file system changes compared to the original image</h4>
 
-<pre><code>docker diff CONTAINER
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker diff CONTAINER</pre></div>
 
 <h4>
-<a id="backup-volume" class="anchor" href="#backup-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backup volume</h4>
+<a id="backup-volume-to-host-directory" class="anchor" href="#backup-volume-to-host-directory" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backup volume to host directory</h4>
 
 <div class="highlight highlight-source-shell"><pre>docker run -rm --volumes-from SOURCE_CONTAINER -v <span class="pl-s"><span class="pl-pds">$(</span><span class="pl-c1">pwd</span><span class="pl-pds">)</span></span>:/backup busybox \
  tar cvf /backup/backup.tar /data</pre></div>
 
 <h4>
-<a id="restore-volume" class="anchor" href="#restore-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restore volume</h4>
+<a id="restore-volume-from-host-directory" class="anchor" href="#restore-volume-from-host-directory" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restore volume from host directory</h4>
 
-<pre><code>docker run -rm --volumes-from TARGET_CONTAINER -v $(pwd):/backup busybox tar xvf /backup/backup.tar
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker run -rm --volumes-from TARGET_CONTAINER -v <span class="pl-s"><span class="pl-pds">$(</span><span class="pl-c1">pwd</span><span class="pl-pds">)</span></span>:/backup busybox tar xvf /backup/backup.tar</pre></div>
 
 <h4>
 <a id="show-volumes" class="anchor" href="#show-volumes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show volumes</h4>
 
-<pre><code>docker inspect -f '{{range $v, $h := .Config.Volumes}}{{$v}}{{end}}' CONTAINER
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker inspect -f <span class="pl-s"><span class="pl-pds">'</span>{{range $v, $h := .Config.Volumes}}{{$v}}{{end}}<span class="pl-pds">'</span></span> CONTAINER</pre></div>
 
 <h4>
 <a id="start-all-paused--stopped-containers" class="anchor" href="#start-all-paused--stopped-containers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start all paused / stopped containers</h4>
@@ -183,8 +176,7 @@
 <h4>
 <a id="remove-all-containers-and-images" class="anchor" href="#remove-all-containers-and-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove all containers and images</h4>
 
-<pre><code>docker stop $(docker ps -q) &amp;&amp; docker rm $(docker ps -qa) &amp;&amp; docker rmi $(docker images -qa)
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker stop <span class="pl-s"><span class="pl-pds">$(</span>docker ps -q<span class="pl-pds">)</span></span> <span class="pl-k">&amp;&amp;</span> docker rm <span class="pl-s"><span class="pl-pds">$(</span>docker ps -qa<span class="pl-pds">)</span></span> <span class="pl-k">&amp;&amp;</span> docker rmi <span class="pl-s"><span class="pl-pds">$(</span>docker images -qa<span class="pl-pds">)</span></span></pre></div>
 
 <h4>
 <a id="edit-and-update-a-file-in-a-container" class="anchor" href="#edit-and-update-a-file-in-a-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Edit and update a file in a container</h4>
@@ -220,13 +212,6 @@ rm /tmp/FILE</pre></div>
  tar xvf /tmp/oc_data_backup_<span class="pl-k">*</span>.tar</pre></div>
 
 <h4>
-<a id="copy-content-of-existing-named-volume-to-a-new-named-volume" class="anchor" href="#copy-content-of-existing-named-volume-to-a-new-named-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copy content of existing named volume to a new named volume</h4>
-
-<div class="highlight highlight-source-shell"><pre>docker volume create --name vol_b
-docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
- rawmind/alpine-base:0.3.4 cp -r /source/folder /target</pre></div>
-
-<h4>
 <a id="get-the-ip-address-of-a-container" class="anchor" href="#get-the-ip-address-of-a-container" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the IP address of a container</h4>
 
 <div class="highlight highlight-source-shell"><pre>docker inspect container_id <span class="pl-k">|</span> grep IPAddress <span class="pl-k">|</span> cut -d <span class="pl-s"><span class="pl-pds">'</span>"<span class="pl-pds">'</span></span> -f 4</pre></div>
@@ -248,21 +233,24 @@ VOLUME /data
 <h4>
 <a id="create-a-volume-at-runtime" class="anchor" href="#create-a-volume-at-runtime" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a volume at runtime</h4>
 
-<pre><code>docker run -it -v /data debian /bin/bash
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker run -it -v /data debian /bin/bash</pre></div>
 
 <h4>
 <a id="create-a-volume-at-runtime-bound-to-a-host-directory" class="anchor" href="#create-a-volume-at-runtime-bound-to-a-host-directory" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a volume at runtime bound to a host directory</h4>
 
-<pre><code>docker run --rm -v /tmp:/data debian ls -RAlph /data
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker run --rm -v /tmp:/data debian ls -RAlph /data</pre></div>
 
 <h4>
 <a id="create-a-named-volume-and-use-it" class="anchor" href="#create-a-named-volume-and-use-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a named volume and use it</h4>
 
 <div class="highlight highlight-source-shell"><pre>docker volume create --name=<span class="pl-c1">test</span>
-docker run --rm -it -v <span class="pl-c1">test</span>:/data alpine sh -c <span class="pl-s"><span class="pl-pds">'</span>echo "Hello named volumes" &gt; /data/hello.txt<span class="pl-pds">'</span></span>
-docker run --rm -it -v <span class="pl-c1">test</span>:/data alpine sh -c <span class="pl-s"><span class="pl-pds">'</span>cat /data/hello.txt<span class="pl-pds">'</span></span></pre></div>
+docker run --rm -v <span class="pl-c1">test</span>:/data alpine sh -c <span class="pl-s"><span class="pl-pds">'</span>echo "Hello named volumes" &gt; /data/hello.txt<span class="pl-pds">'</span></span>
+docker run --rm -v <span class="pl-c1">test</span>:/data alpine sh -c <span class="pl-s"><span class="pl-pds">'</span>cat /data/hello.txt<span class="pl-pds">'</span></span></pre></div>
+
+<h4>
+<a id="list-the-content-of-a-volume" class="anchor" href="#list-the-content-of-a-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List the content of a volume</h4>
+
+<div class="highlight highlight-source-shell"><pre>docker run --rm -v data:/data alpine ls -RAlph /data</pre></div>
 
 <h4>
 <a id="copy-a-file-from-host-to-named-volume" class="anchor" href="#copy-a-file-from-host-to-named-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copy a file from host to named volume</h4>
@@ -274,10 +262,11 @@ rm -f <span class="pl-c1">test</span>.cnf <span class="pl-k">&amp;&amp;</span> \
 docker run --rm -it -v conf:/data alpine cat /data/test.cnf</pre></div>
 
 <h4>
-<a id="list-the-content-of-a-volume" class="anchor" href="#list-the-content-of-a-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List the content of a volume</h4>
+<a id="copy-content-of-existing-named-volume-to-a-new-named-volume" class="anchor" href="#copy-content-of-existing-named-volume-to-a-new-named-volume" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copy content of existing named volume to a new named volume</h4>
 
-<pre><code>docker run --rm -v data:/data alpine ls -RAlph /data
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>docker volume create --name vol_b
+docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
+ rawmind/alpine-base:0.3.4 cp -r /source/folder /target</pre></div>
 
 <h2>
 <a id="22-docker-machine" class="anchor" href="#22-docker-machine" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.2. Docker Machine</h2>
@@ -318,7 +307,7 @@ sudo /bin/su - docker -c <span class="pl-s"><span class="pl-pds">'</span>tce-loa
 </ul>
 
 <div class="highlight highlight-source-shell"><pre><span class="pl-c">#!/bin/sh</span>
-sudo mkdir -p /var/lib/boot2docker/restore-on-boot <span class="pl-k">&amp;&amp;</span>
+sudo mkdir -p /var/lib/boot2docker/restore-on-boot <span class="pl-k">&amp;&amp;</span> \
 sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /</pre></div>
 
 <h2>
@@ -358,6 +347,7 @@ sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /</pre></div>
 <a id="dockerfile" class="anchor" href="#dockerfile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dockerfile</h2>
 
 <ul>
+<li>always set the <code>USER</code> statement, otherwise the container will run as <code>root</code> user by default, which maps to the <code>root</code> user of the host machine</li>
 <li>use <code>ENTRYPOINT</code> and <code>CMD</code> directives together to make container usage more convenient</li>
 <li>combine consecutive <code>RUN</code> directives with <code>&amp;&amp;</code> to reduce the costs of a build and to avoid caching of instructions like <code>apt-get update</code>
 </li>
