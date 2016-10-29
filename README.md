@@ -1,5 +1,7 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WZJTZ3V8KKARC) [![Fork on GitHub](https://img.shields.io/github/forks/badges/shields.svg?style=flat&label=Fork%20on%20GitHub&color=blue)](https://github.com/JensPiegsa/docker-cheat-sheet/edit/master/README.md#fork-destination-box)
 
+This document is hosted at [https://jenspiegsa.github.io/docker-cheat-sheet/](https://jenspiegsa.github.io/docker-cheat-sheet/).
+
 # Content
 
 * [1. Terminology](#1-terminology)
@@ -170,8 +172,8 @@ VOLUME /data
 
 ```sh
 docker volume create --name=test
-docker run --rm -it -v test:/data alpine sh -c 'echo "Hello named volumes" > /data/hello.txt'
-docker run --rm -it -v test:/data alpine sh -c 'cat /data/hello.txt'
+docker run --rm -v test:/data alpine sh -c 'echo "Hello named volumes" > /data/hello.txt'
+docker run --rm -v test:/data alpine sh -c 'cat /data/hello.txt'
 ```
 
 #### Copy a file from host to named volume
@@ -220,7 +222,7 @@ sudo /bin/su - docker -c 'tce-load -wi nano'
 
 ```sh
 #!/bin/sh
-sudo mkdir -p /var/lib/boot2docker/restore-on-boot &&
+sudo mkdir -p /var/lib/boot2docker/restore-on-boot && \
 sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /
 ```
 
