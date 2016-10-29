@@ -37,67 +37,114 @@ This document is hosted at [https://jenspiegsa.github.io/docker-cheat-sheet/](ht
 ### 2.1.2. Running Containers
 
 #### Start container and run command inside
-    docker run -it ubuntu:14.04 /bin/bash
+
+```sh
+docker run -it ubuntu:14.04 /bin/bash
+```
 
 #### Start a shell in a running container
-    docker exec -it CONTAINER /bin/bash
+
+```sh
+docker exec -it CONTAINER /bin/bash
+```
 
 #### Start a container with another user
-    docker run -u root IMAGE
+
+```sh
+docker run -u root IMAGE
+```
 
 #### List all existing containers
-	docker ps -a
+
+```sh
+docker ps -a
+```
 
 #### List running processes inside a container
-    docker top CONTAINER
+
+```sh
+docker top CONTAINER
+```
      
 #### Follow the logs
-    docker -f --tail=1000 CONTAINER
+
+```sh
+docker -f --tail=1000 CONTAINER
+```
 
 #### Stop all running containers
-    docker stop $(docker ps -q)
+
+```sh
+docker stop $(docker ps -q)
+```
 
 #### Remove all stopped containers, except those suffixed '-data':
 
-    docker ps -a -f status=exited | grep -v '\-data *$'| awk '{if(NR>1) print $1}' | xargs -r docker rm
+
+```sh
+docker ps -a -f status=exited | grep -v '\-data *$'| awk '{if(NR>1) print $1}' | xargs -r docker rm
+```
 
 #### Remove all stopped containers (warning: removes data-only containers too)
 
-    docker rm $(docker ps -qa -f status=exited)
+```sh
+docker rm $(docker ps -qa -f status=exited)
+```
 
 * *note: the filter flag `-f status=exited` may be omitted here since running containers can not be removed*
 
+#### List all images
+
+```sh
+docker images -a
+```
+
 #### Remove all unused images
 
-    docker rmi $(docker images -qa -f dangling=true)
+```sh
+docker rmi $(docker images -qa -f dangling=true)
+```
 
 #### Show image history of container
 
-    docker history --no-trunc=true $(docker inspect -f '{{.Image}}' CONTAINER)
+```sh
+docker history --no-trunc=true $(docker inspect -f '{{.Image}}' CONTAINER)
+```
 
 #### Show file system changes compared to the original image
 
-    docker diff CONTAINER
+```sh
+docker diff CONTAINER
+```
 
-#### Backup volume
+#### Backup volume to host directory
 
 ```sh
 docker run -rm --volumes-from SOURCE_CONTAINER -v $(pwd):/backup busybox \
  tar cvf /backup/backup.tar /data
 ```
 
-#### Restore volume
-    docker run -rm --volumes-from TARGET_CONTAINER -v $(pwd):/backup busybox tar xvf /backup/backup.tar
+#### Restore volume from host directory
+
+```sh
+docker run -rm --volumes-from TARGET_CONTAINER -v $(pwd):/backup busybox tar xvf /backup/backup.tar
+```
 
 #### Show volumes
-    docker inspect -f '{{range $v, $h := .Config.Volumes}}{{$v}}{{end}}' CONTAINER
+
+```sh
+docker inspect -f '{{range $v, $h := .Config.Volumes}}{{$v}}{{end}}' CONTAINER
+```
 
 #### Start all paused / stopped containers
 
 * makes no sense together with container dependencies
 
 #### Remove all containers and images
-    docker stop $(docker ps -q) && docker rm $(docker ps -qa) && docker rmi $(docker images -qa)
+
+```sh
+docker stop $(docker ps -q) && docker rm $(docker ps -qa) && docker rmi $(docker images -qa)
+```
 
 #### Edit and update a file in a container
 
@@ -137,14 +184,6 @@ docker run --rm --volumes-from oc-data2 -v $pwd:/tmp piegsaj/openclinica \
  tar xvf /tmp/oc_data_backup_*.tar
 ```
 
-#### Copy content of existing named volume to a new named volume
-
-```sh
-docker volume create --name vol_b
-docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
- rawmind/alpine-base:0.3.4 cp -r /source/folder /target
-```
-
 #### Get the IP address of a container
 
 ```sh
@@ -163,10 +202,16 @@ VOLUME /data
 * *note: after the `VOLUME` directive, its content can not be changed within the Dockerfile*
 
 #### Create a volume at runtime
-    docker run -it -v /data debian /bin/bash
+
+```sh
+docker run -it -v /data debian /bin/bash
+```
 
 #### Create a volume at runtime bound to a host directory
-    docker run --rm -v /tmp:/data debian ls -RAlph /data
+
+```sh
+docker run --rm -v /tmp:/data debian ls -RAlph /data
+```
 
 #### Create a named volume and use it
 
@@ -174,6 +219,12 @@ VOLUME /data
 docker volume create --name=test
 docker run --rm -v test:/data alpine sh -c 'echo "Hello named volumes" > /data/hello.txt'
 docker run --rm -v test:/data alpine sh -c 'cat /data/hello.txt'
+```
+
+#### List the content of a volume
+
+```sh
+docker run --rm -v data:/data alpine ls -RAlph /data
 ```
 
 #### Copy a file from host to named volume
@@ -186,8 +237,13 @@ rm -f test.cnf && \
 docker run --rm -it -v conf:/data alpine cat /data/test.cnf
 ```
 
-#### List the content of a volume
-    docker run --rm -v data:/data alpine ls -RAlph /data
+#### Copy content of existing named volume to a new named volume
+
+```sh
+docker volume create --name vol_b
+docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
+ rawmind/alpine-base:0.3.4 cp -r /source/folder /target
+```
 
 ## 2.2. Docker Machine
 
@@ -195,7 +251,9 @@ docker run --rm -it -v conf:/data alpine cat /data/test.cnf
 
 #### Get the IP address of the virtual machine for access from host
 
-    docker-machine ip default
+```
+docker-machine ip default
+```
 
 #### Add persistent environment variable to boot2docker
 
@@ -258,4 +316,3 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 * [Mouat, A. (2015). *Using Docker: Developing and Deploying Software with Containers.* O'Reilly Media.](http://shop.oreilly.com/product/0636920035671.do) ([German Edition: *Docker. Software entwickeln und deployen mit Containern.* dpunkt.verlag](https://www.dpunkt.de/buecher/12553/9783864903847-docker.html))
 * [Official Docker Documentation](https://docs.docker.com/)
 * [StackOverflow Documentation](http://stackoverflow.com/documentation/docker/topics)
-
