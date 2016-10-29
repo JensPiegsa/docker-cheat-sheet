@@ -307,6 +307,7 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 
 ## Dockerfile
 
+* always set the `USER` statement, otherwise the container will run as `root` user by default, which maps to the `root` user of the host machine
 * use `ENTRYPOINT` and `CMD` directives together to make container usage more convenient
 * combine consecutive `RUN` directives with `&&` to reduce the costs of a build and to avoid caching of instructions like `apt-get update`
 * use `EXPOSE` to document all needed ports
