@@ -21,7 +21,7 @@ This document is hosted at [https://jenspiegsa.github.io/docker-cheat-sheet/](ht
 
 # 1.1. Concepts
 
-* **Union file system (UFS)**: allows to overlay multiple file systems appearing as a single esytem whereby equal folders are merged and equally named files hide their previous versions
+* **Union file system (UFS)**: allows to overlay multiple file systems appearing as a single system whereby equal folders are merged and equally named files hide their previous versions
 * **Image**: a portable read-only file system layer optionally stacked on a parent image
 * **Dockerfile**: used to `build` an image and declare the command executed in the container
 * **Registry**: is the place where to `push` and `pull` from named / tagged images 
