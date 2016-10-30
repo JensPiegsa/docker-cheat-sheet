@@ -5,7 +5,7 @@ This document is hosted at [https://jenspiegsa.github.io/docker-cheat-sheet/](ht
 # Content
 
 * [1. Fundamentals](#1-fundamentals)
-	* [1.1. Terminology](#11-concepts)
+	* [1.1. Concepts](#11-concepts)
 	* [1.2. Lifecycle](#12-lifecycle)
 * [2. Recipes](#2-recipes)
 	* [2.1. Docker Engine](#21-docker-engine)
