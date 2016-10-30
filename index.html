@@ -27,7 +27,14 @@
 <a id="content" class="anchor" href="#content" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Content</h1>
 
 <ul>
-<li><a href="#1-terminology">1. Terminology</a></li>
+<li>
+<a href="#1-fundamentals">1. Fundamentals</a>
+
+<ul>
+<li><a href="#11-concepts">1.1. Terminology</a></li>
+<li><a href="#12-lifecycle">1.2. Lifecycle</a></li>
+</ul>
+</li>
 <li>
 <a href="#2-recipes">2. Recipes</a>
 
@@ -50,14 +57,65 @@
 </ul>
 
 <h1>
-<a id="1-terminology" class="anchor" href="#1-terminology" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. Terminology</h1>
+<a id="1-fundamentals" class="anchor" href="#1-fundamentals" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. Fundamentals</h1>
+
+<h1>
+<a id="11-concepts" class="anchor" href="#11-concepts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.1. Concepts</h1>
 
 <ul>
-<li><strong>Image</strong></li>
-<li><strong>Container</strong></li>
-<li><strong>Volume</strong></li>
-<li><strong>Network</strong></li>
-<li><strong>Service</strong></li>
+<li>
+<strong>Union file system (UFS)</strong> allows to overlay multiple file systems appearing as a single esytem whereby equal folders are merged and equally named files hide their previous versions</li>
+<li>
+<strong>Image</strong> a portable read-only file system layer optionally stacked on a parent image</li>
+<li>
+<strong>Dockerfile</strong> used to <code>build</code> an image and declare the command executed in the container</li>
+<li>
+<strong>Registry</strong> is the place where to <code>push</code> and <code>pull</code> from named / tagged images </li>
+<li>
+<strong>Container</strong> an instance of an image with a writable file system layer on top, virtual networking, ready to execute a single application </li>
+<li>
+<strong>Volume</strong> a specially-designated directory outside the UFS for persistent and shared data that can be mounted inside containers</li>
+<li>
+<strong>Network</strong> acts as a namespace for containers</li>
+<li>
+<strong>Service</strong> a flexible number of container replicas running on a cluster of multiple hosts</li>
+</ul>
+
+<h1>
+<a id="12-lifecycle" class="anchor" href="#12-lifecycle" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.2. Lifecycle</h1>
+
+<p><strong>A typical <code>docker</code> workflow:</strong></p>
+
+<ul>
+<li>
+<code>build</code> an image based on a <code>Dockerfile</code>
+</li>
+<li>
+<code>tag</code> and <code>push</code> the image to a <strong>registry</strong>
+</li>
+<li>
+<code>login</code> to the registry from the runtime environment to <code>pull</code> the image</li>
+<li>optionally <code>create</code> a <code>volume</code> or two to provide configuration files and hold data that needs to be persisted </li>
+<li>
+<code>run</code> a container based on the image</li>
+<li>
+<code>stop</code> and <code>start</code> the container if necessary</li>
+<li>
+<code>commit</code> the container to turn it into an image</li>
+<li>in exceptional situations, <code>exec</code> additional commands inside the container</li>
+<li>to replace a container with an updated version 
+
+<ul>
+<li>
+<code>pull</code> the new image from the registry</li>
+<li>
+<code>stop</code> the running container</li>
+<li>backup your volumes to prepare a rollback</li>
+<li>
+<code>run</code> the newer one by specifying a temporary name</li>
+<li>if successful, <code>remove</code> the old container and <code>rename</code> the new one accordingly</li>
+</ul>
+</li>
 </ul>
 
 <h1>
@@ -193,7 +251,7 @@ rm /tmp/FILE</pre></div>
  bbytes/tomcat7</pre></div>
 
 <h4>
-<a id="dump-a-postgres-database-into-your-current-directory-on-the-host" class="anchor" href="#dump-a-postgres-database-into-your-current-directory-on-the-host" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dump a Postgres database into your current directory on the host</h4>
+<a id="dump-a-postgres-database-into-current-directory-on-the-host" class="anchor" href="#dump-a-postgres-database-into-current-directory-on-the-host" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dump a Postgres database into current directory on the host</h4>
 
 <div class="highlight highlight-source-shell"><pre><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>postgres_password<span class="pl-pds">"</span></span> <span class="pl-k">|</span> sudo docker run -i --rm --link db:db -v <span class="pl-smi">$PWD</span>:/tmp postgres:8 sh -c <span class="pl-s"><span class="pl-pds">'</span> \</span>
 <span class="pl-s"> pg_dump -h ocdb -p $OCDB_PORT_5432_TCP_PORT -U postgres -F tar -v openclinica \</span>
