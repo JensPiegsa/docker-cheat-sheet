@@ -26,7 +26,7 @@ This document is hosted at [https://jenspiegsa.github.io/docker-cheat-sheet/](ht
 * **Dockerfile** used to `build` an image and declare the command executed in the container
 * **Registry** is the place where to `push` and `pull` from named / tagged images 
 * **Container** an instance of an image with a writable file system layer on top, virtual networking, ready to execute a single application 
-* **Volume** a specially-designated directory outside the UFS for persistent and shared data that can be mounted inside containers
+* **Volume** a directory outside the UFS that can be mounted inside containers for persistent and shared data 
 * **Network** acts as a namespace for containers
 * **Service** a flexible number of container replicas running on a cluster of multiple hosts
 
