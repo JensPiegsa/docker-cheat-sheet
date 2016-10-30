@@ -4,7 +4,9 @@ This document is hosted at [https://jenspiegsa.github.io/docker-cheat-sheet/](ht
 
 # Content
 
-* [1. Terminology](#1-terminology)
+* [1. Fundamentals](#1-fundamentals)
+	* [1.1. Terminology](#11-concepts)
+	* [1.2. Lifecycle](#12-lifecycle)
 * [2. Recipes](#2-recipes)
 	* [2.1. Docker Engine](#21-docker-engine)
 		* [2.1.1. Building Images](#211-building-images)
@@ -15,14 +17,38 @@ This document is hosted at [https://jenspiegsa.github.io/docker-cheat-sheet/](ht
 * [3. Best Practices](#3-best-practices)
 * [4. Additional Material](#4-additional-material)
 
-# 1. Terminology
+# 1. Fundamentals
 
-* **Image**
-* **Container**
-* **Volume**
-* **Network**
-* **Service**
+# 1.1. Concepts
 
+* **Union file system (UFS)** allows to overlay multiple file systems appearing as a single esytem whereby equal folders are merged and equally named files hide their previous versions
+* **Image** a portable read-only file system layer optionally stacked on a parent image
+* **Dockerfile** used to `build` an image and declare the command executed in the container
+* **Registry** is the place where to `push` and `pull` from named / tagged images 
+* **Container** an instance of an image with a writable file system layer on top, virtual networking, ready to execute a single application 
+* **Volume** a specially-designated directory outside the UFS for persistent and shared data that can be mounted inside containers
+* **Network** acts as a namespace for containers
+* **Service** a flexible number of container replicas running on a cluster of multiple hosts
+
+# 1.2. Lifecycle
+
+**A typical `docker` workflow:**
+
+* `build` an image based on a `Dockerfile`
+* `tag` and `push` the image to a **registry**
+* `login` to the registry from the runtime environment to `pull` the image
+* optionally `create` a `volume` or two to provide configuration files and hold data that needs to be persisted 
+* `run` a container based on the image
+* `stop` and `start` the container if necessary
+* `commit` the container to turn it into an image
+* in exceptional situations, `exec` additional commands inside the container
+* to replace a container with an updated version 
+	* `pull` the new image from the registry
+	* `stop` the running container
+	* backup your volumes to prepare a rollback
+	* `run` the newer one by specifying a temporary name
+	* if successful, `remove` the old container and `rename` the new one accordingly
+ 
 # 2. Recipes
 
 ## 2.1. Docker Engine
@@ -162,7 +188,7 @@ docker run -i -t -p 80:8080 -e WAR_URL=“<http://web-actions.googlecode.com/fil
  bbytes/tomcat7
 ```
 
-#### Dump a Postgres database into your current directory on the host
+#### Dump a Postgres database into current directory on the host
 
 ```sh
 echo "postgres_password" | sudo docker run -i --rm --link db:db -v $PWD:/tmp postgres:8 sh -c ' \
