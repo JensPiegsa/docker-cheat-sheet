@@ -31,7 +31,7 @@
 <a href="#1-fundamentals">1. Fundamentals</a>
 
 <ul>
-<li><a href="#11-concepts">1.1. Terminology</a></li>
+<li><a href="#11-concepts">1.1. Concepts</a></li>
 <li><a href="#12-lifecycle">1.2. Lifecycle</a></li>
 </ul>
 </li>
@@ -64,34 +64,34 @@
 
 <ul>
 <li>
-<strong>Union file system (UFS)</strong> allows to overlay multiple file systems appearing as a single esytem whereby equal folders are merged and equally named files hide their previous versions</li>
+<strong>Union file system (UFS)</strong>: allows to overlay multiple file systems appearing as a single esytem whereby equal folders are merged and equally named files hide their previous versions</li>
 <li>
-<strong>Image</strong> a portable read-only file system layer optionally stacked on a parent image</li>
+<strong>Image</strong>: a portable read-only file system layer optionally stacked on a parent image</li>
 <li>
-<strong>Dockerfile</strong> used to <code>build</code> an image and declare the command executed in the container</li>
+<strong>Dockerfile</strong>: used to <code>build</code> an image and declare the command executed in the container</li>
 <li>
-<strong>Registry</strong> is the place where to <code>push</code> and <code>pull</code> from named / tagged images </li>
+<strong>Registry</strong>: is the place where to <code>push</code> and <code>pull</code> from named / tagged images </li>
 <li>
-<strong>Container</strong> an instance of an image with a writable file system layer on top, virtual networking, ready to execute a single application </li>
+<strong>Container</strong>: an instance of an image with a writable file system layer on top, virtual networking, ready to execute a single application </li>
 <li>
-<strong>Volume</strong> a specially-designated directory outside the UFS for persistent and shared data that can be mounted inside containers</li>
+<strong>Volume</strong>: a directory outside the UFS that can be mounted inside containers for persistent and shared data </li>
 <li>
-<strong>Network</strong> acts as a namespace for containers</li>
+<strong>Network</strong>: acts as a namespace for containers</li>
 <li>
-<strong>Service</strong> a flexible number of container replicas running on a cluster of multiple hosts</li>
+<strong>Service</strong>: a flexible number of container replicas running on a cluster of multiple hosts</li>
 </ul>
 
 <h1>
 <a id="12-lifecycle" class="anchor" href="#12-lifecycle" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.2. Lifecycle</h1>
 
-<p><strong>A typical <code>docker</code> workflow:</strong></p>
+<p><em>A typical <code>docker</code> workflow:</em></p>
 
 <ul>
 <li>
 <code>build</code> an image based on a <code>Dockerfile</code>
 </li>
 <li>
-<code>tag</code> and <code>push</code> the image to a <strong>registry</strong>
+<code>tag</code> and <code>push</code> the image to a <em>registry</em>
 </li>
 <li>
 <code>login</code> to the registry from the runtime environment to <code>pull</code> the image</li>
