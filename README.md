@@ -21,14 +21,14 @@ This document is hosted at [https://jenspiegsa.github.io/docker-cheat-sheet/](ht
 
 # 1.1. Concepts
 
-* **Union file system (UFS)** allows to overlay multiple file systems appearing as a single esytem whereby equal folders are merged and equally named files hide their previous versions
-* **Image** a portable read-only file system layer optionally stacked on a parent image
-* **Dockerfile** used to `build` an image and declare the command executed in the container
-* **Registry** is the place where to `push` and `pull` from named / tagged images 
-* **Container** an instance of an image with a writable file system layer on top, virtual networking, ready to execute a single application 
-* **Volume** a directory outside the UFS that can be mounted inside containers for persistent and shared data 
-* **Network** acts as a namespace for containers
-* **Service** a flexible number of container replicas running on a cluster of multiple hosts
+* **Union file system (UFS)**: allows to overlay multiple file systems appearing as a single esytem whereby equal folders are merged and equally named files hide their previous versions
+* **Image**: a portable read-only file system layer optionally stacked on a parent image
+* **Dockerfile**: used to `build` an image and declare the command executed in the container
+* **Registry**: is the place where to `push` and `pull` from named / tagged images 
+* **Container**: an instance of an image with a writable file system layer on top, virtual networking, ready to execute a single application 
+* **Volume**: a directory outside the UFS that can be mounted inside containers for persistent and shared data 
+* **Network**: acts as a namespace for containers
+* **Service**: a flexible number of container replicas running on a cluster of multiple hosts
 
 # 1.2. Lifecycle
 
