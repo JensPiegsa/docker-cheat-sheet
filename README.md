@@ -32,10 +32,10 @@ This document is hosted at [https://jenspiegsa.github.io/docker-cheat-sheet/](ht
 
 # 1.2. Lifecycle
 
-**A typical `docker` workflow:**
+*A typical `docker` workflow:*
 
 * `build` an image based on a `Dockerfile`
-* `tag` and `push` the image to a **registry**
+* `tag` and `push` the image to a *registry*
 * `login` to the registry from the runtime environment to `pull` the image
 * optionally `create` a `volume` or two to provide configuration files and hold data that needs to be persisted 
 * `run` a container based on the image
