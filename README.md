@@ -45,7 +45,7 @@ This document is hosted at [https://jenspiegsa.github.io/docker-cheat-sheet/](ht
 * to replace a container with an updated version 
 	* `pull` the new image from the registry
 	* `stop` the running container
-	* backup your volumes to prepare a rollback
+	* backup your volumes to be prepared for a potential rollback
 	* `run` the newer one by specifying a temporary name
 	* if successful, `remove` the old container and `rename` the new one accordingly
  
@@ -164,7 +164,7 @@ docker inspect -f '{{range $v, $h := .Config.Volumes}}{{$v}}{{end}}' CONTAINER
 
 #### Start all paused / stopped containers
 
-* makes no sense together with container dependencies
+* does not work together with container dependencies
 
 #### Remove all containers and images
 
