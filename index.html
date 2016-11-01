@@ -52,8 +52,16 @@
 <li><a href="#23-dockerfile">2.3. Dockerfile</a></li>
 </ul>
 </li>
-<li><a href="#3-best-practices">3. Best Practices</a></li>
-<li><a href="#4-additional-material">4. Additional Material</a></li>
+<li>
+<a href="3-showcases">3. Showcases</a>
+
+<ul>
+<li><a href="31-private-docker-registry">3.1 Private Docker Registry</a></li>
+<li><a href="32-continuous-integration-tool-stack">3.2 Continuous Integration Tool Stack</a></li>
+</ul>
+</li>
+<li><a href="#3-best-practices">4. Best Practices</a></li>
+<li><a href="#4-additional-material">5. Additional Material</a></li>
 </ul>
 
 <h1>
@@ -326,6 +334,11 @@ docker run --rm -it -v conf:/data alpine cat /data/test.cnf</pre></div>
 docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
  rawmind/alpine-base:0.3.4 cp -r /source/folder /target</pre></div>
 
+<h4>
+<a id="remove-unused-images" class="anchor" href="#remove-unused-images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove unused images</h4>
+
+<div class="highlight highlight-source-shell"><pre>docker volume rm <span class="pl-s"><span class="pl-pds">$(</span>docker volume ls -qf dangling=<span class="pl-c1">true</span><span class="pl-pds">)</span></span></pre></div>
+
 <h2>
 <a id="22-docker-machine" class="anchor" href="#22-docker-machine" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.2. Docker Machine</h2>
 
@@ -384,7 +397,203 @@ sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /</pre></div>
 </ul>
 
 <h1>
-<a id="3-best-practices" class="anchor" href="#3-best-practices" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. Best Practices</h1>
+<a id="3-showcases" class="anchor" href="#3-showcases" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. Showcases</h1>
+
+<h2>
+<a id="private-docker-registry" class="anchor" href="#private-docker-registry" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Private Docker Registry</h2>
+
+<h4>
+<a id="setup-with-docker-machine--boot2docker" class="anchor" href="#setup-with-docker-machine--boot2docker" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Setup with docker-machine / boot2docker</h4>
+
+<div class="highlight highlight-source-shell"><pre>docker pull registry:2.5.1 <span class="pl-k">;</span> \
+
+<span class="pl-c"># Prepare registry-cert volume</span>
+docker volume create --name=registry-cert <span class="pl-k">&amp;&amp;</span> \
+sudo mkdir -p /var/lib/boot2docker/certs/ <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">cd</span> /var/lib/boot2docker/ <span class="pl-k">&amp;&amp;</span> \
+sudo openssl genrsa -out registry.key 4096 <span class="pl-k">&amp;&amp;</span> \
+sudo openssl req -new -nodes -sha256 -subj <span class="pl-s"><span class="pl-pds">'</span>/CN=localhost<span class="pl-pds">'</span></span> -key registry.key -out registry.csr <span class="pl-k">&amp;&amp;</span> \
+sudo openssl x509 -req -days 3650 -signkey registry.key -in registry.csr -out certs/registry.pem <span class="pl-k">&amp;&amp;</span> \
+docker run --rm -it -v /var/lib/boot2docker/:/b2d -v registry-cert:/certs --entrypoint sh registry \
+ -c <span class="pl-s"><span class="pl-pds">'</span>cp /b2d/registry.key /certs/ &amp;&amp; cp /b2d/certs/registry.pem /certs<span class="pl-pds">'</span></span> <span class="pl-k">&amp;&amp;</span> \
+
+<span class="pl-c"># Prepare registry-auth volume (please change 'reg_user' and 'reg_password')</span>
+docker volume create --name=registry-auth <span class="pl-k">&amp;&amp;</span> \
+docker run --rm --entrypoint /bin/sh -v registry-auth:/auth registry \
+ -c <span class="pl-s"><span class="pl-pds">'</span>htpasswd -Bbn reg_user reg_password &gt; /auth/htpasswd<span class="pl-pds">'</span></span> <span class="pl-k">&amp;&amp;</span> \
+
+<span class="pl-c"># Prepare registry-data volume</span>
+docker volume create --name=registry-data <span class="pl-k">&amp;&amp;</span> \
+
+<span class="pl-c"># Stop and remove existing container</span>
+{ docker stop registry <span class="pl-k">;</span> docker rm registry <span class="pl-k">;</span> } <span class="pl-k">&gt;</span>/dev/null <span class="pl-k">2&gt;&amp;1</span> <span class="pl-k">;</span> \
+
+<span class="pl-c"># Create container</span>
+docker run --name registry -h registry -d -l <span class="pl-c1">type</span>=app <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$ADD_HOST</span><span class="pl-pds">"</span></span> \
+-v registry-data:/var/lib/registry \
+-v registry-auth:/auth \
+-v registry-cert:/certs \
+--restart=always \
+-p 5000:5000 \
+-e REGISTRY_HTTP_TLS_KEY=/certs/registry.key \
+-e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.pem \
+-e REGISTRY_AUTH=htpasswd \
+-e <span class="pl-s"><span class="pl-pds">"</span>REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm<span class="pl-pds">"</span></span> \
+-e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
+-e REGISTRY_STORAGE_DELETE_ENABLED=<span class="pl-c1">true</span> \
+registry</pre></div>
+
+<h4>
+<a id="usage-example" class="anchor" href="#usage-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage example</h4>
+
+<div class="highlight highlight-source-shell"><pre>docker pull alpine:latest <span class="pl-k">&amp;&amp;</span> \
+docker login -u reg_user -p reg_password localhost:5000 <span class="pl-k">&amp;&amp;</span> \
+docker tag alpine:latest localhost:5000/alpine:private <span class="pl-k">&amp;&amp;</span> \
+docker rmi alpine:latest <span class="pl-k">&amp;&amp;</span> \
+docker push localhost:5000/alpine:private <span class="pl-k">&amp;&amp;</span> \
+docker rmi -f localhost:5000/alpine:private <span class="pl-k">&amp;&amp;</span> \
+docker pull localhost:5000/alpine:private <span class="pl-k">&amp;&amp;</span> \
+docker <span class="pl-c1">logout</span> localhost:5000 <span class="pl-k">&amp;&amp;</span> \
+docker images <span class="pl-k">|</span> grep alpine <span class="pl-k">&amp;&amp;</span> \
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Deleting image from registry...<span class="pl-pds">"</span></span> <span class="pl-k">&amp;&amp;</span> \
+curl -X DELETE -u reg_user:reg_password \
+https://localhost:5000/v2/alpine/manifests/<span class="pl-s"><span class="pl-pds">$(</span>docker images --digests <span class="pl-k">|</span> grep localhost:5000/alpine <span class="pl-k">|</span> awk <span class="pl-s"><span class="pl-pds">'</span>{print $3}<span class="pl-pds">'</span></span><span class="pl-pds">)</span></span></pre></div>
+
+<h4>
+<a id="removal" class="anchor" href="#removal" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Removal</h4>
+
+<div class="highlight highlight-source-shell"><pre>docker rm -f registry <span class="pl-k">&amp;&amp;</span> \
+docker volume rm registry-data registry-cert registry-auth</pre></div>
+
+<h2>
+<a id="continuous-integration-tool-stack" class="anchor" href="#continuous-integration-tool-stack" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Continuous Integration Tool Stack</h2>
+
+<h4>
+<a id="setup-with-docker-machine--boot2docker-1" class="anchor" href="#setup-with-docker-machine--boot2docker-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Setup with docker-machine / boot2docker</h4>
+
+<ul>
+<li><p>make a directory called <code>ci</code> in your home directory on your host system and change into it</p></li>
+<li><p>create a file named <code>docker-compose.yml</code> with the following content:</p></li>
+</ul>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">version:</span> <span class="pl-s"><span class="pl-pds">'</span>2<span class="pl-pds">'</span></span>
+
+<span class="pl-ent">services:</span>
+
+  <span class="pl-ent">jenkins:</span>
+    <span class="pl-ent">image:</span> <span class="pl-s">jenkins</span>
+    <span class="pl-ent">ports:</span>
+      - <span class="pl-s"><span class="pl-pds">"</span>8082:8082<span class="pl-pds">"</span></span>
+      - <span class="pl-s"><span class="pl-pds">"</span>50000:50000<span class="pl-pds">"</span></span>
+    <span class="pl-ent">restart:</span> <span class="pl-s">always</span>
+    <span class="pl-ent">env_file:</span> <span class="pl-s">.env</span>
+    <span class="pl-ent">environment:</span>
+      - <span class="pl-s"><span class="pl-pds">"</span>JAVA_OPTS=-Dmail.smtp.starttls.enable=true -Dorg.apache.commons.jelly.tags.fmt.timeZone=Europe/Berlin<span class="pl-pds">"</span></span>
+      - <span class="pl-s"><span class="pl-pds">"</span>JENKINS_OPTS=--httpPort=8082<span class="pl-pds">"</span></span>
+    <span class="pl-ent">volumes:</span>
+      - <span class="pl-s">jenkins_home:/var/jenkins_home</span>
+
+  <span class="pl-ent">nexus:</span>
+    <span class="pl-ent">image:</span> <span class="pl-s">sonatype/nexus3</span>
+    <span class="pl-ent">ports:</span>
+      - <span class="pl-s"><span class="pl-pds">"</span>8081:8081<span class="pl-pds">"</span></span>
+    <span class="pl-ent">restart:</span> <span class="pl-s">always</span>
+    <span class="pl-ent">env_file:</span> <span class="pl-s">.env</span>
+    <span class="pl-ent">volumes:</span>
+      - <span class="pl-s">nexus-data:/nexus-data</span>
+
+  <span class="pl-ent">sonarqube:</span>
+    <span class="pl-ent">image:</span> <span class="pl-s">sonarqube</span>
+    <span class="pl-ent">ports:</span>
+      - <span class="pl-s"><span class="pl-pds">"</span>9000:9000<span class="pl-pds">"</span></span>
+    <span class="pl-ent">restart:</span> <span class="pl-s">always</span>
+    <span class="pl-ent">env_file:</span>
+      - <span class="pl-s">.env</span>
+      - <span class="pl-s">sonarqube.env</span>
+    <span class="pl-ent">environment:</span>
+      - <span class="pl-s">SONARQUBE_JDBC_URL=jdbc:postgresql://postgres:5432/sonar</span>
+      - <span class="pl-s">SONARQUBE_JDBC_USERNAME=sonar</span>
+    <span class="pl-ent">volumes:</span>
+      - <span class="pl-s">sonarqube_conf:/opt/sonarqube/conf</span>
+      - <span class="pl-s">sonarqube_data:/opt/sonarqube/data</span>
+      - <span class="pl-s">sonarqube_extensions:/opt/sonarqube/extensions</span>
+      - <span class="pl-s">sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins</span>
+    <span class="pl-ent">links:</span>
+      - <span class="pl-s">postgres</span>
+
+  <span class="pl-ent">postgres:</span>
+    <span class="pl-ent">image:</span> <span class="pl-s">postgres</span>
+    <span class="pl-ent">ports:</span>
+      - <span class="pl-s"><span class="pl-pds">"</span>5432:5432<span class="pl-pds">"</span></span>
+    <span class="pl-ent">restart:</span> <span class="pl-s">always</span>
+    <span class="pl-ent">env_file:</span>
+      - <span class="pl-s">.env</span>
+      - <span class="pl-s">sonarqube.env</span>
+    <span class="pl-ent">environment:</span>
+      - <span class="pl-s">POSTGRES_USER=sonar</span>
+    <span class="pl-ent">volumes:</span>
+      - <span class="pl-s">postgresql:/var/lib/postgresql</span>
+      - <span class="pl-s">postgresql_data:/var/lib/postgresql/data</span>
+
+<span class="pl-ent">volumes:</span>
+  <span class="pl-ent">jenkins_home:</span>
+  <span class="pl-ent">nexus-data:</span>
+  <span class="pl-ent">sonarqube_conf:</span>
+  <span class="pl-ent">sonarqube_data:</span>
+  <span class="pl-ent">sonarqube_extensions:</span>
+  <span class="pl-ent">sonarqube_bundled-plugins:</span>
+  <span class="pl-ent">postgresql:</span>
+  <span class="pl-ent">postgresql_data:</span></pre></div>
+
+<ul>
+<li>create a second file named <code>.env</code> that defines a timezone:</li>
+</ul>
+
+<pre><code>TZ=Europe/Berlin
+</code></pre>
+
+<ul>
+<li>create a third file named <code>sonarqube.env</code> that holds the database passwords:</li>
+</ul>
+
+<pre><code>SONARQUBE_JDBC_PASSWORD=sonar
+POSTGRES_PASSWORD=sonar
+</code></pre>
+
+<h4>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h4>
+
+<ul>
+<li>startup all containers:</li>
+</ul>
+
+<pre><code>docker-compose up -d
+</code></pre>
+
+<ul>
+<li><p>watch the logs, type <code>docker-compose logs</code> or <code>docker logs -f ci_jenkins_1</code></p></li>
+<li>
+<p>access the web applications:</p>
+
+<ul>
+<li>Jenkins on port 8082</li>
+<li>Sonatype Nexus on port 8081 and</li>
+<li>SonarQube on port 9000</li>
+</ul>
+</li>
+</ul>
+
+<h4>
+<a id="removal-1" class="anchor" href="#removal-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Removal</h4>
+
+<ul>
+<li>to remove the tool stack (incl. data), use:</li>
+</ul>
+
+<pre><code>docker-compose stop &amp;&amp; docker-compose rm -fav
+</code></pre>
+
+<h1>
+<a id="4-best-practices" class="anchor" href="#4-best-practices" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. Best Practices</h1>
 
 <h2>
 <a id="docker-engine" class="anchor" href="#docker-engine" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Engine</h2>
@@ -413,12 +622,13 @@ sudo rsync -a /var/lib/boot2docker/restore-on-boot/ /</pre></div>
 </ul>
 
 <h1>
-<a id="4-additional-material" class="anchor" href="#4-additional-material" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. Additional Material</h1>
+<a id="5-additional-material" class="anchor" href="#5-additional-material" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. Additional Material</h1>
 
 <ul>
 <li>
 <a href="http://shop.oreilly.com/product/0636920035671.do">Mouat, A. (2015). <em>Using Docker: Developing and Deploying Software with Containers.</em> O'Reilly Media.</a> (<a href="https://www.dpunkt.de/buecher/12553/9783864903847-docker.html">German Edition: <em>Docker. Software entwickeln und deployen mit Containern.</em> dpunkt.verlag</a>)</li>
 <li><a href="https://docs.docker.com/">Official Docker Documentation</a></li>
+<li><a href="http://blog.arungupta.me/docker-container-anti-patterns/">Gupta, A. (2016). <em>Docker Container Anti Patterns.</em></a></li>
 <li><a href="http://stackoverflow.com/documentation/docker/topics">StackOverflow Documentation</a></li>
 </ul>
 
