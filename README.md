@@ -17,8 +17,8 @@ This document is hosted at [https://jenspiegsa.github.io/docker-cheat-sheet/](ht
 * [3. Showcases](#3-showcases)
 	* [3.1. Private Docker Registry](#31-private-docker-registry)
 	* [3.2. Continuous Integration Tool Stack](#32-continuous-integration-tool-stack)
-* [4. Best Practices](#3-best-practices)
-* [5. Additional Material](#4-additional-material)
+* [4. Best Practices](#4-best-practices)
+* [5. Additional Material](#5-additional-material)
 
 # 1. Fundamentals
 
