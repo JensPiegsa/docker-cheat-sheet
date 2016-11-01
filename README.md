@@ -15,8 +15,8 @@ This document is hosted at [https://jenspiegsa.github.io/docker-cheat-sheet/](ht
 	* [2.2. Docker Machine](#22-docker-machine)
 	* [2.3. Dockerfile](#23-dockerfile)
 * [3. Showcases](3-showcases)
-	* [3.1 Private Docker Registry](31-private-docker-registry)
-	* [3.2 Continuous Integration Tool Stack](32-continuous-integration-tool-stack)
+	* [3.1. Private Docker Registry](31-private-docker-registry)
+	* [3.2. Continuous Integration Tool Stack](32-continuous-integration-tool-stack)
 * [4. Best Practices](#3-best-practices)
 * [5. Additional Material](#4-additional-material)
 
@@ -332,7 +332,7 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 
 # 3. Showcases
 
-## Private Docker Registry
+## 3.1. Private Docker Registry
 
 #### Setup with docker-machine / boot2docker
 
@@ -399,7 +399,7 @@ docker rm -f registry && \
 docker volume rm registry-data registry-cert registry-auth
 ```
 
-## Continuous Integration Tool Stack
+## 3.2. Continuous Integration Tool Stack
 
 #### Setup with docker-machine / boot2docker
 
