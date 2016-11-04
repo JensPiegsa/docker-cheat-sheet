@@ -1,16 +1,8 @@
----
-layout: page
-title: Docker Cheat Sheet
-tagline: Find, Copy and Paste, Anywhere.
-description: Docker Cheat Sheet. Find, Copy and Paste, Anywhere.
-author: Jens Piegsa
----
-
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WZJTZ3V8KKARC)
 [![Fork on GitHub](https://img.shields.io/github/forks/badges/shields.svg?style=flat&label=Fork%20on%20GitHub&color=blue)](https://github.com/JensPiegsa/docker-cheat-sheet/edit/master/README.md#fork-destination-box)
 [![Issues](https://img.shields.io/github/issues-raw/badges/shields.svg?style=flat&label=Comments%2FIssues&color=blue)](https://github.com/JensPiegsa/docker-cheat-sheet/issues)
 
-This document is hosted at [docker.jens-piegsa.com](http://docker.jens-piegsa.com).
+This document is hosted at [docker.jens-piegsa.com](http://docker.jens-piegsa.com/).
 
 # Content
 
@@ -34,29 +26,14 @@ This document is hosted at [docker.jens-piegsa.com](http://docker.jens-piegsa.co
 
 # 1.1. Concepts
 
-Union file system (UFS)
-: allows to overlay multiple file systems appearing as a single system whereby equal folders are merged and equally named files hide their previous versions
-
-Image
-: a portable read-only file system layer optionally stacked on a parent image
-
-Dockerfile
-: used to `build` an image and declare the command executed in the container
-
-Registry
-: is the place where to `push` and `pull` from named / tagged images 
-
-Container
-: an instance of an image with a writable file system layer on top, virtual networking, ready to execute a single application 
-
-Volume
-: a directory outside the UFS that can be mounted inside containers for persistent and shared data 
-
-Network
-: acts as a namespace for containers
-
-Service
-: a flexible number of container replicas running on a cluster of multiple hosts
+* **Union file system (UFS)**: allows to overlay multiple file systems appearing as a single system whereby equal folders are merged and equally named files hide their previous versions
+* **Image**: a portable read-only file system layer optionally stacked on a parent image
+* **Dockerfile**: used to `build` an image and declare the command executed in the container
+* **Registry**: is the place where to `push` and `pull` from named / tagged images 
+* **Container**: an instance of an image with a writable file system layer on top, virtual networking, ready to execute a single application 
+* **Volume**: a directory outside the UFS that can be mounted inside containers for persistent and shared data 
+* **Network**: acts as a namespace for containers
+* **Service**: a flexible number of container replicas running on a cluster of multiple hosts
 
 # 1.2. Lifecycle
 
@@ -562,7 +539,3 @@ docker-compose stop && docker-compose rm -fav
 * [Official Docker Documentation](https://docs.docker.com/)
 * [Gupta, A. (2016). *Docker Container Anti Patterns.*](http://blog.arungupta.me/docker-container-anti-patterns/)
 * [StackOverflow Documentation](http://stackoverflow.com/documentation/docker/topics)
-
----
-
-Jens Piegsa ([Twitter](https://twitter.com/jenspiegsa), [GitHub](https://github.com/JensPiegsa))
