@@ -10,21 +10,21 @@ This document is hosted at [docker.jens-piegsa.com](http://docker.jens-piegsa.co
 
 # Content
 
-* [1. Fundamentals](#1-fundamentals)
-	* [1.1. Concepts](#11-concepts)
-	* [1.2. Lifecycle](#12-lifecycle)
-* [2. Recipes](#2-recipes)
-	* [2.1. Docker Engine](#21-docker-engine)
-		* [2.1.1. Building Images](#211-building-images)
-		* [2.1.2. Running Containers](#212-running-containers)
-		* [2.1.3. Using Volumes](#213-using-volumes)
-	* [2.2. Docker Machine](#22-docker-machine)
-	* [2.3. Dockerfile](#23-dockerfile)
-* [3. Showcases](#3-showcases)
-	* [3.1. Private Docker Registry](#31-private-docker-registry)
-	* [3.2. Continuous Integration Tool Stack](#32-continuous-integration-tool-stack)
-* [4. Best Practices](#4-best-practices)
-* [5. Additional Material](#5-additional-material)
+* [1. Fundamentals](#fundamentals)
+	* [1.1. Concepts](#concepts)
+	* [1.2. Lifecycle](#lifecycle)
+* [2. Recipes](#recipes)
+	* [2.1. Docker Engine](#docker-engine)
+		* [2.1.1. Building Images](#building-images)
+		* [2.1.2. Running Containers](#running-containers)
+		* [2.1.3. Using Volumes](#using-volumes)
+	* [2.2. Docker Machine](#docker-machine)
+	* [2.3. Dockerfile](#dockerfile)
+* [3. Showcases](showcases)
+	* [3.1. Private Docker Registry](#private-docker-registry)
+	* [3.2. Continuous Integration Tool Stack](#continuous-integration-tool-stack)
+* [4. Best Practices](#best-practices)
+* [5. Additional Material](#additional-material)
 
 # 1. Fundamentals
 
