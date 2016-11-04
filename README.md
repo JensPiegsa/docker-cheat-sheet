@@ -542,4 +542,6 @@ docker-compose stop && docker-compose rm -fav
 
 ---
 
-{{ page.last_modified_at | date: '%Y:%B:%A:%d:%S:%R' }}
+{{ site.github.project_title }}
+
+{{ build_revision }}
