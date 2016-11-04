@@ -399,6 +399,10 @@ docker rm -f registry && \
 docker volume rm registry-data registry-cert registry-auth
 ```
 
+#### Further Reading
+
+* advanced authentication: [Docker Registry 2 authentication server](https://github.com/cesanta/docker_auth)
+
 ## 3.2. Continuous Integration Tool Stack
 
 #### Setup with docker-machine / boot2docker
@@ -529,6 +533,7 @@ docker-compose stop && docker-compose rm -fav
 * always set the `USER` statement, otherwise the container will run as `root` user by default, which maps to the `root` user of the host machine
 * use `ENTRYPOINT` and `CMD` directives together to make container usage more convenient
 * combine consecutive `RUN` directives with `&&` to reduce the costs of a build and to avoid caching of instructions like `apt-get update`
+* to reduce the size of an image, remove temporary resources in the same `RUN` statement that produces them (otherwise they are still present in an intermediate layer)
 * use `EXPOSE` to document all needed ports
 
 # 5. Additional Material
