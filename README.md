@@ -77,7 +77,7 @@ docker run -it ubuntu:14.04 /bin/bash
 docker exec -it CONTAINER /bin/bash
 ```
 
-#### Start a container with another user
+#### Start a container as another user
 
 ```sh
 docker run -u root IMAGE
