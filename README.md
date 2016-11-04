@@ -1,6 +1,8 @@
-[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WZJTZ3V8KKARC) [![Fork on GitHub](https://img.shields.io/github/forks/badges/shields.svg?style=flat&label=Fork%20on%20GitHub&color=blue)](https://github.com/JensPiegsa/docker-cheat-sheet/edit/master/README.md#fork-destination-box)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WZJTZ3V8KKARC)
+[![Fork on GitHub](https://img.shields.io/github/forks/JensPiegsa/docker-cheat-sheet.svg?style=flat&label=Fork%20on%20GitHub&color=blue)](https://github.com/JensPiegsa/docker-cheat-sheet/edit/master/README.md#fork-destination-box)
+[![Issues](https://img.shields.io/github/issues-raw/JensPiegsa/docker-cheat-sheet.svg?style=flat&label=Comments%2FIssues)](https://github.com/JensPiegsa/docker-cheat-sheet/issues)
 
-This document is hosted at [https://jenspiegsa.github.io/docker-cheat-sheet/](https://jenspiegsa.github.io/docker-cheat-sheet/).
+This document is hosted at [docker.jens-piegsa.com](http://docker.jens-piegsa.com/).
 
 # Content
 
@@ -77,7 +79,7 @@ docker run -it ubuntu:14.04 /bin/bash
 docker exec -it CONTAINER /bin/bash
 ```
 
-#### Start a container with another user
+#### Start a container as another user
 
 ```sh
 docker run -u root IMAGE
@@ -542,3 +544,9 @@ docker-compose stop && docker-compose rm -fav
 * [Official Docker Documentation](https://docs.docker.com/)
 * [Gupta, A. (2016). *Docker Container Anti Patterns.*](http://blog.arungupta.me/docker-container-anti-patterns/)
 * [StackOverflow Documentation](http://stackoverflow.com/documentation/docker/topics)
+
+---
+
+## Contribute
+
+Feel free to fork this project, send me pull requests, and issues through the project's [GitHub page](https://github.com/JensPiegsa/docker-cheat-sheet/).
