@@ -20,7 +20,7 @@ This document is hosted at [docker.jens-piegsa.com](http://docker.jens-piegsa.co
 		* [2.1.3. Using Volumes](#using-volumes)
 	* [2.2. Docker Machine](#docker-machine)
 	* [2.3. Dockerfile](#dockerfile)
-* [3. Showcases](showcases)
+* [3. Showcases](#showcases)
 	* [3.1. Private Docker Registry](#private-docker-registry)
 	* [3.2. Continuous Integration Tool Stack](#continuous-integration-tool-stack)
 * [4. Best Practices](#best-practices)
