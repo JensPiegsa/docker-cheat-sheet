@@ -542,6 +542,6 @@ docker-compose stop && docker-compose rm -fav
 
 ---
 
-{{ site.github.project_title }}
+# 6. Contribute
 
-{{ build_revision }}
+Feel free to fork this project, send me pull requests, and issues through the project's [GitHub page](https://github.com/JensPiegsa/docker-cheat-sheet/).
