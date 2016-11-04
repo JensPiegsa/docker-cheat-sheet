@@ -19,21 +19,11 @@
     </section>
 
     <section class="main-content">
-      <hr>
-
-<p>layout: page
-title: Docker Cheat Sheet
-tagline: Find, Copy and Paste, Anywhere.
-description: Docker Cheat Sheet. Find, Copy and Paste, Anywhere.</p>
-
-<h2>
-<a id="author-jens-piegsa" class="anchor" href="#author-jens-piegsa" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>author: Jens Piegsa</h2>
-
-<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=WZJTZ3V8KKARC"><img src="https://img.shields.io/badge/Donate-PayPal-blue.svg" alt="Donate"></a>
+      <p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=WZJTZ3V8KKARC"><img src="https://img.shields.io/badge/Donate-PayPal-blue.svg" alt="Donate"></a>
 <a href="https://github.com/JensPiegsa/docker-cheat-sheet/edit/master/README.md#fork-destination-box"><img src="https://img.shields.io/github/forks/badges/shields.svg?style=flat&amp;label=Fork%20on%20GitHub&amp;color=blue" alt="Fork on GitHub"></a>
 <a href="https://github.com/JensPiegsa/docker-cheat-sheet/issues"><img src="https://img.shields.io/github/issues-raw/badges/shields.svg?style=flat&amp;label=Comments%2FIssues&amp;color=blue" alt="Issues"></a></p>
 
-<p>This document is hosted at <a href="http://docker.jens-piegsa.com">docker.jens-piegsa.com</a>.</p>
+<p>This document is hosted at <a href="http://docker.jens-piegsa.com/">docker.jens-piegsa.com</a>.</p>
 
 <h1>
 <a id="content" class="anchor" href="#content" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Content</h1>
@@ -82,29 +72,24 @@ description: Docker Cheat Sheet. Find, Copy and Paste, Anywhere.</p>
 <h1>
 <a id="11-concepts" class="anchor" href="#11-concepts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.1. Concepts</h1>
 
-<p>Union file system (UFS)
-: allows to overlay multiple file systems appearing as a single system whereby equal folders are merged and equally named files hide their previous versions</p>
-
-<p>Image
-: a portable read-only file system layer optionally stacked on a parent image</p>
-
-<p>Dockerfile
-: used to <code>build</code> an image and declare the command executed in the container</p>
-
-<p>Registry
-: is the place where to <code>push</code> and <code>pull</code> from named / tagged images </p>
-
-<p>Container
-: an instance of an image with a writable file system layer on top, virtual networking, ready to execute a single application </p>
-
-<p>Volume
-: a directory outside the UFS that can be mounted inside containers for persistent and shared data </p>
-
-<p>Network
-: acts as a namespace for containers</p>
-
-<p>Service
-: a flexible number of container replicas running on a cluster of multiple hosts</p>
+<ul>
+<li>
+<strong>Union file system (UFS)</strong>: allows to overlay multiple file systems appearing as a single system whereby equal folders are merged and equally named files hide their previous versions</li>
+<li>
+<strong>Image</strong>: a portable read-only file system layer optionally stacked on a parent image</li>
+<li>
+<strong>Dockerfile</strong>: used to <code>build</code> an image and declare the command executed in the container</li>
+<li>
+<strong>Registry</strong>: is the place where to <code>push</code> and <code>pull</code> from named / tagged images </li>
+<li>
+<strong>Container</strong>: an instance of an image with a writable file system layer on top, virtual networking, ready to execute a single application </li>
+<li>
+<strong>Volume</strong>: a directory outside the UFS that can be mounted inside containers for persistent and shared data </li>
+<li>
+<strong>Network</strong>: acts as a namespace for containers</li>
+<li>
+<strong>Service</strong>: a flexible number of container replicas running on a cluster of multiple hosts</li>
+</ul>
 
 <h1>
 <a id="12-lifecycle" class="anchor" href="#12-lifecycle" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.2. Lifecycle</h1>
@@ -648,10 +633,6 @@ POSTGRES_PASSWORD=sonar
 <li><a href="http://blog.arungupta.me/docker-container-anti-patterns/">Gupta, A. (2016). <em>Docker Container Anti Patterns.</em></a></li>
 <li><a href="http://stackoverflow.com/documentation/docker/topics">StackOverflow Documentation</a></li>
 </ul>
-
-<hr>
-
-<p>Jens Piegsa (<a href="https://twitter.com/jenspiegsa">Twitter</a>, <a href="https://github.com/JensPiegsa">GitHub</a>)</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/JensPiegsa/docker-cheat-sheet">Docker Cheat Sheet</a> is maintained by <a href="https://github.com/JensPiegsa">JensPiegsa</a>.</span>
