@@ -1,6 +1,6 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WZJTZ3V8KKARC)
 [![Fork on GitHub](https://img.shields.io/github/forks/badges/shields.svg?style=flat&label=Fork%20on%20GitHub&color=blue)](https://github.com/JensPiegsa/docker-cheat-sheet/edit/master/README.md#fork-destination-box)
-[![Issues](https://img.shields.io/github/issues-raw/badges/shields.svg?style=flat&label=Comments%2FIssues&color=blue)](https://github.com/JensPiegsa/docker-cheat-sheet/issues)
+[![Issues](https://img.shields.io/github/issues-raw/badges/shields.svg?style=flat&label=Comments%2FIssues)](https://github.com/JensPiegsa/docker-cheat-sheet/issues)
 
 This document is hosted at [docker.jens-piegsa.com](http://docker.jens-piegsa.com/).
 
@@ -539,3 +539,7 @@ docker-compose stop && docker-compose rm -fav
 * [Official Docker Documentation](https://docs.docker.com/)
 * [Gupta, A. (2016). *Docker Container Anti Patterns.*](http://blog.arungupta.me/docker-container-anti-patterns/)
 * [StackOverflow Documentation](http://stackoverflow.com/documentation/docker/topics)
+
+---
+
+{{ page.last_modified_at | date: '%Y:%B:%A:%d:%S:%R' }}
