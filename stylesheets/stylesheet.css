@@ -226,11 +226,16 @@ a {
   border-top: solid 1px #eff0f1; }
 
 .site-footer-owner {
-  display: block;
-  font-weight: bold; }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: bold;
+}
 
-.site-footer-credits {
-  color: #819198; }
+.site-footer-owner img {
+  border-radius:50%;
+  margin: 0 0.3em;
+}
 
 @media screen and (min-width: 64em) {
   .site-footer {
