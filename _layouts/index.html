@@ -1,44 +1,66 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <title>Docker Cheat Sheet by Jens Piegsa</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-  </head>
-  <body onload="lastModified();">
-    <section class="page-header">
-      <h1 class="project-name">Docker Cheat Sheet</h1>
-      <h2 class="project-tagline">Find, Copy and Paste, Anywhere.</h2>
-      <a href="https://github.com/JensPiegsa/docker-cheat-sheet" class="btn">View on GitHub</a>
-      <a href="https://github.com/JensPiegsa/docker-cheat-sheet/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/JensPiegsa/docker-cheat-sheet/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+<head>
+<meta charset="UTF-8">
+<title>Docker Cheat Sheet by Jens Piegsa</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="stylesheets/normalize.css"	media="screen">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/css?family=Cousine:400,700" rel="stylesheet" type='text/css'>
+<link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+<link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+<script src="javascripts/classie.js"></script>
+</head>
 
-    <section class="main-content">
-    
-      {{content}}
+<body>
 
-      <footer class="site-footer">
-        <div class="site-footer-owner">
-        	<div><a href="https://github.com/JensPiegsa/docker-cheat-sheet">Docker Cheat Sheet</a> is maintained by</div>
-			<div><img src="https://s.gravatar.com/avatar/9f3cfb54c29e543f1ba2a2319d027ad0?s=24" alt="Jens Piegsa" /></div>
+	<header class="page-header">
+		<div class="container clearfix">
+			<h1 class="project-name">Docker Cheat Sheet</h1>
+			<h2 class="project-tagline">Find, Copy and Paste, Anywhere.</h2>
+		</div>
+	</header>
+
+	<main class="main-content" style="min-height: 4000px;">
+
+	{{content}}
+	
+	<footer class="site-footer">
+		<div class="site-footer-owner">
+			<div>This Docker Cheat Sheet is maintained by</div>
+			<div><img src="https://secure.gravatar.com/avatar/9f3cfb54c29e543f1ba2a2319d027ad0.png?s=28" alt="Jens Piegsa" /></div>
 			<div><a href="http://jens-piegsa.com">Jens Piegsa</a>.</div>
-       	</div>
-        <span id="last-modified"></span>
-      </footer>
-
-    </section>
+			<div id="last-modified"></div>
+		</div>
+		
+	</footer>
+	
+	</main>
 
 	<script>
-	function lastModified() {
-		if(document.lastModified) {
-		    document.getElementById('last-modified').innerHTML = "Last modified at " + new Date(document.lastModified).toLocaleString() + ".";
+		function lastModified() {
+			if (document.lastModified) {
+				document.getElementById('last-modified').innerHTML = "&nbsp;Last modified at " + new Date(document.lastModified).toLocaleString() + ".";
+			}
 		}
-	}
+		function stickyHeader() {
+			window.addEventListener('scroll', function(e) {
+				var distanceY = window.pageYOffset || document.documentElement.scrollTop, shrinkOn = 40, header = document.querySelector("header");
+				if (distanceY > shrinkOn) {
+					classie.add(header, "smaller");
+				} else {
+					if (classie.has(header, "smaller")) {
+						classie.remove(header, "smaller");
+					}
+				}
+			});
+		}
+		function init() {
+			lastModified();
+			stickyHeader();
+		}
+
+		window.onload = init();
 	</script>
-  </body>
+</body>
 </html>
