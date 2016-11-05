@@ -554,10 +554,3 @@ docker-compose stop && docker-compose rm -fav
 ## Contribute
 
 Feel free to fork this project, send me pull requests, and issues through the project's [GitHub page](https://github.com/JensPiegsa/docker-cheat-sheet/).
-
-
-
-
-<div style="display: flex; flex-direction: row; align-items: center;">
-<div><img src="//www.gravatar.com/avatar/fdbfb212d2038a490dd698a73c65b0673a187ba0.jpg?s=50" alt="Jens Piegsa" style="border-radius:50%; margin-right:2em;" /></div><div>Jens Piegsa</div>
-</div>
