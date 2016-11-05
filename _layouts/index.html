@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css"	media="screen">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 <link href="https://fonts.googleapis.com/css?family=Cousine:400,700" rel="stylesheet" type='text/css'>
+<link rel="stylesheet" type="text/css" href="stylesheets/tocbot.css" media="screen">
 <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
 <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
 <script src="javascripts/classie.js"></script>
@@ -21,7 +22,9 @@
 		</div>
 	</header>
 
-	<main class="main-content" style="min-height: 4000px;">
+	<nav class="toc js-toc soft-double transition--300 position--absolute is-position-fixed"></nav>
+	
+	<main class="main-content">
 
 	{{content}}
 	
@@ -37,6 +40,7 @@
 	
 	</main>
 
+	<script src="javascripts/tocbot.min.js"></script>
 	<script>
 		function lastModified() {
 			if (document.lastModified) {
@@ -55,9 +59,20 @@
 				}
 			});
 		}
+		function createToc() {
+			tocbot.init({
+				// Where to render the table of contents.
+				tocSelector: '.js-toc',
+				// Where to grab the headings to build the table of contents.
+				contentSelector: '.main-content',
+				// Which headings to grab inside of the contentSelector element.
+				headingSelector: 'h1, h2, h3',
+			});
+		}
 		function init() {
 			lastModified();
 			stickyHeader();
+			createToc();
 		}
 
 		window.onload = init();
