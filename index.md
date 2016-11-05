@@ -6,7 +6,7 @@ layout: index
 [![Fork on GitHub](https://img.shields.io/github/forks/JensPiegsa/docker-cheat-sheet.svg?style=flat&label=Fork%20on%20GitHub&color=blue)](https://github.com/JensPiegsa/docker-cheat-sheet/edit/master/README.md#fork-destination-box)
 [![Issues](https://img.shields.io/github/issues-raw/JensPiegsa/docker-cheat-sheet.svg?style=flat&label=Comments%2FIssues)](https://github.com/JensPiegsa/docker-cheat-sheet/issues)
 
-This document is hosted at [docker.jens-piegsa.com](http://docker.jens-piegsa.com/).
+//[docker](http://docker.jens-piegsa.com/).[jens-piegsa.com](http://jens-piegsa.com/)/
 
 # Content
 
@@ -554,3 +554,10 @@ docker-compose stop && docker-compose rm -fav
 ## Contribute
 
 Feel free to fork this project, send me pull requests, and issues through the project's [GitHub page](https://github.com/JensPiegsa/docker-cheat-sheet/).
+
+
+
+
+<div style="display: flex; flex-direction: row; align-items: strech; border-radius:50%;">
+<div><img alt="Jens Piegsa" src="https://www.gravatar.com/avatar/fdbfb212d2038a490dd698a73c65b0673a187ba0?s=60" style="" /></div><div>Jens Piegsa</div>
+</div>
