@@ -558,6 +558,6 @@ Feel free to fork this project, send me pull requests, and issues through the pr
 
 
 
-<div style="display: flex; flex-direction: row; align-items: strech; border-radius:50%;">
-<div><img alt="Jens Piegsa" src="https://www.gravatar.com/avatar/fdbfb212d2038a490dd698a73c65b0673a187ba0?s=60" style="" /></div><div>Jens Piegsa</div>
+<div style="display: flex; flex-direction: row; align-items: center;">
+<div><img src="//www.gravatar.com/avatar/fdbfb212d2038a490dd698a73c65b0673a187ba0.jpg?s=50" alt="Jens Piegsa" style="border-radius:50%; margin-right:2em;" /></div><div>Jens Piegsa</div>
 </div>
