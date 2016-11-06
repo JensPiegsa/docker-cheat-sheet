@@ -31,66 +31,27 @@
 		<main class="main-content content js-toc-content soft-double">
 	
 			<article>
-			{{content}}
 			
-			<footer class="site-footer">
-				<div class="site-footer-owner">
-					<div>This Docker Cheat Sheet is maintained by</div>
-					<div><img src="https://secure.gravatar.com/avatar/9f3cfb54c29e543f1ba2a2319d027ad0.png?s=28" alt="Jens Piegsa" /></div>
-					<div><a href="http://jens-piegsa.com">Jens Piegsa</a>.</div>
-					<div id="last-modified"></div>
-				</div>
-			</footer>
+				{{content}}
+			
+				<footer class="article-footer">
+					<div class="article-footer-author">
+						<div>This Docker Cheat Sheet is maintained by</div>
+						<div><img src="https://secure.gravatar.com/avatar/9f3cfb54c29e543f1ba2a2319d027ad0.png?s=28" alt="Jens Piegsa" /></div>
+						<div><a href="http://jens-piegsa.com">Jens Piegsa</a>.</div>
+						<div id="last-modified"></div>
+					</div>
+				</footer>
 			</article>
+			
 		</main>
 		
 		<div class="right-margin"></div>
 	</section>
 
-	<script src="javascripts/tocbot.min.js"></script>
-	<script>
-		function lastModified() {
-			if (document.lastModified) {
-				document.getElementById('last-modified').innerHTML = "&nbsp;Last modified at " + new Date(document.lastModified).toLocaleString() + ".";
-			}
-		}
-		function stickyHeader() {
-			window.addEventListener('scroll', function(e) {
-				var distanceY = window.pageYOffset || document.documentElement.scrollTop, shrinkOn = 40, header = document.querySelector("header");
-				if (distanceY > shrinkOn) {
-					classie.add(header, "smaller");
-				} else {
-					if (classie.has(header, "smaller")) {
-						classie.remove(header, "smaller");
-					}
-				}
-			});
-		}
-		function createToc() {
-			tocbot.init({
-				tocSelector: '.js-toc',
-				contentSelector: '.main-content',
-				headingSelector: 'h1, h2, h3',
-				ignoreSelector: '.js-toc-ignore',
-				collapseDepth: 1,
-				smoothScrollOptions: {
-				  easing: 'easeInOutCubic',
-				  offset: 100,
-				  speed: 300,
-				  updateURL: true
-				},
-				headingsOffset: 100,
-				positionFixedSelector: '.js-toc',
-				fixedSidebarOffset: '-1',
-			});
-		}
-		function init() {
-			lastModified();
-			stickyHeader();
-			createToc();
-		}
+	<footer class="page-footer"></footer>
 
-		window.onload = init();
-	</script>
+	<script src="javascripts/tocbot.min.js"></script>
+	<script src="javascripts/single-page.js"></script>
 </body>
 </html>

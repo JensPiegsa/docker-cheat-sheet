@@ -239,20 +239,20 @@ a:hover {
 	flex-direction: column;
 }
 
-footer {
+.article-footer {
     border-top: 1px solid #eff0f1;
-    margin-bottom: 45rem;
-    margin-top: 4rem;
+    margin-bottom: 7rem;
+    margin-top: 7rem;
     padding-top: 2rem;
 }
 
-.site-footer-owner {
+.article-footer-author {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 }
 
-.site-footer-owner img {
+.article-footer-author img {
 	border-radius: 50%;
 	margin: 0 0.3em;
 }
@@ -317,13 +317,11 @@ header.smaller h2 {
 .left-margin {
 	flex-shrink: 0;
 	flex-grow: 0;
-	/* background-color: #ccf; */
 	flex-basis: 17rem;
 }
 .right-margin {
 	flex-shrink: 1;
 	width: 13rem;
-	/* background-color: #fee; */
 }
 
 /* TOC */
@@ -371,4 +369,10 @@ nav > .toc-list {
 article {
   max-width: 54rem;
   margin: 0 auto;
+}
+
+.page-footer {
+	background:linear-gradient(120deg, #155799, #159957);
+	height: 24rem;
+	width:100%;
 }
