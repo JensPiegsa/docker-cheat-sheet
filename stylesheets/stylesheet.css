@@ -330,11 +330,10 @@ a:hover {
 	
 
 
-/************************************ STICKY HEADER *******************************************/
+/* STICKY HEADER */
 
 main {
   background-color: #fff;
-  margin-top: 340px;
   transition: margin 0.3s;
 }
 
@@ -379,4 +378,13 @@ header.smaller h2 {
 	content: "";
 	clear: both;
 	height: 0;
+}
+
+/* TOC */
+
+nav.js-toc {
+    left: 1vw;
+    margin-top: 14.5rem;
+    width: 170px;
+    height: 100%;
 }
