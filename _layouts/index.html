@@ -22,22 +22,24 @@
 		</div>
 	</header>
 
-	<nav class="js-toc"></nav>
-	
-	<main class="main-content">
-
-		{{content}}
+	<div class="max-width--large anchor--middle">
+		<nav class="toc js-toc soft-double transition--300 position--absolute is-position-fixed"></nav>
 		
-		<footer class="site-footer">
-			<div class="site-footer-owner">
-				<div>This Docker Cheat Sheet is maintained by</div>
-				<div><img src="https://secure.gravatar.com/avatar/9f3cfb54c29e543f1ba2a2319d027ad0.png?s=28" alt="Jens Piegsa" /></div>
-				<div><a href="http://jens-piegsa.com">Jens Piegsa</a>.</div>
-				<div id="last-modified"></div>
-			</div>
-		</footer>
+		<main class="main-content content js-toc-content soft-double">
 	
-	</main>
+			{{content}}
+			
+			<footer class="site-footer">
+				<div class="site-footer-owner">
+					<div>This Docker Cheat Sheet is maintained by</div>
+					<div><img src="https://secure.gravatar.com/avatar/9f3cfb54c29e543f1ba2a2319d027ad0.png?s=28" alt="Jens Piegsa" /></div>
+					<div><a href="http://jens-piegsa.com">Jens Piegsa</a>.</div>
+					<div id="last-modified"></div>
+				</div>
+			</footer>
+		
+		</main>
+	</div>
 
 	<script src="javascripts/tocbot.min.js"></script>
 	<script>
