@@ -241,8 +241,8 @@ a:hover {
 
 .article-footer {
     border-top: 1px solid #eff0f1;
-    margin-bottom: 7rem;
-    margin-top: 7rem;
+    margin-bottom: 8rem;
+    margin-top: 10rem;
     padding-top: 2rem;
 }
 
@@ -366,6 +366,9 @@ nav > .toc-list {
 .js-toc a.is-active-link {
     color: #d0a;
 }
+
+/***********************/
+
 article {
   max-width: 54rem;
   margin: 0 auto;
