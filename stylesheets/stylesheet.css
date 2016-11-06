@@ -232,28 +232,11 @@ a:hover {
 	border: 0;
 }
 
-@media screen and (min-width: 64em) {
-	.main-content {
-		padding: 2rem 6rem;
-		margin-top: 12.5rem;
-		font-size: 1.1rem;
-	}
-}
-
-@media screen and (min-width: 42em) and (max-width: 64em) {
-	.main-content {
-		padding: 2rem 4rem;
-		margin: 14rem auto 0 auto;
-		font-size: 1.1rem;
-	}
-}
-
-@media screen and (max-width: 42em) {
-	.main-content {
-		padding: 2rem 1rem;
-		margin: 14rem auto 0 auto;
-		font-size: 1rem;
-	}
+.main-content {
+	margin-top: 12.5rem;
+	font-size: 1.1rem;
+	display: flex;
+	flex-direction: column;
 }
 
 footer {
@@ -283,7 +266,9 @@ footer #last-modified {
 main {
   background-color: #fff;
   transition: margin 0.3s;
-  flex: 1 1 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding-right: .5rem;
 }
 
 header {
@@ -332,18 +317,20 @@ header.smaller h2 {
 .left-margin {
 	flex-shrink: 0;
 	flex-grow: 0;
-	min-width: 13rem;
+	/* background-color: #ccf; */
+	flex-basis: 17rem;
 }
 .right-margin {
 	flex-shrink: 1;
-	flex-grow: 0;
-	max-width: 13rem;
+	width: 13rem;
+	/* background-color: #fee; */
 }
 
 /* TOC */
 
 section {
     display: flex;
+    width: 100%;
 }
 
 nav.js-toc {
@@ -380,4 +367,8 @@ nav > .toc-list {
 }
 .js-toc a.is-active-link {
     color: #d0a;
+}
+article {
+  max-width: 54rem;
+  margin: 0 auto;
 }
