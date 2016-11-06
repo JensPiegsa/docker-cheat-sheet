@@ -31,57 +31,6 @@ a:hover {
 	text-decoration: underline;
 }
 
-/*
-.btn {
-	display: inline-block;
-	margin-bottom: 1rem;
-	color: rgba(255, 255, 255, 0.7);
-	background-color: rgba(255, 255, 255, 0.08);
-	border-color: rgba(255, 255, 255, 0.2);
-	border-style: solid;
-	border-width: 1px;
-	border-radius: 0.3rem;
-	transition: color 0.2s, background-color 0.2s, border-color 0.2s;
-}
-
-.btn+.btn {
-	margin-left: 1rem;
-}
-
-.btn:hover {
-	color: rgba(255, 255, 255, 0.8);
-	text-decoration: none;
-	background-color: rgba(255, 255, 255, 0.2);
-	border-color: rgba(255, 255, 255, 0.3);
-}
-
-@media screen and (min-width: 64em) {
-	.btn {
-		padding: 0.75rem 1rem;
-	}
-}
-
-@media screen and (min-width: 42em) and (max-width: 64em) {
-	.btn {
-		padding: 0.6rem 0.9rem;
-		font-size: 0.9rem;
-	}
-}
-
-@media screen and (max-width: 42em) {
-	.btn {
-		display: block;
-		width: 100%;
-		padding: 0.75rem;
-		font-size: 0.9rem;
-	}
-	.btn+.btn {
-		margin-top: 1rem;
-		margin-left: 0;
-	}
-}
-*/
-
 .page-header {
 	color: #fff;
 	text-align: center;
@@ -382,8 +331,32 @@ header.smaller h2 {
 
 /* TOC */
 
+section {
+    padding-left: 13rem;
+}
+
 nav.js-toc {
-/*     left: 1vw; */
-/*     margin-top: 14.5rem; */
-/*     width: 170px; */
+    left: 0;
+    margin: 0 auto;
+    padding-left: 0;
+    padding-right: 58rem;
+    right: 0;
+    top: 14rem;
+    width: 73rem;
+}
+
+nav > .toc-list {
+    background-color: #f3f6fa;
+    padding: 0.7rem;
+}
+
+.toc-list-item {
+    list-style: outside none none;
+}
+
+.is-active-link::before {
+    background-color: transparent;
+}
+.toc-link::before {
+    background-color: transparent;
 }

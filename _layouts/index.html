@@ -22,12 +22,15 @@
 		</div>
 	</header>
 
-	<div class="max-width--large anchor--middle">
-		<nav class="toc js-toc soft-double transition--300 position--absolute is-position-fixed"></nav>
+	<section class="max-width--large anchor--middle">
+	
+		<nav class="js-toc is-position-fixed"></nav>
 		
 		<main class="main-content content js-toc-content soft-double">
 	
+			<article>
 			{{content}}
+			</article>
 			
 			<footer class="site-footer">
 				<div class="site-footer-owner">
@@ -37,9 +40,8 @@
 					<div id="last-modified"></div>
 				</div>
 			</footer>
-		
 		</main>
-	</div>
+	</section>
 
 	<script src="javascripts/tocbot.min.js"></script>
 	<script>
@@ -64,13 +66,23 @@
 			tocbot.init({
 				tocSelector: '.js-toc',
 				contentSelector: '.main-content',
-				headingSelector: 'h1, h2, h3'
+				headingSelector: 'h1, h2, h3',
+				collapseDepth: 1,
+				smoothScrollOptions: {
+				  easing: 'easeInOutCubic',
+				  offset: 100,
+				  speed: 300,
+				  updateURL: true
+				},
+				headingsOffset: 100,
+				positionFixedSelector: '.js-toc',
+				fixedSidebarOffset: '-1',
 			});
 		}
 		function init() {
 			lastModified();
 			stickyHeader();
-// 			createToc();
+			createToc();
 		}
 
 		window.onload = init();
