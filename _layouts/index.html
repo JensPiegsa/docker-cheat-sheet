@@ -26,17 +26,16 @@
 	
 	<main class="main-content">
 
-	{{content}}
-	
-	<footer class="site-footer">
-		<div class="site-footer-owner">
-			<div>This Docker Cheat Sheet is maintained by</div>
-			<div><img src="https://secure.gravatar.com/avatar/9f3cfb54c29e543f1ba2a2319d027ad0.png?s=28" alt="Jens Piegsa" /></div>
-			<div><a href="http://jens-piegsa.com">Jens Piegsa</a>.</div>
-			<div id="last-modified"></div>
-		</div>
+		{{content}}
 		
-	</footer>
+		<footer class="site-footer">
+			<div class="site-footer-owner">
+				<div>This Docker Cheat Sheet is maintained by</div>
+				<div><img src="https://secure.gravatar.com/avatar/9f3cfb54c29e543f1ba2a2319d027ad0.png?s=28" alt="Jens Piegsa" /></div>
+				<div><a href="http://jens-piegsa.com">Jens Piegsa</a>.</div>
+				<div id="last-modified"></div>
+			</div>
+		</footer>
 	
 	</main>
 
@@ -63,7 +62,7 @@
 			tocbot.init({
 				tocSelector: '.js-toc',
 				contentSelector: '.main-content',
-				headingSelector: 'h1, h2, h3',
+				headingSelector: 'h1, h2, h3'
 			});
 		}
 		function init() {
