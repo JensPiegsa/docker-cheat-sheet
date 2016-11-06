@@ -28,7 +28,7 @@ layout: index
 
 # 1. Fundamentals
 
-# 1.1. Concepts
+## 1.1. Concepts
 
 * **Union file system (UFS)**: allows to overlay multiple file systems appearing as a single system whereby equal folders are merged and equally named files hide their previous versions
 * **Image**: a portable read-only file system layer optionally stacked on a parent image
@@ -39,7 +39,7 @@ layout: index
 * **Network**: acts as a namespace for containers
 * **Service**: a flexible number of container replicas running on a cluster of multiple hosts
 
-# 1.2. Lifecycle
+## 1.2. Lifecycle
 
 *A typical `docker` workflow:*
 
@@ -552,5 +552,6 @@ docker-compose stop && docker-compose rm -fav
 ---
 
 ## Contribute
+{: .js-toc-ignore }
 
 Feel free to fork this project, send me pull requests, and issues through the project's [GitHub page](https://github.com/JensPiegsa/docker-cheat-sheet/).
