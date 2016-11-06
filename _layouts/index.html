@@ -22,7 +22,7 @@
 		</div>
 	</header>
 
-	<nav class="toc js-toc soft-double transition--300 position--absolute is-position-fixed"></nav>
+	<nav class="js-toc"></nav>
 	
 	<main class="main-content">
 
@@ -64,17 +64,8 @@
 				tocSelector: '.js-toc',
 				contentSelector: '.main-content',
 				headingSelector: 'h1, h2, h3',
-				collapseDepth: 0,
-				smoothScrollOptions: {
-				  easing: 'easeInOutCubic',
-				  offset: 0,
-				  speed: 300, // animation duration.
-				  updateURL: true
-				},
 				headingsOffset: 150,
-				throttleTimeout: 50,
-				fixedSidebarOffset: 150,
-				includeHtml: false
+				fixedSidebarOffset: '150'
 			});
 		}
 		function init() {
