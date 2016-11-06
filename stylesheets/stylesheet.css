@@ -345,6 +345,7 @@ nav.js-toc {
     width: 73rem;
     transition: top 0.3s ease 0s;
     font-size: 14px;
+    z-index: -1;
 }
 
 header.smaller + section > nav {

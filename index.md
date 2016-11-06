@@ -225,7 +225,7 @@ docker run --rm --volumes-from oc-data2 -v $pwd:/tmp piegsaj/openclinica \
 docker inspect container_id | grep IPAddress | cut -d '"' -f 4
 ```
 
-## 2.1.3. Using Volumes
+### 2.1.3. Using Volumes
 
 #### Declare a volume via Dockerfile
 
