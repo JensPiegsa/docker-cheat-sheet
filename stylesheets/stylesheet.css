@@ -234,9 +234,8 @@ a:hover {
 
 @media screen and (min-width: 64em) {
 	.main-content {
-		max-width: 64rem;
 		padding: 2rem 6rem;
-		margin: 12.5rem auto 0 auto;
+		margin-top: 12.5rem;
 		font-size: 1.1rem;
 	}
 }
@@ -284,6 +283,7 @@ footer #last-modified {
 main {
   background-color: #fff;
   transition: margin 0.3s;
+  flex: 1 1 0;
 }
 
 header {
@@ -329,23 +329,30 @@ header.smaller h2 {
 	height: 0;
 }
 
+.left-margin {
+	flex-shrink: 0;
+	flex-grow: 0;
+	min-width: 13rem;
+}
+.right-margin {
+	flex-shrink: 1;
+	flex-grow: 0;
+	max-width: 13rem;
+}
+
 /* TOC */
 
 section {
-    padding-left: 13rem;
+    display: flex;
 }
 
 nav.js-toc {
-    left: 0;
-    margin: 0 auto;
-    padding-left: 0;
-    padding-right: 58rem;
+    left: 1.7rem;
     right: 0;
     top: 14rem;
-    width: 73rem;
+    width: 14rem;
     transition: top 0.3s ease 0s;
     font-size: 14px;
-    z-index: -1;
 }
 
 header.smaller + section > nav {
