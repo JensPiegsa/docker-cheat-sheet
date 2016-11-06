@@ -259,7 +259,7 @@ a:hover {
 
 footer {
     border-top: 1px solid #eff0f1;
-    margin-bottom: 25rem;
+    margin-bottom: 45rem;
     margin-top: 4rem;
     padding-top: 2rem;
 }
@@ -343,6 +343,12 @@ nav.js-toc {
     right: 0;
     top: 14rem;
     width: 73rem;
+    transition: top 0.3s ease 0s;
+    font-size: 14px;
+}
+
+header.smaller + section > nav {
+    top: 6.5rem;
 }
 
 nav > .toc-list {
@@ -359,4 +365,11 @@ nav > .toc-list {
 }
 .toc-link::before {
     background-color: transparent;
+}
+.is-active-link {
+    color: #4df;
+    font-weight: normal;
+}
+.js-toc a.is-active-link {
+    color: #d0a;
 }
