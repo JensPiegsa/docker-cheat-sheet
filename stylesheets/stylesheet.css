@@ -337,12 +337,24 @@ header.smaller h2 {
 .note {
   border-left: .3rem solid #ed8;
   background-color: #fffccd;
-  padding: .4rem .8rem;
+  padding: .4rem .4rem .4rem 2rem;
   color: #985;
+  position: relative;
+}
+
+.note:before {
+  content: '\f0a4';
+  font-family: FontAwesome;
+  position: absolute;
+  left: .6rem;
 }
 
 ul.note {
     padding-left: 2rem;
+}
+
+.note code {
+  background-color: #e9e4ca;
 }
 
 /* TOC */

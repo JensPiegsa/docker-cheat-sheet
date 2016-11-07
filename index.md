@@ -136,7 +136,7 @@ docker rm $(docker ps -qa -f status=exited)
 ```
 
 {: .note}
-note: the filter flag `-f status=exited` may be omitted here since running containers can not be removed
+the filter flag `-f status=exited` may be omitted here since running containers can not be removed
 
 #### List all images
 
@@ -245,7 +245,7 @@ VOLUME /data
 ```
 
 {: .note}
-note: after the `VOLUME` directive, its content can not be changed within the Dockerfile
+after the `VOLUME` directive, its content can not be changed within the Dockerfile
 
 #### Create a volume at runtime
 
