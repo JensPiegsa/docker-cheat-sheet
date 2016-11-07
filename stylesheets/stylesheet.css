@@ -167,6 +167,16 @@ a:hover {
 	border: 0;
 }
 
+.highlight .k  { color: #1836AA; }
+.highlight .nb { color: #0086B3; }
+.highlight .o  { color: #A749A2; }
+.highlight .c  { color: #969896; }
+.highlight .s  { color: #63A35C; }
+.highlight .se { color: #333333; }
+.highlight .s1 { color: #1836DA; }
+.highlight .s2 { color: #1836DA; }
+.highlight .nv { color: #0086B3; }
+
 .main-content pre code:before, .main-content pre code:after,
 	.main-content pre tt:before, .main-content pre tt:after {
 	content: normal;
@@ -322,6 +332,13 @@ header.smaller h2 {
 .right-margin {
 	flex-shrink: 1;
 	width: 13rem;
+}
+
+.note {
+  border-left: .3rem solid #ed8;
+  background-color: #fffccd;
+  padding: .4rem .8rem;
+  color: #985;
 }
 
 /* TOC */

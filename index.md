@@ -1,5 +1,6 @@
 ---
-layout: index
+layout: "index"
+author: "Jens Piegsa"
 ---
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WZJTZ3V8KKARC)
@@ -132,6 +133,7 @@ docker ps -a -f status=exited | grep -v '\-data *$'| awk '{if(NR>1) print $1}' |
 docker rm $(docker ps -qa -f status=exited)
 ```
 
+{: .note}
 * *note: the filter flag `-f status=exited` may be omitted here since running containers can not be removed*
 
 #### List all images
@@ -240,6 +242,7 @@ RUN mkdir /data && echo "some content" > /data/file && chown -R daemon:daemon /d
 VOLUME /data
 ```
 
+{: .note}
 * *note: after the `VOLUME` directive, its content can not be changed within the Dockerfile*
 
 #### Create a volume at runtime
