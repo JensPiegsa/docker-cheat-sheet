@@ -542,6 +542,7 @@ docker-compose stop && docker-compose rm -fav
 * coalesce consecutive `RUN` directives with `&&` to reduce the costs of a build and to avoid caching of instructions like `apt-get update`
 * to reduce the size of an image, remove temporary resources in the same `RUN` statement that produces them (otherwise they are still present in an intermediate layer)
 * use `EXPOSE` to document all needed ports
+* introduce an additional build Dockerfile for your app, if you have a large set of compile-time dependencies ([build container pattern](http://blog.terranillius.com/post/docker_builder_pattern/)) 
 
 # 5. Additional Material
 
