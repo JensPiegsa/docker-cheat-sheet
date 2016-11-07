@@ -2,3 +2,6 @@ markdown: kramdown
 kramdown:
    input: GFM
    auto_ids: true
+   hard_wrap: false
+   coderay_line_numbers: inline
+highlighter: rouge
