@@ -111,7 +111,7 @@ a:hover {
 	font-family: Cousine, "Liberation Mono", Menlo, Courier, monospace;
 	font-size: 0.9rem;
 	color: #383e41;
-	background-color: #f3f6fa;
+	background-color: #edf0f4;
 	border-radius: 0.3rem;
 }
 
@@ -122,7 +122,7 @@ a:hover {
 	font: 1rem Cousine, "Liberation Mono", Menlo, Courier, monospace;
 	color: #567482;
 	word-wrap: normal;
-	background-color: #f3f6fa;
+	background-color: #edf0f4;
 	border: solid 1px #dce6f0;
 	border-radius: 0.3rem;
 }
@@ -244,10 +244,15 @@ a:hover {
 
 .main-content {
 	margin-top: 14rem;
-	font-size: 1.1rem;
 	display: flex;
 	flex-direction: column;
 }
+
+h1 { font-size: 2.2rem }
+h2 { font-size: 1.8rem }
+h3 { font-size: 1.5rem }
+h4 { font-size: 1.2rem }
+h5 { font-size: 1.1rem }
 
 .article-footer {
     border-top: 1px solid #eff0f1;
@@ -378,7 +383,7 @@ header.smaller + section > nav {
 }
 
 nav > .toc-list {
-    background-color: #f3f6fa;
+    background-color: #edf0f4;
     padding: 0.7rem;
 }
 
