@@ -69,6 +69,12 @@ layout: index
 * `docker build` shows the IDs of all temporary containers and intermediate images
 * use `docker run -it IMAGE_ID` with the ID of the image resulting from the last successful build step and try the next command manually
 
+#### List all local tags for the same image
+
+``` sh
+docker images --no-trunc | grep $(docker inspect -f {{.Id}} IMAGE:TAG)
+```
+
 ### 2.1.2. Running Containers
 
 #### Start container and run command inside
