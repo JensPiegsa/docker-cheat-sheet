@@ -1,6 +1,8 @@
 ---
 layout: "index"
 author: "Jens Piegsa"
+title: "Docker Cheat Sheet"
+summary: "Docker Cheat Sheet. Find, Copy and Paste, Anywhere."
 ---
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WZJTZ3V8KKARC)
@@ -134,7 +136,7 @@ docker rm $(docker ps -qa -f status=exited)
 ```
 
 {: .note}
-* *note: the filter flag `-f status=exited` may be omitted here since running containers can not be removed*
+* note: the filter flag `-f status=exited` may be omitted here since running containers can not be removed
 
 #### List all images
 
@@ -243,7 +245,7 @@ VOLUME /data
 ```
 
 {: .note}
-* *note: after the `VOLUME` directive, its content can not be changed within the Dockerfile*
+* note: after the `VOLUME` directive, its content can not be changed within the Dockerfile
 
 #### Create a volume at runtime
 
