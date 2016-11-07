@@ -428,8 +428,8 @@ docker volume rm registry-data registry-cert registry-auth
 
 * create a file named `docker-compose.yml` with the following content:
 
-{% highlight yaml %}
-version: '2'
+``` yaml
+version: "2"
 
 services:
 
@@ -497,7 +497,7 @@ volumes:
   sonarqube_bundled-plugins:
   postgresql:
   postgresql_data:
-{% endhighlight %}
+```
 
 * create a second file named `.env` that defines a timezone:
 
