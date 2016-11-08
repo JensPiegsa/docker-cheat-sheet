@@ -6,7 +6,7 @@ summary: "Docker Cheat Sheet. Find, Copy and Paste, Anywhere."
 ---
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WZJTZ3V8KKARC)
-[![Fork on GitHub](https://img.shields.io/github/forks/JensPiegsa/docker-cheat-sheet.svg?style=flat&label=Fork%20on%20GitHub&color=blue)](https://github.com/JensPiegsa/docker-cheat-sheet/edit/master/README.md#fork-destination-box)
+[![Fork on GitHub](https://img.shields.io/github/forks/JensPiegsa/docker-cheat-sheet.svg?style=flat&label=Fork%20on%20GitHub&color=blue)](https://github.com/JensPiegsa/docker-cheat-sheet/#fork-destination-box)
 [![Issues](https://img.shields.io/github/issues-raw/JensPiegsa/docker-cheat-sheet.svg?style=flat&label=Comments%2FIssues)](https://github.com/JensPiegsa/docker-cheat-sheet/issues)
 
 //[docker](http://docker.jens-piegsa.com/).[jens-piegsa.com](http://jens-piegsa.com/)/
