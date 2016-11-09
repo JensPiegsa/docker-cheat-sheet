@@ -419,6 +419,7 @@ docker volume rm registry-data registry-cert registry-auth
 #### Further Reading
 
 * advanced authentication: [Docker Registry 2 authentication server](https://github.com/cesanta/docker_auth)
+* developer notes about [deleting images from the registry](https://github.com/docker/distribution/blob/master/ROADMAP.md#deletes)
 
 ## 3.2. Continuous Integration Tool Stack
 
