@@ -391,10 +391,10 @@ nav > .toc-list {
     list-style: outside none none;
 }
 
-.is-active-link::before {
+.is-active-link:before {
     background-color: transparent;
 }
-.toc-link::before {
+.toc-link:before {
     background-color: transparent;
 }
 .is-active-link {
@@ -405,7 +405,7 @@ nav > .toc-list {
     color: #d0a;
 }
 
-.toc-list.is-collapsible::before {
+.toc-list.is-collapsible:before {
     color: #aaa;
     content: "\f107";
     font-family: FontAwesome;
@@ -413,9 +413,14 @@ nav > .toc-list {
     margin-top: -1.3rem;
     position: absolute;
 }
-.toc-list.is-collapsed::before {
+.toc-list.is-collapsed:before {
     content: "\f105";
     margin-left: -1.3rem;
+}
+
+
+.is-collapsed .is-collapsible:before {
+    content: " ";
 }
 
 /***********************/
