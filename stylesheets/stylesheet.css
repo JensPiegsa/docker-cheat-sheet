@@ -384,7 +384,7 @@ header.smaller + section > nav {
 
 nav > .toc-list {
     background-color: #edf0f4;
-    padding: 0.7rem;
+    padding: 0.7rem 0.7rem 0.7rem 1.4rem;
 }
 
 .toc-list-item {
@@ -403,6 +403,19 @@ nav > .toc-list {
 }
 .js-toc a.is-active-link {
     color: #d0a;
+}
+
+.toc-list.is-collapsible::before {
+    color: #aaa;
+    content: "\f107";
+    font-family: FontAwesome;
+    margin-left: -1.4rem;
+    margin-top: -1.3rem;
+    position: absolute;
+}
+.toc-list.is-collapsed::before {
+    content: "\f105";
+    margin-left: -1.3rem;
 }
 
 /***********************/
