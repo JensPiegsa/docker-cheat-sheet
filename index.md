@@ -351,7 +351,7 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 
 ## 3.1. Private Docker Registry
 
-#### Setup with docker-machine / boot2docker
+#### Setup with boot2docker or Linux native
 
 ``` sh
 printf "\nPulling registry image ...\n" && \
@@ -403,6 +403,8 @@ docker run --name registry -h registry -d \
 registry
 ```
 
+* this script is also available at [http://docker.jens-piegsa.com/examples/setup-registry.sh]
+
 #### Usage example
 
 ``` sh
@@ -416,7 +418,7 @@ docker pull localhost:5000/alpine:private && \
 docker logout localhost:5000 && \
 docker images | grep alpine && \
 printf "Deleting image from registry ...\n" && \
-curl -X DELETE -u reg_user:reg_password \
+curl -X DELETE -u reg_user:reg_password --insecure \
 https://localhost:5000/v2/alpine/manifests/$(docker images --digests | grep localhost:5000/alpine | awk '{print $3}')
 ```
 
