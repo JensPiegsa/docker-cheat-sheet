@@ -403,7 +403,7 @@ docker run --name registry -h registry -d \
 registry
 ```
 
-* this script is also available at [http://docker.jens-piegsa.com/examples/setup-registry.sh]
+* this script is also available at <http://docker.jens-piegsa.com/examples/setup-registry.sh>
 
 #### Usage example
 
