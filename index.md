@@ -354,33 +354,44 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 #### Setup with docker-machine / boot2docker
 
 ``` sh
-docker pull registry:2.5.1 ; \
+printf "\nPulling registry image ...\n" && \
+docker pull registry ; \
 
-# Prepare registry-cert volume
+printf "\nPreparing registry-cert volume ...\n" && \
 docker volume create --name=registry-cert && \
-sudo mkdir -p /var/lib/boot2docker/certs/ && cd /var/lib/boot2docker/ && \
-sudo openssl genrsa -out registry.key 4096 && \
-sudo openssl req -new -nodes -sha256 -subj '/CN=localhost' -key registry.key -out registry.csr && \
-sudo openssl x509 -req -days 3650 -signkey registry.key -in registry.csr -out certs/registry.pem && \
-docker run --rm -it -v /var/lib/boot2docker/:/b2d -v registry-cert:/certs --entrypoint sh registry \
- -c 'cp /b2d/registry.key /certs/ && cp /b2d/certs/registry.pem /certs' && \
+cd /tmp && \
+openssl genrsa -out registry.key 4096 && \
+openssl req -new -nodes -sha256 -subj '/CN=localhost' -key /tmp/registry.key -out /tmp/registry.csr && \
+openssl x509 -req -days 3650 -signkey /tmp/registry.key -in /tmp/registry.csr -out /tmp/registry.pem && \
+docker run --rm -it -v /tmp:/from -v registry-cert:/to --entrypoint sh registry \
+ -c 'cp /from/registry.key /to && cp /from/registry.pem /to' && \
 
-# Prepare registry-auth volume (please change 'reg_user' and 'reg_password')
+printf "\nLetting docker client trust certificate ...\n" && \
+if [ -d /var/lib/boot2docker ] ;
+then
+    sudo mkdir -p /var/lib/boot2docker/certs && \
+    sudo cp /tmp/registry.pem /var/lib/boot2docker/certs
+else
+    sudo mkdir -p /etc/docker/certs.d/localhost && \
+    sudo cp /tmp/registry.pem /etc/docker/certs.d/localhost
+fi && \
+
+printf "\nPreparing registry-auth volume (please change 'reg_user' and 'reg_password') ...\n" && \
 docker volume create --name=registry-auth && \
 docker run --rm --entrypoint /bin/sh -v registry-auth:/auth registry \
  -c 'htpasswd -Bbn reg_user reg_password > /auth/htpasswd' && \
 
-# Prepare registry-data volume
+printf "\nPreparing registry-data volume ...\n" && \
 docker volume create --name=registry-data && \
 
-# Stop and remove existing container
+printf "\nRemoving existing container ...\n" && \
 { docker stop registry ; docker rm registry ; } >/dev/null 2>&1 ; \
 
-# Create container
-docker run --name registry -h registry -d -l type=app "$ADD_HOST" \
+printf "\nRunning registry container ...\n" && \
+docker run --name registry -h registry -d \
 -v registry-data:/var/lib/registry \
--v registry-auth:/auth \
--v registry-cert:/certs \
+-v registry-auth:/auth:ro \
+-v registry-cert:/certs:ro \
 --restart=always \
 -p 5000:5000 \
 -e REGISTRY_HTTP_TLS_KEY=/certs/registry.key \
@@ -404,7 +415,7 @@ docker rmi -f localhost:5000/alpine:private && \
 docker pull localhost:5000/alpine:private && \
 docker logout localhost:5000 && \
 docker images | grep alpine && \
-echo "Deleting image from registry..." && \
+printf "Deleting image from registry ...\n" && \
 curl -X DELETE -u reg_user:reg_password \
 https://localhost:5000/v2/alpine/manifests/$(docker images --digests | grep localhost:5000/alpine | awk '{print $3}')
 ```
