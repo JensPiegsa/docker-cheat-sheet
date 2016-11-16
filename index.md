@@ -351,7 +351,7 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 
 ## 3.1. Private Docker Registry
 
-#### Setup with boot2docker or Linux native
+#### Setup with boot2docker or natively on Linux
 
 ``` sh
 printf "\nPulling registry image ...\n" && \
