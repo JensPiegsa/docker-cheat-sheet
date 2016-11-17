@@ -384,9 +384,6 @@ docker run --rm --entrypoint /bin/sh -v registry-auth:/auth registry \
 printf "\nPreparing registry-data volume ...\n" && \
 docker volume create --name=registry-data && \
 
-printf "\nRemoving existing container ...\n" && \
-{ docker stop registry ; docker rm registry ; } >/dev/null 2>&1 ; \
-
 printf "\nRunning registry container ...\n" && \
 docker run --name registry -h registry -d \
 -v registry-data:/var/lib/registry \
