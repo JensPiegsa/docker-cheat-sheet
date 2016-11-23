@@ -162,17 +162,18 @@ docker history --no-trunc=true $(docker inspect -f '{{.Image}}' CONTAINER)
 docker diff CONTAINER
 ```
 
-#### Backup volume to host directory
+#### Backup directory content from container to host directory
 
 ```sh
-docker run -rm --volumes-from SOURCE_CONTAINER -v $(pwd):/backup busybox \
- tar cvf /backup/backup.tar /data
+docker run --rm --volumes-from SOURCE_CONTAINER:ro -v $(pwd):/backup alpine \
+ tar cvf /backup/backup_$(date +%Y-%m-%d_%H-%M).tar /data
 ```
 
-#### Restore volume from host directory
+#### Restore directory content to container from host directory
 
 ```sh
-docker run -rm --volumes-from TARGET_CONTAINER -v $(pwd):/backup busybox tar xvf /backup/backup.tar
+docker run --rm --volumes-from TARGET_CONTAINER:ro -v $(pwd):/backup alpine \
+ tar xvf /backup/backup.tar
 ```
 
 #### Show volumes
@@ -247,13 +248,13 @@ VOLUME /data
 {: .note}
 after the `VOLUME` directive, its content can not be changed within the Dockerfile
 
-#### Create a volume at runtime
+#### Create an anonymous volume at runtime
 
 ```sh
 docker run -it -v /data debian /bin/bash
 ```
 
-#### Create a volume at runtime bound to a host directory
+#### Create a volume at runtime that is bound to a host directory
 
 ```sh
 docker run --rm -v /tmp:/data debian ls -RAlph /data
@@ -283,19 +284,37 @@ rm -f test.cnf && \
 docker run --rm -it -v conf:/data alpine cat /data/test.cnf
 ```
 
-#### Copy content of existing named volume to a new named volume
+#### Copy content of existing volume to a new named volume
 
 ```sh
-docker volume create --name vol_b
-docker run --rm -v vol_a:/source/folder -v vol_b:/target/folder -it \
- rawmind/alpine-base:0.3.4 cp -r /source/folder /target
+docker volume create --name VOL_B
 ```
 
-#### Remove unused images
+* than:
+
+```sh
+docker run --rm -v VOL_A:/source/folder:ro -v VOL_B:/target/folder \
+ alpine cp -r /source/folder /target
+```
+
+or without the need for an intermediate directory (`cp` implementations differ):
+
+```sh
+ docker run --rm -v VOL_A:/source:ro -v VOL_B:/target debian cp -TR /source /target
+```
+
+#### List all orphaned volumes
+
+$ docker volume ls -qf dangling=true
+
+#### Remove all orphaned volumes 
 
 ```sh
 docker volume rm $(docker volume ls -qf dangling=true)
 ```
+
+{: .note}
+Also removes *named volumes* that are currently not mounted by any container!
 
 ## 2.2. Docker Machine
 
