@@ -316,7 +316,7 @@ docker volume rm $(docker volume ls -qf dangling=true)
 ```
 
 {: .note}
-Also removes *named volumes* that are currently not mounted by any container!
+Caution, this also removes *named volumes* that are currently not mounted by any container!
 
 ## 2.2. Docker Machine
 
