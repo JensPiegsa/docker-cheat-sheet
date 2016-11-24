@@ -305,7 +305,9 @@ or without the need for an intermediate directory (`cp` implementations differ):
 
 #### List all orphaned volumes
 
-$ docker volume ls -qf dangling=true
+```sh
+docker volume ls -qf dangling=true
+```
 
 #### Remove all orphaned volumes 
 
