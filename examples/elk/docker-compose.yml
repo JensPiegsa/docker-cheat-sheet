@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+  app:
+    image: piegsaj/fortune
+
+  logspout:
+    image: amouat/logspout-logstash
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    links:
+      - logstash
+    command: logstash://logstash:5000
+
+  logstash:
+    image: logstash
+    volumes:
+      - ./logstash.conf:/etc/logstash.conf
+    restart: unless-stopped
+    environment:
+      LOGSPOUT: ignore
+    links:
+      - elasticsearch
+    command: -f /etc/logstash.conf
+
+  elasticsearch:
+    image: elasticsearch:2.4
+    environment:
+      LOGSPOUT: ignore
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+    restart: unless-stopped
+
+  kibana:
+    image: kibana:4
+    environment:
+      LOGSPOUT: ignore
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    links:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+    restart: unless-stopped
+
+volumes:
+  elastic_data:
