@@ -3,6 +3,8 @@ version: '2'
 services:
   app:
     image: piegsaj/fortune
+    command: -w
+
 
   logspout:
     image: amouat/logspout-logstash
