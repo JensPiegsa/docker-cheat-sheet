@@ -564,7 +564,7 @@ docker-compose up -d
 * to remove the tool stack (incl. data), use:
 
 ```
-docker-compose stop && docker-compose rm -fav
+docker-compose down -v
 ```
 
 # 4. Best Practices
