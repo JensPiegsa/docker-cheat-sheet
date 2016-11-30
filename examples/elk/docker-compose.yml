@@ -3,17 +3,17 @@ version: '2'
 services:
   # demo application
   app:
-    image: piegsaj/fortune
+    image: piegsaj/fortune:latest
     command: -w
 
   web:
-    image: nginx
+    image: nginx:alpine
     ports:
       - 8921:80
 
   # in a multi-host setup you need one instance per host
   logspout:
-    image: piegsaj/logspout-logstash
+    image: piegsaj/logspout-logstash:latest
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock
     restart: unless-stopped
@@ -24,7 +24,7 @@ services:
     command: logstash://logstash:5000
 
   logstash:
-    image: logstash
+    image: logstash:5.0.1-1
     volumes:
       - ./logstash.conf:/etc/logstash.conf
     restart: unless-stopped
