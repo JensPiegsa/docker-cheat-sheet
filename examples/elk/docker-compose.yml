@@ -1,18 +1,24 @@
 version: '2'
 
 services:
+  # demo application
   app:
     image: piegsaj/fortune
     command: -w
 
+  web:
+    image: nginx
+    ports:
+      - 8921:80
 
+  # in a multi-host setup you need one instance per host
   logspout:
-    image: amouat/logspout-logstash
+    image: piegsaj/logspout-logstash
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock
     restart: unless-stopped
     ports:
-      - "8000:80"
+      - 8000:80
     links:
       - logstash
     command: logstash://logstash:5000
@@ -28,8 +34,9 @@ services:
       - elasticsearch
     command: -f /etc/logstash.conf
 
+  # requires echo "vm.max_map_count=262144" | sudo tee -a /etc/sysctl.conf && sudo sysctl -w vm.max_map_count=262144
   elasticsearch:
-    image: elasticsearch:2.4
+    image: elasticsearch:5.0.1
     environment:
       LOGSPOUT: ignore
     volumes:
@@ -37,14 +44,13 @@ services:
     restart: unless-stopped
 
   kibana:
-    image: kibana:4
+    image: kibana:5.0.1
     environment:
       LOGSPOUT: ignore
-      ELASTICSEARCH_URL: http://elasticsearch:9200
     links:
       - elasticsearch
     ports:
-      - "5601:5601"
+      - 5601:5601
     restart: unless-stopped
 
 volumes:
