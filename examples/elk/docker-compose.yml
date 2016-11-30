@@ -17,11 +17,11 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock
     restart: unless-stopped
-    ports:
-      - 8000:80
     links:
       - logstash
     command: logstash://logstash:5000
+#    ports:
+#      - 8000:80
 
   logstash:
     image: logstash:5.0.1-1
