@@ -1,15 +1,18 @@
 version: '2'
 
 services:
-  # demo application
-  app:
-    image: piegsaj/fortune:latest
-    command: -w
-
-  web:
+  # demo applications
+  app1:
     image: nginx:alpine
     ports:
       - 8921:80
+
+  app2:
+    image: piegsaj/fortune:latest
+
+  app3:
+    image: piegsaj/fortune:latest
+    command: -w
 
   # in a multi-host setup you need one instance per host
   logspout:
@@ -20,8 +23,8 @@ services:
     links:
       - logstash
     command: logstash://logstash:5000
-#    ports:
-#      - 8000:80
+    #ports:
+    #  - 8000:80
 
   logstash:
     image: logstash:5.0.1-1
