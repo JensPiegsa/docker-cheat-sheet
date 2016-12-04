@@ -596,6 +596,8 @@ docker-compose down -v
 * [StackOverflow Documentation](http://stackoverflow.com/documentation/docker/topics)
 * [Awesome Docker](https://veggiemonk.github.io/awesome-docker/)
 * [Docker Labs](https://github.com/docker/labs)
+* [Docker Introduction](http://view.dckr.info/DockerIntro.pdf)
+
 ---
 
 ## Contribute
