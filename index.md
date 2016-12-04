@@ -594,7 +594,8 @@ docker-compose down -v
 * [Official Docker Documentation](https://docs.docker.com/)
 * [Gupta, A. (2016). *Docker Container Anti Patterns.*](http://blog.arungupta.me/docker-container-anti-patterns/)
 * [StackOverflow Documentation](http://stackoverflow.com/documentation/docker/topics)
-
+* [Awesome Docker](https://veggiemonk.github.io/awesome-docker/)
+* [Docker Labs](https://github.com/docker/labs)
 ---
 
 ## Contribute
