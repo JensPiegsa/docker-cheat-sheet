@@ -331,7 +331,7 @@ docker-machine ip default
 #### Add persistent environment variable to boot2docker
 
 ```sh
-sudo echo 'echo '\''export ENVTEST="Hello Env!"'\'' > /etc/profile.d/custom.sh' | \
+echo 'echo '\''export ENVTEST="Hello Env!"'\'' > /etc/profile.d/custom.sh' | \
 sudo tee -a /var/lib/boot2docker/profile > /dev/null
 ```
 
