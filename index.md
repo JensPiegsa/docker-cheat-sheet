@@ -79,10 +79,10 @@ docker system prune
 
 {: .note}
 This prompts for confirmation and will remove:
-* all stopped containers
-* all volumes not used by at least one container
-* all networks not used by at least one container
-* all dangling images
+all stopped containers,
+all volumes not used by at least one container,
+all networks not used by at least one container and
+all dangling images
 
 ### 2.1.1. Building Images
 
