@@ -170,7 +170,9 @@ docker image prune
 #### Show image history of container
 
 ```sh
+{% raw %}
 docker image history --no-trunc=true $(docker container inspect -f '{{.Image}}' CONTAINER)
+{% endraw %}
 ```
 
 #### Show file system changes compared to the original image
@@ -196,13 +198,17 @@ docker container run --rm --volumes-from TARGET_CONTAINER:ro -v $(pwd):/backup a
 #### Show names of volumes used by a container 
 
 ```sh
+{% raw %}
 docker container inspect -f '{{ range .Mounts }}{{ .Name }} {{ end }}' CONTAINER
+{% endraw %}
 ```
 
 #### Show names and mount point destinations of volumes used by a container 
 
 ```sh
+{% raw %}
 docker container inspect -f '{{ range .Mounts }}{{ .Name }}:{{ .Destination }} {{ end }}' CONTAINER
+{% endraw %}
 ```
 
 #### Start all paused / stopped containers
@@ -250,7 +256,9 @@ docker container run --rm --volumes-from oc-data2 -v $pwd:/tmp piegsaj/openclini
 #### Get the IP address of a container
 
 ```sh
+{% raw %}
 docker container inspect -f '{{ .NetworkSettings.IPAddress }}' CONTAINER
+{% endraw %}
 ```
 
 ### 2.1.3. Using Volumes
