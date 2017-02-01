@@ -78,11 +78,11 @@ docker system prune
 ```
 
 {: .note}
-* This prompts for confirmation and will remove:
-	* all stopped containers
-	* all volumes not used by at least one container
-	* all networks not used by at least one container
-	* all dangling images
+This prompts for confirmation and will remove:
+* all stopped containers
+* all volumes not used by at least one container
+* all networks not used by at least one container
+* all dangling images
 
 ### 2.1.1. Building Images
 
@@ -94,7 +94,7 @@ docker system prune
 #### List all local tags for the same image
 
 ``` sh
-docker image ls --no-trunc | grep $(docker image inspect -f {{.Id}} IMAGE:TAG)
+docker image ls --no-trunc | grep $(docker image inspect -f \{{.Id}} IMAGE:TAG)
 ```
 
 ### 2.1.2. Running Containers
@@ -152,9 +152,6 @@ docker container ls -a -f status=exited | grep -v '\-data *$'| awk '{if(NR>1) pr
 ```sh
 docker container prune
 ```
-
-{: .note}
-the filter flag `-f status=exited` may be omitted here since running containers can not be removed
 
 #### List all images
 
