@@ -616,14 +616,14 @@ docker-compose down -v
 
 * [Mouat, A. (2015). *Using Docker: Developing and Deploying Software with Containers.* O'Reilly Media.](http://shop.oreilly.com/product/0636920035671.do) ([German Edition: *Docker. Software entwickeln und deployen mit Containern.* dpunkt.verlag](https://www.dpunkt.de/buecher/12553/9783864903847-docker.html))
 * [Turnbull, J. (2016). *The Docker Book. Containerization is the new Virtualization.*](https://www.dockerbook.com/)
-* [Official Docker Documentation](https://docs.docker.com/)
 * [Gupta, A. (2016). *Docker Container Anti Patterns.*](http://blog.arungupta.me/docker-container-anti-patterns/)
+* [Piegsa, J. (2016). Dockerbank 2 Workshop. *Szenarien des Routinebetriebs.* (German Slides)](http://www.tmf-ev.de/Desktopmodules/Bring2Mind/DMX/Download.aspx?EntryId=29283&PortalId=0)
+* [Official Docker Documentation](https://docs.docker.com/)
 * [StackOverflow Documentation](http://stackoverflow.com/documentation/docker/topics)
 * [Awesome Docker](https://veggiemonk.github.io/awesome-docker/)
 * [Docker Labs](https://github.com/docker/labs)
 * [Docker Introduction](http://view.dckr.info/DockerIntro.pdf)
 * [play-with-docker.com](http://play-with-docker.com/)
-* [Piegsa, J. (2016). *Dockerbank 2 Workshop. *Szenarien des Routinebetriebs* (German Slides)](http://www.tmf-ev.de/Desktopmodules/Bring2Mind/DMX/Download.aspx?EntryId=29283&PortalId=0)
 
 ---
 
