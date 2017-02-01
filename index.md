@@ -94,7 +94,9 @@ This prompts for confirmation and will remove:
 #### List all local tags for the same image
 
 ``` sh
-docker image ls --no-trunc | grep $(docker image inspect -f \{{.Id}} IMAGE:TAG)
+{% raw %}
+docker image ls --no-trunc | grep $(docker image inspect -f {{.Id}} IMAGE:TAG)
+{% endraw %}
 ```
 
 ### 2.1.2. Running Containers
