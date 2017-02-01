@@ -1,7 +1,7 @@
 ---
 layout: "index"
 author: "Jens Piegsa"
-title: "Docker Cheat Sheet"
+title: "Docker 1.13 Cheat Sheet"
 summary: "Docker Cheat Sheet. Find, Copy and Paste, Anywhere."
 ---
 
@@ -65,17 +65,36 @@ summary: "Docker Cheat Sheet. Find, Copy and Paste, Anywhere."
 
 ## 2.1. Docker Engine
 
+#### Show docker disk usage
+
+``` sh
+docker system df
+```
+
+#### Remove unused data
+
+``` sh
+docker system prune
+```
+
+{: .note}
+* This prompts for confirmation and will remove:
+	* all stopped containers
+	* all volumes not used by at least one container
+	* all networks not used by at least one container
+	* all dangling images
+
 ### 2.1.1. Building Images
 
 #### Debug image build
 
-* `docker build` shows the IDs of all temporary containers and intermediate images
-* use `docker run -it IMAGE_ID` with the ID of the image resulting from the last successful build step and try the next command manually
+* `docker image build` shows the IDs of all temporary containers and intermediate images
+* use `docker container run -it IMAGE_ID` with the ID of the image resulting from the last successful build step and try the next command manually
 
 #### List all local tags for the same image
 
 ``` sh
-docker images --no-trunc | grep $(docker inspect -f {{.Id}} IMAGE:TAG)
+docker image ls --no-trunc | grep $(docker image inspect -f {{.Id}} IMAGE:TAG)
 ```
 
 ### 2.1.2. Running Containers
@@ -83,56 +102,55 @@ docker images --no-trunc | grep $(docker inspect -f {{.Id}} IMAGE:TAG)
 #### Start container and run command inside
 
 ```sh
-docker run -it ubuntu:14.04 /bin/bash
+docker container run -it ubuntu:14.04 /bin/bash
 ```
 
 #### Start a shell in a running container
 
 ```sh
-docker exec -it CONTAINER /bin/bash
+docker container exec -it CONTAINER /bin/bash
 ```
 
 #### Start a container as another user
 
 ```sh
-docker run -u root IMAGE
+docker container run -u root IMAGE
 ```
 
 #### List all existing containers
 
 ```sh
-docker ps -a
+docker container ls -a
 ```
 
 #### List running processes inside a container
 
 ```sh
-docker top CONTAINER
+docker container top CONTAINER
 ```
      
 #### Follow the logs
 
 ```sh
-docker -f --tail=1000 CONTAINER
+docker container logs -f --tail=1000 CONTAINER
 ```
 
 #### Stop all running containers
 
 ```sh
-docker stop $(docker ps -q)
+docker container stop $(docker container ls -q)
 ```
 
 #### Remove all stopped containers, except those suffixed '-data':
 
-
 ```sh
-docker ps -a -f status=exited | grep -v '\-data *$'| awk '{if(NR>1) print $1}' | xargs -r docker rm
+docker container ls -a -f status=exited | grep -v '\-data *$'| awk '{if(NR>1) print $1}' | xargs -r docker container rm
 ```
 
 #### Remove all stopped containers (warning: removes data-only containers too)
 
 ```sh
-docker rm $(docker ps -qa -f status=exited)
+docker container prune
 ```
 
 {: .note}
@@ -141,77 +159,77 @@ the filter flag `-f status=exited` may be omitted here since running containers 
 #### List all images
 
 ```sh
-docker images -a
+docker image ls -a
 ```
 
 #### Remove all unused images
 
 ```sh
-docker rmi $(docker images -qa -f dangling=true)
+docker image prune
 ```
 
 #### Show image history of container
 
 ```sh
-docker history --no-trunc=true $(docker inspect -f '{{.Image}}' CONTAINER)
+docker image history --no-trunc=true $(docker container inspect -f '{{.Image}}' CONTAINER)
 ```
 
 #### Show file system changes compared to the original image
 
 ```sh
-docker diff CONTAINER
+docker container diff CONTAINER
 ```
 
 #### Backup directory content from container to host directory
 
 ```sh
-docker run --rm --volumes-from SOURCE_CONTAINER:ro -v $(pwd):/backup alpine \
+docker container run --rm --volumes-from SOURCE_CONTAINER:ro -v $(pwd):/backup alpine \
  tar cvf /backup/backup_$(date +%Y-%m-%d_%H-%M).tar /data
 ```
 
 #### Restore directory content to container from host directory
 
 ```sh
-docker run --rm --volumes-from TARGET_CONTAINER:ro -v $(pwd):/backup alpine \
+docker container run --rm --volumes-from TARGET_CONTAINER:ro -v $(pwd):/backup alpine \
  tar xvf /backup/backup.tar
 ```
 
-#### Show volumes
+#### Show names of volumes used by a container 
 
 ```sh
-docker inspect -f '{{range $v, $h := .Config.Volumes}}{{$v}}{{end}}' CONTAINER
+docker container inspect -f '{{ range .Mounts }}{{ .Name }} {{ end }}' CONTAINER
+```
+
+#### Show names and mount point destinations of volumes used by a container 
+
+```sh
+docker container inspect -f '{{ range .Mounts }}{{ .Name }}:{{ .Destination }} {{ end }}' CONTAINER
 ```
 
 #### Start all paused / stopped containers
 
 * does not work together with container dependencies
 
-#### Remove all containers and images
-
-```sh
-docker stop $(docker ps -q) && docker rm $(docker ps -qa) && docker rmi $(docker images -qa)
-```
-
 #### Edit and update a file in a container
 
 ```sh
-docker cp CONTAINER:FILE /tmp/ && docker run --name=nano -it --rm -v /tmp:/tmp \
+docker container cp CONTAINER:FILE /tmp/ && docker container run --name=nano -it --rm -v /tmp:/tmp \
  piegsaj/nano nano /tmp/FILE ; \
-cat /tmp/FILE | docker exec -i CONTAINER sh -c 'cat > FILE' ; \
+cat /tmp/FILE | docker container exec -i CONTAINER sh -c 'cat > FILE' ; \
 rm /tmp/FILE
 ```
 
 #### Deploy war file to Apache Tomcat server instantly
 
 ```sh
-docker run -i -t -p 80:8080 -e WAR_URL=“<http://web-actions.googlecode.com/files/helloworld.war>” \
+docker container run -i -t -p 80:8080 -e WAR_URL=“<http://web-actions.googlecode.com/files/helloworld.war>” \
  bbytes/tomcat7
 ```
 
 #### Dump a Postgres database into current directory on the host
 
 ```sh
-echo "postgres_password" | sudo docker run -i --rm --link db:db -v $PWD:/tmp postgres:8 sh -c ' \
+echo "postgres_password" | sudo docker container run -i --rm --link db:db -v $PWD:/tmp postgres:8 sh -c ' \
  pg_dump -h ocdb -p $OCDB_PORT_5432_TCP_PORT -U postgres -F tar -v openclinica \
  > /tmp/ocdb_pg_dump_$(date +%Y-%m-%d_%H-%M-%S).tar'
 ```
@@ -219,21 +237,21 @@ echo "postgres_password" | sudo docker run -i --rm --link db:db -v $PWD:/tmp pos
 #### Backup data folder
 
 ```sh
-docker run --rm --volumes-from oc-data -v $PWD:/tmp piegsaj/openclinica \
+docker container run --rm --volumes-from oc-data -v $PWD:/tmp piegsaj/openclinica \
  tar cvf /tmp/oc_data_backup_$(date +%Y-%m-%d_%H-%M-%S).tar /tomcat/openclinica.data
 ```
 
 #### Restore volume from data-only container
 
 ```sh
-docker run --rm --volumes-from oc-data2 -v $pwd:/tmp piegsaj/openclinica \
+docker container run --rm --volumes-from oc-data2 -v $pwd:/tmp piegsaj/openclinica \
  tar xvf /tmp/oc_data_backup_*.tar
 ```
 
 #### Get the IP address of a container
 
 ```sh
-docker inspect container_id | grep IPAddress | cut -d '"' -f 4
+docker container inspect -f '{{ .NetworkSettings.IPAddress }}' CONTAINER
 ```
 
 ### 2.1.3. Using Volumes
@@ -251,27 +269,27 @@ after the `VOLUME` directive, its content can not be changed within the Dockerfi
 #### Create an anonymous volume at runtime
 
 ```sh
-docker run -it -v /data debian /bin/bash
+docker container run -it -v /data debian /bin/bash
 ```
 
 #### Create a volume at runtime that is bound to a host directory
 
 ```sh
-docker run --rm -v /tmp:/data debian ls -RAlph /data
+docker container run --rm -v /tmp:/data debian ls -RAlph /data
 ```
 
 #### Create a named volume and use it
 
 ```sh
 docker volume create --name=test
-docker run --rm -v test:/data alpine sh -c 'echo "Hello named volumes" > /data/hello.txt'
-docker run --rm -v test:/data alpine sh -c 'cat /data/hello.txt'
+docker container run --rm -v test:/data alpine sh -c 'echo "Hello named volumes" > /data/hello.txt'
+docker container run --rm -v test:/data alpine sh -c 'cat /data/hello.txt'
 ```
 
 #### List the content of a volume
 
 ```sh
-docker run --rm -v data:/data alpine ls -RAlph /data
+docker container run --rm -v data:/data alpine ls -RAlph /data
 ```
 
 #### Copy a file from host to named volume
@@ -279,9 +297,9 @@ docker run --rm -v data:/data alpine ls -RAlph /data
 ```sh
 echo "debug=true" > test.cnf && \
 docker volume create --name=conf && \
-docker run --rm -it -v $(pwd):/src -v conf:/dest alpine cp /src/test.cnf /dest/ && \
+docker container run --rm -it -v $(pwd):/src -v conf:/dest alpine cp /src/test.cnf /dest/ && \
 rm -f test.cnf && \
-docker run --rm -it -v conf:/data alpine cat /data/test.cnf
+docker container run --rm -it -v conf:/data alpine cat /data/test.cnf
 ```
 
 #### Copy content of existing volume to a new named volume
@@ -293,14 +311,14 @@ docker volume create --name VOL_B
 * than:
 
 ```sh
-docker run --rm -v VOL_A:/source/folder:ro -v VOL_B:/target/folder \
+docker container run --rm -v VOL_A:/source/folder:ro -v VOL_B:/target/folder \
  alpine cp -r /source/folder /target
 ```
 
 or without the need for an intermediate directory (`cp` implementations differ):
 
 ```sh
- docker run --rm -v VOL_A:/source:ro -v VOL_B:/target debian cp -TR /source /target
+ docker container run --rm -v VOL_A:/source:ro -v VOL_B:/target debian cp -TR /source /target
 ```
 
 #### List all orphaned volumes
@@ -376,7 +394,7 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 
 ``` sh
 printf "\nPulling registry image ...\n" && \
-docker pull registry ; \
+docker image pull registry ; \
 
 printf "\nPreparing registry-cert volume ...\n" && \
 docker volume create --name=registry-cert && \
@@ -384,7 +402,7 @@ cd /tmp && \
 openssl genrsa -out registry.key 4096 && \
 openssl req -new -nodes -sha256 -subj '/CN=localhost' -key /tmp/registry.key -out /tmp/registry.csr && \
 openssl x509 -req -days 3650 -signkey /tmp/registry.key -in /tmp/registry.csr -out /tmp/registry.pem && \
-docker run --rm -it -v /tmp:/from -v registry-cert:/to --entrypoint sh registry \
+docker container run --rm -it -v /tmp:/from -v registry-cert:/to --entrypoint sh registry \
  -c 'cp /from/registry.key /to && cp /from/registry.pem /to' && \
 
 printf "\nLetting docker client trust certificate ...\n" && \
@@ -399,14 +417,14 @@ fi && \
 
 printf "\nPreparing registry-auth volume (please change 'reg_user' and 'reg_password') ...\n" && \
 docker volume create --name=registry-auth && \
-docker run --rm --entrypoint /bin/sh -v registry-auth:/auth registry \
+docker container run --rm --entrypoint /bin/sh -v registry-auth:/auth registry \
  -c 'htpasswd -Bbn reg_user reg_password > /auth/htpasswd' && \
 
 printf "\nPreparing registry-data volume ...\n" && \
 docker volume create --name=registry-data && \
 
 printf "\nRunning registry container ...\n" && \
-docker run --name registry -h registry -d \
+docker container run --name registry -h registry -d \
 -v registry-data:/var/lib/registry \
 -v registry-auth:/auth:ro \
 -v registry-cert:/certs:ro \
@@ -426,24 +444,24 @@ registry
 #### Usage example
 
 ``` sh
-docker pull alpine:latest && \
+docker image pull alpine:latest && \
 docker login -u reg_user -p reg_password localhost:5000 && \
-docker tag alpine:latest localhost:5000/alpine:private && \
-docker rmi alpine:latest && \
-docker push localhost:5000/alpine:private && \
-docker rmi -f localhost:5000/alpine:private && \
-docker pull localhost:5000/alpine:private && \
+docker image tag alpine:latest localhost:5000/alpine:private && \
+docker image rm alpine:latest && \
+docker image push localhost:5000/alpine:private && \
+docker image rm -f localhost:5000/alpine:private && \
+docker image pull localhost:5000/alpine:private && \
 docker logout localhost:5000 && \
-docker images | grep alpine && \
+docker image ls | grep alpine && \
 printf "Deleting image from registry ...\n" && \
 curl -X DELETE -u reg_user:reg_password --insecure \
-https://localhost:5000/v2/alpine/manifests/$(docker images --digests | grep localhost:5000/alpine | awk '{print $3}')
+https://localhost:5000/v2/alpine/manifests/$(docker image ls --digests | grep localhost:5000/alpine | awk '{print $3}')
 ```
 
 #### Removal
 
 ``` sh
-docker rm -f registry && \
+docker container rm -f registry && \
 docker volume rm registry-data registry-cert registry-auth
 ```
 
