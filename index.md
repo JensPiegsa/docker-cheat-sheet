@@ -52,9 +52,9 @@ summary: "Docker Cheat Sheet. Find, Copy and Paste, Anywhere."
 * optionally `create` a `volume` or two to provide configuration files and hold data that needs to be persisted 
 * `run` a container based on the image
 * `stop` and `start` the container if necessary
-* `commit` the container to turn it into an image
+* `commit` the container to turn it into an image (note: makes the image harder to reproduce)
 * in exceptional situations, `exec` additional commands inside the container
-* to replace a container with an updated version 
+* to replace a container with an updated version:
 	* `pull` the new image from the registry
 	* `stop` the running container
 	* backup your volumes to be prepared for a potential rollback
