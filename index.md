@@ -23,6 +23,7 @@ summary: "Docker Cheat Sheet. Find, Copy and Paste, Anywhere."
 		* [2.1.3. Using Volumes](#using-volumes)
 	* [2.2. Docker Machine](#docker-machine)
 	* [2.3. Dockerfile](#dockerfile)
+	* [2.4. Logging](#logging)
 * [3. Showcases](#showcases)
 	* [3.1. Private Docker Registry](#private-docker-registry)
 	* [3.2. Continuous Integration Tool Stack](#continuous-integration-tool-stack)
@@ -392,6 +393,29 @@ HEALTHCHECK --interval=1m --timeout=3s --retries=5 \
 ```
 
 * see also: [HEALTHCHECK](https://docs.docker.com/engine/reference/builder/#/healthcheck)
+
+## 2.4. Logging
+
+### Enable log rotation for Docker
+
+* create the file `/etc/logrotate.d/docker` and insert:
+
+```
+/var/lib/docker/containers/*/*.log {
+  daily
+  rotate 14
+  compress
+  delaycompress
+  missingok
+  copytruncate
+}
+```
+
+* check `/etc/cron.daily/logrotate` and `/etc/crontab` for general logrotate configuration.
+
+{: .note}
+This example will keep all container logs for 14 days.
+
 
 # 3. Showcases
 
