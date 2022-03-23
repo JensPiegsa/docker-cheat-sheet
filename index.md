@@ -344,6 +344,14 @@ docker volume rm $(docker volume ls -qf dangling=true)
 {: .note}
 Caution, this also removes *named volumes* that are currently not mounted by any container!
 
+#### Show names and mount point destinations of volumes used by a container
+
+```sh
+docker container inspect \
+ -f '{{ range .Mounts }}{{ .Name }}:{{ .Destination }} {{ end }}' \
+ CONTAINER
+```
+
 ## 2.2. Docker Machine
 
 ### On a local VM
