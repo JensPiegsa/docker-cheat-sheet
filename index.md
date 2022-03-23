@@ -262,6 +262,17 @@ docker container inspect -f '{{ .NetworkSettings.IPAddress }}' CONTAINER
 {% endraw %}
 ```
 
+#### Reconstruct docker run command for existing container
+
+At the time of writing, there is no way to reconstruct the exact `run` command that was used to create a container. However, there are third-party tools like `runlike` that attempt to reverse engineer all parameter values:
+
+```sh
+docker container run --rm -v /var/run/docker.sock:/var/run/docker.sock assaflavie/runlike CONTAINER
+```
+
+{: .note}
+Caution, the output also contains some implicitly added parameters, that were not used in the original command line. So please evaluate all of them with care.
+
 ### 2.1.3. Using Volumes
 
 #### Declare a volume via Dockerfile
